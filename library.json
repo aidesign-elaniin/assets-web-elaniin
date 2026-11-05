@@ -107,7 +107,7 @@
       "name": "Noche",
       "colors": [
         "#1054ff",
-        "#22d3ee",
+        "#4d75fd",
         "#7b9bff"
       ]
     }
@@ -724,6 +724,7 @@
       "name": "Glass Rampa",
       "tags": [
         "hero",
+        "claro",
         "marca"
       ],
       "aspect": "16:9",
@@ -758,20 +759,20 @@
       "fit": "contain"
     },
     {
-      "id": "aqua-orb",
+      "id": "elevate-orb",
       "type": "glass-grid",
-      "name": "Aqua Orb",
+      "name": "Elevate Orb",
       "tags": [
         "hero",
-        "frío"
+        "claro",
+        "marca"
       ],
       "colors": [
-        "#1aa7ff",
-        "#22d3ee",
-        "#16c24a",
-        "#5b8cff"
+        "#1054ff",
+        "#6a9aff",
+        "#d7e2f8"
       ],
-      "background": "#f1f2f4",
+      "background": "#f0f0f3",
       "shapes": [
         "circle",
         "square",
@@ -799,20 +800,21 @@
       "aspect": "16:9"
     },
     {
-      "id": "lima-pulse",
+      "id": "pulso-cobalto",
       "type": "glass-grid",
-      "name": "Lima Pulse",
+      "name": "Pulso Cobalto",
       "tags": [
         "card",
-        "vibrante"
+        "claro",
+        "marca"
       ],
       "colors": [
-        "#2e9e2a",
-        "#55d81c",
-        "#d8f000",
-        "#8fd96a"
+        "#023ca0",
+        "#1054ff",
+        "#6a9aff",
+        "#d7e2f8"
       ],
-      "background": "#f3f4f1",
+      "background": "#e7eeff",
       "shapes": [
         "circle",
         "blob"
@@ -837,20 +839,21 @@
       "aspect": "1:1"
     },
     {
-      "id": "sunset-field",
+      "id": "campo-elevate",
       "type": "glass-grid",
-      "name": "Sunset Field",
+      "name": "Campo Elevate",
       "tags": [
         "fondo",
-        "cálido"
+        "claro",
+        "marca"
       ],
       "colors": [
-        "#ff3d3d",
-        "#ff7a33",
-        "#ffc93c",
-        "#fff1e0"
+        "#0848cc",
+        "#1054ff",
+        "#6a9aff",
+        "#e7eeff"
       ],
-      "background": "#eef3fb",
+      "background": "#f0f0f3",
       "shapes": [
         "blob",
         "cross",
@@ -876,20 +879,21 @@
       "aspect": "16:9"
     },
     {
-      "id": "azul-wave",
+      "id": "ola-dinamica",
       "type": "glass-grid",
-      "name": "Azul Wave",
+      "name": "Ola Dinámica",
       "tags": [
         "fondo",
-        "frío"
+        "claro",
+        "marca"
       ],
       "colors": [
-        "#2f6ff5",
-        "#5b95ff",
-        "#a8c8ff",
-        "#3b82f6"
+        "#4d75fd",
+        "#6a9aff",
+        "#b9cefb",
+        "#1054ff"
       ],
-      "background": "#f4f5f7",
+      "background": "#ffffff",
       "shapes": [
         "square",
         "diamond"
@@ -919,6 +923,7 @@
       "name": "Elaniin Core",
       "tags": [
         "hero",
+        "claro",
         "marca"
       ],
       "colors": [
@@ -957,12 +962,13 @@
       "type": "glass-grid",
       "name": "Noche Azul",
       "tags": [
+        "hero",
         "oscuro",
         "marca"
       ],
       "colors": [
         "#1054ff",
-        "#22d3ee",
+        "#4d75fd",
         "#7b9bff"
       ],
       "background": "#01172e",
@@ -991,20 +997,20 @@
       "aspect": "16:9"
     },
     {
-      "id": "coral-ring",
+      "id": "anillo-excellence",
       "type": "glass-grid",
-      "name": "Coral Ring",
+      "name": "Anillo Excellence",
       "tags": [
         "card",
-        "cálido"
+        "oscuro",
+        "marca"
       ],
       "colors": [
-        "#ff5c8a",
-        "#ff8f70",
-        "#ffc1a6",
-        "#c86bfa"
+        "#023ca0",
+        "#1054ff",
+        "#6a9aff"
       ],
-      "background": "#f7f3f3",
+      "background": "#01172e",
       "shapes": [
         "ring"
       ],
@@ -1028,20 +1034,21 @@
       "aspect": "1:1"
     },
     {
-      "id": "menta-prisma",
+      "id": "prisma-tint",
       "type": "glass-grid",
-      "name": "Menta Prisma",
+      "name": "Prisma Tint",
       "tags": [
         "hero",
-        "frío"
+        "claro",
+        "marca"
       ],
       "colors": [
-        "#00c2a8",
-        "#5eead4",
-        "#a7f3d0",
-        "#38bdf8"
+        "#b9cefb",
+        "#6a9aff",
+        "#1054ff",
+        "#022b63"
       ],
-      "background": "#f2f5f4",
+      "background": "#e7eeff",
       "shapes": [
         "triangle",
         "diamond",
@@ -1067,20 +1074,21 @@
       "aspect": "16:9"
     },
     {
-      "id": "violeta-cruz",
+      "id": "cruz-navy",
       "type": "glass-grid",
-      "name": "Violeta Cruz",
+      "name": "Cruz Navy",
       "tags": [
         "story",
-        "vibrante"
+        "claro",
+        "marca"
       ],
       "colors": [
-        "#6d28d9",
-        "#8b5cf6",
-        "#c4b5fd",
-        "#ec4899"
+        "#022b63",
+        "#1054ff",
+        "#6a9aff",
+        "#d7e2f8"
       ],
-      "background": "#f4f2f7",
+      "background": "#f0f0f3",
       "shapes": [
         "cross",
         "blob"

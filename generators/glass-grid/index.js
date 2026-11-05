@@ -21,7 +21,7 @@ const SHAPE_ICONS = {
 export const PROFILES = { suave: 'Suave', redondo: 'Redondo', pildora: 'Píldora' };
 
 export const DEFAULTS = {
-  colors: ['#1aa7ff', '#22d3ee', '#16c24a', '#5b8cff'],
+  colors: ['#1054ff', '#4d75fd', '#6a9aff', '#b9cefb'],   // rampa Elaniin
   background: '#f1f2f4',
   shapes: ['circle', 'square', 'triangle', 'ring', 'diamond'],
   hold: 3.5,          // segundos por forma
