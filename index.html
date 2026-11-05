@@ -1,0 +1,1926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<script>document.documentElement.classList.add('js')</script>
+<title>Biblioteca — Elaniin Assets</title>
+<link rel="icon" href="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22UTF-8%22%3F%3E%0A%3Csvg%20id%3D%22uuid-39352c91-c51c-449d-89db-9394236a3bb7%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20version%3D%221.1%22%20viewBox%3D%220%200%20111.2%20111.2%22%3E%0A%20%20%3C%21--%20Generator%3A%20Adobe%20Illustrator%2030.7.0%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%202.1.4%20Build%20114%29%20%20--%3E%0A%20%20%3Cdefs%3E%0A%20%20%20%20%3Cstyle%3E%0A%20%20%20%20%20%20.st0%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%23f0f0f3%3B%0A%20%20%20%20%20%20%7D%0A%0A%20%20%20%20%20%20.st1%20%7B%0A%20%20%20%20%20%20%20%20fill%3A%20%231054ff%3B%0A%20%20%20%20%20%20%7D%0A%20%20%20%20%3C/style%3E%0A%20%20%3C/defs%3E%0A%20%20%3Cg%20id%3D%22uuid-cda3b57b-a952-4632-8231-855400abd96a%22%3E%0A%20%20%20%20%3Crect%20class%3D%22st1%22%20width%3D%22111.2%22%20height%3D%22111.2%22%20rx%3D%2220.6%22%20ry%3D%2220.6%22/%3E%0A%20%20%3C/g%3E%0A%20%20%3Ccircle%20class%3D%22st0%22%20cx%3D%2255.6%22%20cy%3D%2255.6%22%20r%3D%2239.6%22/%3E%0A%3C/svg%3E" />
+<script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600&family=DM+Sans:opsz,wght@9..40,400;9..40,500&family=Geist+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<style type="text/tailwindcss">
+/*
+  Elaniin tokens — single source of truth (DESIGN.md v1.51.2 · Tailwind v4).
+
+  CONTRACT — Tailwind-first API:
+    1. Every design value lives in @theme (or in :root when it is a layout/duration
+       var consumed by a utility — theme keys alone do NOT generate duration-* utilities).
+    2. Every named CSS resource is an @utility. Raw class selectors inside plain
+       <style> blocks are forbidden: they are invisible to the utility API.
+    3. Animations are tokens: --animate-* + @keyframes inside @theme, so `animate-*`
+       utilities exist — and every motion utility honors prefers-reduced-motion itself.
+    4. Durations are named: instant 100 · fast 150 · base 200 · slow 300 · reveal 500.
+       Use `duration-base`, never `duration-200`.
+
+    5. @theme is STATIC: every token is emitted as a CSS variable even when no utility uses it, so inline
+       styles and JS can reference var(--color-*) (the isometric resource does). Without `static`,
+       Tailwind v4 prunes unused variables and a missing var() silently renders black.
+
+  USAGE:
+    - Tailwind v4 project: include tailwindcss first, then this file (or paste it).
+       (Never spell out the import directive inside this comment: mentioning it
+       anywhere in the block breaks @tailwindcss/browser.)
+    - Standalone HTML: load https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4.3.3 and paste
+      this file inside a <style type="text/tailwindcss"> block (templates embed a copy —
+      keep both in sync when editing).
+  Defaults (palette/radii/shadows/breakpoints) are reset on purpose: only the tokens
+  below exist, so a stray `bg-blue-500` simply does not compile.
+*/
+
+@theme static {
+  /* ---------- reset defaults ---------- */
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+  --breakpoint-*: initial;
+  --font-*: initial;
+  --text-*: initial;
+  --ease-*: initial;
+
+  /* ---------- breakpoints: mobile-lg 640 / tablet 768 / desktop 1024 / wide 1280 ---------- */
+  --breakpoint-sm: 40rem;
+  --breakpoint-md: 48rem;
+  --breakpoint-lg: 64rem;
+  --breakpoint-xl: 80rem;
+
+  /* ---------- color: brand ---------- */
+  --color-elevate-blue: #1054ff;     /* DETAIL accent only (buttons, links, focus, active, symbol) */
+  --color-inspire-grey: #f0f0f3;
+  --color-excellence-blue: #01172e;  /* the strong color: dark bands, case stages, CTA, footer, code */
+  --color-elaniin-black: #141414;
+  --color-dynamic-blue: #4d75fd;     /* non-text accents only */
+  --color-white: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* ---------- color: blue ramp ---------- */
+  --color-blue-100: #d7e2f8;
+  --color-blue-200: #b9cefb;
+  --color-blue-300: #6a9aff;
+  --color-blue-400: #4d75fd;
+  --color-blue-500: #1054ff;
+  --color-blue-600: #0848cc;
+  --color-blue-700: #023ca0;
+  --color-blue-800: #022b63;
+  --color-blue-900: #01172e;
+  --color-blue-tint-50: #e7eeff;
+  --color-blue-active-dark: #010f20;
+
+  /* ---------- color: text ---------- */
+  --color-text-primary: #141414;
+  --color-text-secondary: #4a4d57;
+  --color-text-muted: #656873;
+  --color-text-link: #1054ff;
+  --color-text-link-hover: #0848cc;
+  --color-text-on-dark: #ffffff;
+  --color-text-on-dark-secondary: #a9b8cc;
+  --color-text-on-dark-muted: #8ea0b8;
+  --color-text-on-dark-accent: #7b9bff;
+  --color-text-disabled: #8c8f9b;
+
+  /* ---------- color: surface ---------- */
+  --color-surface-page: #ffffff;
+  --color-surface-subtle: #f0f0f3;
+  --color-surface-card: #ffffff;
+  --color-surface-dark: #01172e;
+  --color-surface-dark-alt: #141414;
+  --color-surface-code: #01172e;
+
+  /* ---------- color: border ---------- */
+  --color-border-default: #e4e4ea;
+  --color-border-strong: #d3d4dc;
+  --color-border-input: #8c8f9b;
+  --color-border-ink: #141414;
+  --color-border-on-dark: rgba(255, 255, 255, 0.12);
+  --color-border-on-dark-strong: rgba(255, 255, 255, 0.24);
+  --color-surface-dark-card: rgba(255, 255, 255, 0.04);
+
+  /* ---------- color: status (state only, never decoration) ---------- */
+  --color-success-text: #136c42; --color-success-bg: #e3f4ea; --color-success-border: #b6e0c8; --color-success-dot: #1f9d61;
+  --color-warning-text: #8a5300; --color-warning-bg: #fff3d9; --color-warning-border: #f2d58f; --color-warning-dot: #b87700;
+  --color-error-text: #a3201f;   --color-error-bg: #fde7e7;   --color-error-border: #f1b5b5;   --color-error-dot: #d6322f;
+  --color-info-text: #0848cc;    --color-info-bg: #e7eeff;    --color-info-border: #b9cefb;    --color-info-dot: #1054ff;
+  --color-neutral-text: #4a4d57; --color-neutral-bg: #f0f0f3; --color-neutral-border: #e4e4ea; --color-neutral-dot: #8c8f9b;
+
+  /* ---------- typography: families ---------- */
+  --font-display: "Instrument Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-text: "DM Sans", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+
+  /* ---------- typography: scale (fluid between mobile and desktop values) ---------- */
+  --text-display-xl: clamp(40px, 6.25vw - 8px, 72px);
+  --text-display-xl--line-height: 1;
+  --text-display-xl--letter-spacing: -0.035em;
+  --text-display-lg: clamp(36px, 3.906vw + 6px, 56px);
+  --text-display-lg--line-height: 1.04;
+  --text-display-lg--letter-spacing: -0.03em;
+  --text-h1: clamp(32px, 3.125vw + 8px, 48px);
+  --text-h1--line-height: 1.08;
+  --text-h1--letter-spacing: -0.03em;
+  --text-h2: clamp(28px, 1.562vw + 16px, 36px);
+  --text-h2--line-height: 1.12;
+  --text-h2--letter-spacing: -0.025em;
+  --text-h3: clamp(22px, 1.172vw + 13px, 28px);
+  --text-h3--line-height: 1.2;
+  --text-h3--letter-spacing: -0.02em;
+  --text-h4: clamp(20px, 0.3906vw + 17px, 22px);
+  --text-h4--line-height: 1.25;
+  --text-h4--letter-spacing: -0.015em;
+  --text-lead: clamp(18px, 0.3906vw + 15px, 20px);
+  --text-lead--line-height: 1.5;
+  --text-lead--letter-spacing: -0.005em;
+  --text-body-lg: clamp(17px, 0.1953vw + 15.5px, 18px);
+  --text-body-lg--line-height: 1.55;
+  --text-body: 16px;
+  --text-body--line-height: 1.5;
+  --text-body-sm: 14px;
+  --text-body-sm--line-height: 1.5;
+  --text-caption: 13px;
+  --text-caption--line-height: 1.4;
+  --text-code: 13px;
+  --text-code--line-height: 1.63;
+  --text-button: 14px;
+  --text-button--line-height: 1;
+  --text-button-lg: 16px;
+  --text-button-lg--line-height: 1;
+
+  /* ---------- radius ---------- */
+  --radius-button: 6px;
+  --radius-input: 6px;
+  --radius-tag: 6px;
+  --radius-card: 12px;
+  --radius-media: 12px;
+  --radius-code: 12px;
+  --radius-menu: 8px;
+  --radius-modal: 16px;
+  --radius-tooltip: 6px;
+  --radius-device: 32px;
+  --radius-module: 2px;
+  --radius-full: 9999px;
+
+  /* ---------- shadow ---------- */
+  --shadow-none: none;
+  --shadow-card-rest: 0 0 1px rgba(1, 30, 61, 0.03), 0 1px 2px rgba(1, 30, 61, 0.06);
+  --shadow-menu: 0 8px 24px -8px rgba(1, 30, 61, 0.18), 0 0 0 1px rgba(1, 30, 61, 0.06);
+  --shadow-product: 0 30px 45px -30px rgba(1, 30, 61, 0.25), 0 18px 36px -18px rgba(0, 0, 0, 0.1);
+  --shadow-focus: 0 0 0 2px #ffffff, 0 0 0 4px #1054ff;
+  --shadow-focus-on-dark: 0 0 0 2px #01172e, 0 0 0 4px #7b9bff;
+
+  /* ---------- motion: easings ---------- */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-emphasized: cubic-bezier(0.25, 1, 0.5, 1);
+
+  /* ---------- motion: animation tokens (each generates an animate-* utility) ---------- */
+  --animate-rise: rise var(--dur-reveal) var(--ease-emphasized) both;
+  --animate-draw-line: draw-line 1.6s var(--ease-emphasized) 0.25s both;
+  --animate-float-chip: float-chip 4s ease-in-out infinite;
+  --animate-typing-dot: typing-dot 0.9s ease-in-out infinite;
+  --animate-spin-slow: spin-slow 0.9s linear infinite;
+  --animate-ping-soft: ping-soft 1.8s cubic-bezier(0, 0, 0.2, 1) infinite;
+  --animate-sheen: sheen 5s linear infinite;
+
+  /* ---------- motion: keyframes (paired with the tokens above) ---------- */
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(var(--reveal-distance)); }
+    to { opacity: 1; transform: none; }
+  }
+  @keyframes draw-line {
+    from { stroke-dashoffset: var(--len, 1200); }
+    to { stroke-dashoffset: 0; }
+  }
+  @keyframes float-chip {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+  }
+  @keyframes typing-dot {
+    0%, 100% { transform: translateY(0); opacity: 0.45; }
+    50% { transform: translateY(-3px); opacity: 1; }
+  }
+  @keyframes spin-slow {
+    to { transform: rotate(360deg); }
+  }
+  @keyframes ping-soft {
+    0% { transform: scale(1); opacity: 0.8; }
+    75%, 100% { transform: scale(2.2); opacity: 0; }
+  }
+  @keyframes sheen {
+    from { transform: translate3d(-140%, 0, 0); }
+    to { transform: translate3d(420%, 0, 0); }
+  }
+}
+
+:root {
+  color-scheme: light;
+
+  /* layout */
+  --container-max: 1280px;
+  --gutter: 48px;
+  --grid-gap: 24px;
+  --nav-height: 64px;
+  --section-y: 96px;
+  --section-y-statement: 128px;
+  --section-y-compact: 64px;
+  --card-padding: 32px;
+  --card-min: 16rem;
+  --drawer-width: 18rem;
+  --sidebar-width: 15rem;
+  --module-size: 2px;
+  --module-pitch: 16px;
+
+  /* motion durations — consumed by the duration-* utilities (see contract §4) */
+  --dur-instant: 100ms;
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-slow: 300ms;
+  --dur-reveal: 500ms;
+  --reveal-distance: 16px;
+  --reveal-stagger: 60ms;
+
+}
+
+@media (max-width: 1023px) {
+  :root { --gutter: 32px; --section-y: 72px; --section-y-statement: 96px; --section-y-compact: 48px; }
+}
+@media (max-width: 767px) {
+  :root { --gutter: 20px; --grid-gap: 16px; --section-y: 56px; --section-y-statement: 72px; --section-y-compact: 40px; --card-padding: 24px; }
+}
+
+/* ---------- utilities: layout & type ---------- */
+@utility mono-label {
+  font-family: var(--font-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+@utility container-site {
+  width: 100%;
+  max-width: var(--container-max);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+@utility section-y {
+  padding-block: var(--section-y);
+}
+@utility section-y-statement {
+  padding-block: var(--section-y-statement);
+}
+@utility section-y-compact {
+  padding-block: var(--section-y-compact);
+}
+@utility pad-card {
+  padding: var(--card-padding);
+}
+
+/* ---------- utilities: focus ---------- */
+@utility focus-ring {
+  &:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--shadow-focus);
+  }
+}
+@utility focus-ring-on-dark {
+  &:focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--shadow-focus-on-dark);
+  }
+}
+
+/* ---------- utilities: named durations (contract §4) ---------- */
+@utility duration-instant { transition-duration: var(--dur-instant); }
+@utility duration-fast { transition-duration: var(--dur-fast); }
+@utility duration-base { transition-duration: var(--dur-base); }
+@utility duration-slow { transition-duration: var(--dur-slow); }
+@utility duration-reveal { transition-duration: var(--dur-reveal); }
+
+/* ---------- utilities: entrance ---------- */
+/* Time-based entrance: runs without waiting for hydration. Stagger with style="--i: n". */
+@utility rise {
+  animation: var(--animate-rise);
+  animation-delay: calc(var(--i, 0) * var(--reveal-stagger));
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+/* Scroll entrance (vanilla counterpart of the site's Reveal): hidden only when JS is
+   on (html.js), revealed by IntersectionObserver adding .is-visible. */
+@utility reveal {
+  transition: opacity var(--dur-reveal) var(--ease-emphasized), transform var(--dur-reveal) var(--ease-emphasized);
+  transition-delay: calc(var(--i, 0) * var(--reveal-stagger));
+  html.js &:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(var(--reveal-distance));
+  }
+  &.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html.js &:not(.is-visible),
+    & {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+/* SVG line draw: pair with style="--len: <path length>". */
+@utility draw-line {
+  stroke-dasharray: var(--len, 1200);
+  animation: var(--animate-draw-line);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+    stroke-dashoffset: 0;
+  }
+}
+
+/* ---------- utilities: surfaces ---------- */
+@utility spotlight {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(600px circle at var(--mx, 70%) var(--my, 20%), rgba(77, 117, 253, 0.07), transparent 62%);
+  @media (prefers-reduced-motion: reduce) {
+    display: none;
+  }
+}
+@utility card-glow {
+  position: relative;
+  overflow: hidden;
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(260px circle at var(--cx, 50%) var(--cy, 50%), rgba(16, 84, 255, 0.06), transparent 70%);
+    opacity: 0;
+    transition: opacity var(--dur-base) var(--ease-standard);
+  }
+  &:hover::after {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      display: none;
+    }
+  }
+}
+
+/* ---------- utilities: interactions ---------- */
+@utility nav-link {
+  position: relative;
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 100%;
+    background: var(--color-elevate-blue);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--dur-base) var(--ease-standard);
+  }
+  &:hover::after,
+  &:focus-visible::after {
+    transform: scaleX(1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      transition: none;
+    }
+  }
+}
+@utility btn-arrow {
+  &:active {
+    transform: scale(0.98);
+  }
+  & svg {
+    transition: transform var(--dur-base) var(--ease-standard);
+  }
+  &:hover svg,
+  &:focus-visible svg {
+    transform: translateX(4px);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    & svg {
+      transition: none;
+    }
+  }
+}
+@utility lift {
+  transition: transform var(--dur-base) var(--ease-standard), box-shadow var(--dur-base) var(--ease-standard);
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-menu);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &:hover {
+      transform: none;
+    }
+  }
+}
+@utility row-hover {
+  transition: background-color var(--dur-fast) var(--ease-standard);
+}
+
+/* ---------- utilities: living mockups (loops) ---------- */
+/* 3-dot typing indicator. Markup: <span class="typing-dots"><i></i><i></i><i></i></span> */
+@utility typing-dots {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  & > i {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: currentColor;
+    animation: var(--animate-typing-dot);
+  }
+  & > i:nth-child(2) { animation-delay: 0.12s; }
+  & > i:nth-child(3) { animation-delay: 0.24s; }
+  @media (prefers-reduced-motion: reduce) {
+    & > i {
+      animation: none;
+      opacity: 0.6;
+    }
+  }
+}
+/* Gentle vertical float for decorative chips. */
+@utility float-chip {
+  animation: var(--animate-float-chip);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+/* Tiny spinner. Markup: <span class="spinner"></span> */
+@utility spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-border-default);
+  border-top-color: var(--color-elevate-blue);
+  animation: var(--animate-spin-slow);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+/* Live-data dot with soft ping. Markup: <span class="live-dot"></span> */
+@utility live-dot {
+  position: relative;
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  background: var(--color-success-dot);
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-full);
+    background: var(--color-success-dot);
+    animation: var(--animate-ping-soft);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    &::after {
+      animation: none;
+      opacity: 0;
+    }
+  }
+}
+
+/* ---------- isometric resources: levitation and floating (DESIGN.md motifs.isometric) ---------- */
+/* iso-levitate: the whole piece floats 6px, 3s. iso-float: a label floats 4px, 2s, staggered with --d. */
+@theme {
+  --animate-iso-levitate: iso-levitate 3s var(--ease-standard) infinite alternate;
+  --animate-iso-float: iso-float 2s var(--ease-standard) infinite alternate;
+  @keyframes iso-levitate {
+    from { transform: translateY(0); }
+    to { transform: translateY(-6px); }
+  }
+  @keyframes iso-float {
+    from { transform: translateY(0); }
+    to { transform: translateY(-4px); }
+  }
+}
+@utility iso-levitate {
+  animation: var(--animate-iso-levitate);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+@utility iso-float {
+  animation: var(--animate-iso-float);
+  animation-delay: calc(var(--d, 0) * 400ms);
+  @media (prefers-reduced-motion: reduce) {
+    animation: none;
+  }
+}
+
+/* ---------- utilities: grids (on top of Tailwind's native grid-cols / col-span) ---------- */
+/* gap-grid: the responsive gap token (24px, 16px on mobile). grid-page: 12-col page grid —
+   children carry col-span-12 md:col-span-N. grid-auto: auto-fit cards of unknown count
+   (override --card-min per grid via style). grid-hairline: cells separated by 1px lines,
+   no negative margins; add grid-cols-N / md:grid-cols-N and give children pad-card. */
+@utility gap-grid {
+  gap: var(--grid-gap);
+}
+@utility grid-page {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--grid-gap);
+}
+@utility grid-auto {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--card-min)), 1fr));
+  gap: var(--grid-gap);
+}
+@utility grid-hairline {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 1px;
+  overflow: hidden;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-card);
+  background: var(--color-border-default);
+  & > * {
+    min-width: 0;
+    background: var(--color-surface-card);
+  }
+}
+
+/* ---------- utilities: drawer (off-canvas mobile nav) ---------- */
+/* Mobile: panel that slides in from the left; closed = visibility hidden (out of tab order).
+   lg+: static sidebar. For a landing's mobile menu add `md:hidden` to drawer and scrim.
+   Behavior: templates/drawer.js (toggle data-open, focus, Esc, scroll lock). */
+@utility drawer {
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 0;
+  z-index: 50;
+  width: min(var(--drawer-width), 85vw);
+  transform: translateX(-100%);
+  visibility: hidden;
+  transition: transform var(--dur-slow) var(--ease-emphasized), visibility 0s linear var(--dur-slow);
+  &[data-open="true"] {
+    transform: none;
+    visibility: visible;
+    transition-delay: 0s;
+  }
+  @variant lg {
+    /* persistent sidebar: pinned to the viewport; only the page content scrolls */
+    position: sticky;
+    top: 0;
+    align-self: flex-start;
+    height: 100vh;
+    height: 100dvh;
+    z-index: auto;
+    width: var(--sidebar-width);
+    transform: none;
+    visibility: visible;
+    transition: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+@utility scrim {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background: rgba(1, 23, 46, 0.48);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--dur-base) var(--ease-standard);
+  &[data-open="true"] {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  @variant lg {
+    display: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* ---------- utilities: module field (signature texture of hero / CTA) ---------- */
+/* Resting grid = pure CSS: 2px squares on a 16px pitch, grey at 45%, masked toward the bottom.
+   Pointer trail = templates/module-field.js (canvas, off for touch + reduced-motion).
+   Markup: <div class="module-field" data-module-field aria-hidden="true"></div> as the first
+   child of a `relative isolate overflow-hidden` host. Variants: module-field-dark,
+   module-field-mask-left, module-field-mask-none. */
+@utility module-field {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  --module-lit-1: var(--color-blue-500);
+  --module-lit-2: var(--color-blue-400);
+  --module-lit-3: var(--color-blue-300);
+  -webkit-mask-image: var(--module-mask, linear-gradient(to bottom, #000 35%, transparent 100%));
+  mask-image: var(--module-mask, linear-gradient(to bottom, #000 35%, transparent 100%));
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    opacity: 0.45;
+    background-image: conic-gradient(from 270deg at var(--module-size) var(--module-size), var(--module-color, var(--color-border-strong)) 0 90deg, transparent 0);
+    background-size: var(--module-pitch) var(--module-pitch);
+    background-position: calc((var(--module-pitch) - var(--module-size)) / 2) calc((var(--module-pitch) - var(--module-size)) / 2);
+  }
+  & > canvas {
+    position: absolute;
+    inset: 0;
+  }
+}
+@utility module-field-dark { --module-color: var(--color-border-on-dark-strong); }
+@utility module-field-mask-left { --module-mask: linear-gradient(to right, transparent 8%, #000 60%); }
+@utility module-field-mask-none { --module-mask: none; }
+
+/* ---------- base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+    scrollbar-gutter: stable;
+  }
+  body {
+    background: var(--color-surface-page);
+    color: var(--color-text-primary);
+    font-family: var(--font-text);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    overflow-x: clip;
+  }
+  [id] {
+    scroll-margin-top: calc(var(--nav-height) + 1px);
+  }
+  ::selection {
+    background: var(--color-blue-200);
+    color: var(--color-excellence-blue);
+  }
+  :focus-visible {
+    outline: 2px solid transparent;
+    box-shadow: var(--shadow-focus);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
+/* ---------- dashboard-only: grey canvas (tokens base body is the page white) ---------- */
+@layer base {
+  body {
+    background: var(--color-surface-subtle);
+  }
+}
+
+/* ---------- dashboard-only: sidebar link, form field, switch ---------- */
+@utility side-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  height: 2.75rem;
+  padding-inline: 0.75rem;
+  border-radius: var(--radius-button);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+  transition: background-color var(--dur-base) var(--ease-standard);
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    width: 0.5rem;
+    height: 0.5rem;
+    border-radius: var(--radius-full);
+    background: var(--color-elevate-blue);
+    opacity: 0;
+  }
+  &:hover {
+    background: var(--color-surface-subtle);
+  }
+  &[aria-current="page"] {
+    background: var(--color-blue-tint-50);
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+  &[aria-current="page"]::before {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+@utility field {
+  display: block;
+  width: 100%;
+  height: 2.75rem;
+  padding-inline: 0.75rem;
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-input);
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  font-size: var(--text-body);
+  transition: border-color var(--dur-base) var(--ease-standard);
+  &:hover {
+    border-color: var(--color-border-ink);
+  }
+  &:focus-visible {
+    border-color: var(--color-elevate-blue);
+  }
+  &:disabled {
+    color: var(--color-text-disabled);
+    background: var(--color-surface-subtle);
+  }
+}
+@utility switch {
+  appearance: none;
+  position: relative;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 1.5rem;
+  border-radius: var(--radius-full);
+  background: var(--color-border-input);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard);
+  &::after {
+    content: "";
+    position: absolute;
+    top: 0.1875rem;
+    left: 0.1875rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: var(--radius-full);
+    background: var(--color-white);
+    transition: transform var(--dur-base) var(--ease-standard);
+  }
+  &:checked {
+    background: var(--color-excellence-blue);
+  }
+  &:checked::after {
+    transform: translateX(1.25rem);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &::after {
+      transition: none;
+    }
+  }
+}
+
+/* ---------- asset library: botones, chips, segmentado, rangos, swatches, código, tabs ---------- */
+@utility btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 2.75rem;
+  padding-inline: 1rem;
+  border-radius: var(--radius-button);
+  font-family: var(--font-display);
+  font-size: var(--text-body-sm);
+  font-weight: 500;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+  &:active:not(:disabled) { transform: scale(0.98); }
+  &:disabled { cursor: not-allowed; }
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+    &:active:not(:disabled) { transform: none; }
+  }
+}
+@utility btn-primary {
+  background: var(--color-elevate-blue);
+  color: var(--color-white);
+  &:hover:not(:disabled) { background: var(--color-blue-600); }
+  &:active:not(:disabled) { background: var(--color-blue-700); }
+  &:disabled { background: var(--color-border-strong); color: var(--color-text-disabled); }
+}
+@utility btn-secondary {
+  border: 1px solid var(--color-border-input);
+  background: var(--color-white);
+  color: var(--color-text-primary);
+  &:hover:not(:disabled) { background: var(--color-surface-subtle); }
+  &:disabled { color: var(--color-text-disabled); border-color: var(--color-border-default); }
+}
+@utility btn-dark {
+  background: var(--color-excellence-blue);
+  color: var(--color-white);
+  &:hover:not(:disabled) { background: var(--color-blue-800); }
+  &:active:not(:disabled) { background: var(--color-elaniin-black); }
+}
+@utility icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  border-radius: var(--radius-button);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard);
+  &:hover:not(:disabled) { background: var(--color-surface-subtle); color: var(--color-text-primary); }
+  &:active:not(:disabled) { background: var(--color-border-default); }
+  &:disabled { color: var(--color-text-disabled); cursor: not-allowed; }
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+}
+@utility chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 2.75rem;
+  padding-inline: 0.875rem;
+  border: 1px solid var(--color-border-default);
+  border-radius: var(--radius-full);
+  background: var(--color-white);
+  color: var(--color-text-secondary);
+  font-size: var(--text-body-sm);
+  cursor: pointer;
+  transition: border-color var(--dur-base) var(--ease-standard), background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard), transform var(--dur-fast) var(--ease-standard);
+  &:hover { border-color: var(--color-border-ink); color: var(--color-text-primary); }
+  &:active { transform: scale(0.98); }
+  &[aria-pressed="true"] { background: var(--color-excellence-blue); border-color: var(--color-excellence-blue); color: var(--color-white); }
+  @media (prefers-reduced-motion: reduce) { transition: none; &:active { transform: none; } }
+}
+@utility seg {
+  display: flex;
+  width: 100%;
+  gap: 0.125rem;
+  padding: 0.125rem;
+  border-radius: var(--radius-button);
+  background: var(--color-surface-subtle);
+}
+@utility seg-btn {
+  flex: 1 1 0;
+  min-width: 0;
+  height: 2.5rem;
+  padding-inline: 0.5rem;
+  border-radius: var(--radius-tag);
+  font-size: var(--text-body-sm);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  transition: background-color var(--dur-base) var(--ease-standard), color var(--dur-base) var(--ease-standard);
+  &:hover { color: var(--color-text-primary); }
+  &[aria-pressed="true"] { background: var(--color-white); color: var(--color-text-primary); font-weight: 500; box-shadow: var(--shadow-card-rest); }
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+}
+@utility range {
+  display: block;
+  width: 100%;
+  height: 2.75rem;
+  background: transparent;
+  accent-color: var(--color-elevate-blue);
+  cursor: pointer;
+}
+@utility swatch {
+  appearance: none;
+  flex-shrink: 0;
+  width: 2.75rem;
+  height: 2.75rem;
+  padding: 0.25rem;
+  border: 1px solid var(--color-border-input);
+  border-radius: var(--radius-input);
+  background: var(--color-white);
+  cursor: pointer;
+  &::-webkit-color-swatch-wrapper { padding: 0; }
+  &::-webkit-color-swatch { border: none; border-radius: 4px; }
+  &::-moz-color-swatch { border: none; border-radius: 4px; }
+}
+@utility code-block {
+  margin: 0;
+  max-height: 18rem;
+  overflow: auto;
+  padding: 1rem;
+  border-radius: var(--radius-code);
+  background: var(--color-surface-code);
+  color: var(--color-text-on-dark);
+  font-family: var(--font-mono);
+  font-size: var(--text-code);
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+@utility tab {
+  display: inline-flex;
+  align-items: center;
+  height: 2.75rem;
+  border-bottom: 2px solid transparent;
+  font-size: var(--text-body-sm);
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: color var(--dur-base) var(--ease-standard), border-color var(--dur-base) var(--ease-standard);
+  &:hover { color: var(--color-text-primary); }
+  &[aria-selected="true"] { border-color: var(--color-elevate-blue); color: var(--color-text-primary); font-weight: 500; }
+  @media (prefers-reduced-motion: reduce) { transition: none; }
+}
+</style>
+</head>
+<body class="min-h-screen">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+<symbol id="elaniin-logo" viewBox="0 0 281.45 75.91"><g fill="#141414"><g id="uuid-5492e3b7-2299-49d7-a0db-08f3ca1d8490"><path d="M41.42,59.92c.48-.5.79-.85.79-.85l8.06,5.28s-.25.53-.67,1.13c-5.63,7.9-15.43,11.26-25.28,10.25-11.26-1.15-20.35-9.09-23.18-19.59-1.59-5.91-1.52-12.11.29-17.93,1.36-4.38,3.81-8.15,7.21-11.37,5.09-4.82,11.61-7.14,18.75-7.02,15.03.25,25.49,11.65,25.49,26.29,0,4.22-.07,5.79-.07,5.79H10.41c1.24,8.21,7.61,13.56,16.36,13.82,5.64.16,10.81-1.79,14.64-5.79h0ZM35.95,32.59c-3.09-1.87-6.35-2.5-10.01-2.46-7.67.09-14.12,5.52-15.17,12.83l32.43-.02c-.77-4.48-3.4-8.15-7.24-10.35Z"/><polygon points="59.63 74.76 59.61 .06 70.15 0 70.16 74.77 59.63 74.76"/><path d="M129.19,74.78h-9.73l-.13-6.07c-3.67,4.24-8.58,6.7-14.17,7.11-4.34.32-8.69-.18-12.63-1.96-7.45-3.36-12.85-9.89-14.88-17.53-1.56-5.86-1.5-12.02.21-17.81,1.47-4.98,4.25-9.38,8.25-12.88,4.99-4.36,11.08-6.27,17.78-6.01,6.11.23,11.64,2.47,15.47,7.24l.03-6.46,11.21.02v54.35h-1.4ZM115.49,61.31c2.26-2.18,3.85-4.7,4.72-7.67,1.81-6.2.67-12.65-3.33-17.71-2.78-3.52-6.81-5.6-11.36-5.99-11.37-.96-19.09,7.9-18.82,18.56.27,10.39,8.34,18.42,19.22,17.24,3.7-.4,6.93-1.87,9.57-4.42h0Z"/><path d="M160.38,29.59c-5.76.84-10,5.14-11.11,10.58-.46,2.26-.5,4.39-.49,6.78l.04,27.82h-10.68l-.05-54.35h10.66s.05,6.46.05,6.46c5.12-6.32,11.41-7.79,19.47-7.07,8.1.72,14.91,5.87,17.71,13.24,1.08,2.83,1.59,5.79,1.6,8.98l.1,32.76h-10.76v-29.8c0-2.36-.23-4.45-.94-6.61-2.16-6.58-8.48-9.83-15.6-8.78h0Z"/><path d="M206.07,20.4h-10.78v54.37h10.86s-.07-54.37-.07-54.37Z"/><path d="M254.15,29.59c-5.76.84-10,5.14-11.11,10.58-.46,2.26-.5,4.39-.49,6.78l.04,27.82h-10.68l-.05-54.35h10.66s.05,6.46.05,6.46c5.12-6.32,11.41-7.79,19.47-7.07,8.1.72,14.91,5.87,17.71,13.24,1.08,2.83,1.59,5.79,1.6,8.98l.1,32.76h-10.76v-29.8c0-2.36-.23-4.45-.94-6.61-2.16-6.58-8.48-9.83-15.6-8.78h0Z"/><circle cx="200.72" cy="9.03" r="5.47"/><circle cx="219.55" cy="9.03" r="5.47"/><path d="M224.9,20.4h-10.78v54.37h10.86s-.07-54.37-.07-54.37Z"/></g></g></symbol>
+<symbol id="elaniin-logo-white" viewBox="0 0 281.45 75.91"><g fill="#ffffff"><g id="uuid-5492e3b7-2299-49d7-a0db-08f3ca1d8490"><path d="M41.42,59.92c.48-.5.79-.85.79-.85l8.06,5.28s-.25.53-.67,1.13c-5.63,7.9-15.43,11.26-25.28,10.25-11.26-1.15-20.35-9.09-23.18-19.59-1.59-5.91-1.52-12.11.29-17.93,1.36-4.38,3.81-8.15,7.21-11.37,5.09-4.82,11.61-7.14,18.75-7.02,15.03.25,25.49,11.65,25.49,26.29,0,4.22-.07,5.79-.07,5.79H10.41c1.24,8.21,7.61,13.56,16.36,13.82,5.64.16,10.81-1.79,14.64-5.79h0ZM35.95,32.59c-3.09-1.87-6.35-2.5-10.01-2.46-7.67.09-14.12,5.52-15.17,12.83l32.43-.02c-.77-4.48-3.4-8.15-7.24-10.35Z"/><polygon points="59.63 74.76 59.61 .06 70.15 0 70.16 74.77 59.63 74.76"/><path d="M129.19,74.78h-9.73l-.13-6.07c-3.67,4.24-8.58,6.7-14.17,7.11-4.34.32-8.69-.18-12.63-1.96-7.45-3.36-12.85-9.89-14.88-17.53-1.56-5.86-1.5-12.02.21-17.81,1.47-4.98,4.25-9.38,8.25-12.88,4.99-4.36,11.08-6.27,17.78-6.01,6.11.23,11.64,2.47,15.47,7.24l.03-6.46,11.21.02v54.35h-1.4ZM115.49,61.31c2.26-2.18,3.85-4.7,4.72-7.67,1.81-6.2.67-12.65-3.33-17.71-2.78-3.52-6.81-5.6-11.36-5.99-11.37-.96-19.09,7.9-18.82,18.56.27,10.39,8.34,18.42,19.22,17.24,3.7-.4,6.93-1.87,9.57-4.42h0Z"/><path d="M160.38,29.59c-5.76.84-10,5.14-11.11,10.58-.46,2.26-.5,4.39-.49,6.78l.04,27.82h-10.68l-.05-54.35h10.66s.05,6.46.05,6.46c5.12-6.32,11.41-7.79,19.47-7.07,8.1.72,14.91,5.87,17.71,13.24,1.08,2.83,1.59,5.79,1.6,8.98l.1,32.76h-10.76v-29.8c0-2.36-.23-4.45-.94-6.61-2.16-6.58-8.48-9.83-15.6-8.78h0Z"/><path d="M206.07,20.4h-10.78v54.37h10.86s-.07-54.37-.07-54.37Z"/><path d="M254.15,29.59c-5.76.84-10,5.14-11.11,10.58-.46,2.26-.5,4.39-.49,6.78l.04,27.82h-10.68l-.05-54.35h10.66s.05,6.46.05,6.46c5.12-6.32,11.41-7.79,19.47-7.07,8.1.72,14.91,5.87,17.71,13.24,1.08,2.83,1.59,5.79,1.6,8.98l.1,32.76h-10.76v-29.8c0-2.36-.23-4.45-.94-6.61-2.16-6.58-8.48-9.83-15.6-8.78h0Z"/><circle cx="200.72" cy="9.03" r="5.47"/><circle cx="219.55" cy="9.03" r="5.47"/><path d="M224.9,20.4h-10.78v54.37h10.86s-.07-54.37-.07-54.37Z"/></g></g></symbol>
+</svg>
+<div class="spotlight" aria-hidden="true"></div>
+<a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:z-50 focus:top-3 focus:left-3 focus:bg-white focus:px-4 focus:py-2 focus:rounded-button focus:border focus:border-border-default">Saltar al contenido</a>
+
+<div class="relative z-10 flex min-h-screen">
+  <!-- SIDEBAR -->
+  <div class="scrim" data-scrim aria-hidden="true"></div>
+  <aside id="app-drawer" data-drawer class="drawer flex shrink-0 flex-col border-r border-border-default bg-white" aria-label="Barra lateral">
+    <div class="flex h-16 items-center justify-between border-b border-border-default pl-6 pr-3">
+      <a href="#/biblioteca" class="inline-flex items-center gap-3 focus-ring rounded-button">
+        <svg class="h-6 w-auto" role="img" aria-label="Elaniin" viewBox="0 0 281.45 75.91"><use href="#elaniin-logo"/></svg>
+        <span class="font-mono text-caption text-text-muted">Assets</span>
+      </a>
+      <button type="button" data-menu-close class="icon-btn lg:hidden focus-ring" aria-label="Cerrar menú">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <nav class="min-h-0 flex-1 space-y-1 overflow-y-auto p-3" aria-label="Principal">
+      <p class="mono-label px-3 pb-2 pt-3 text-caption text-text-disabled">Crear</p>
+      <a href="#/biblioteca" data-nav="biblioteca" class="side-link focus-ring">Biblioteca</a>
+      <a href="#/editor" data-nav="editor" class="side-link focus-ring">Editor</a>
+      <a href="#/paletas" data-nav="paletas" class="side-link focus-ring">Paletas</a>
+      <p class="mono-label px-3 pb-2 pt-6 text-caption text-text-disabled">Recursos</p>
+      <a href="#/guia" data-nav="guia" class="side-link focus-ring">Guía de uso</a>
+    </nav>
+    <div class="flex shrink-0 items-center justify-between gap-3 border-t border-border-default px-4">
+      <nav aria-label="Legal" class="flex gap-3">
+        <a href="#/privacidad" data-nav="privacidad" class="inline-flex min-h-11 items-center text-caption text-text-muted underline-offset-4 transition-colors duration-base hover:text-text-primary hover:underline aria-[current=page]:text-text-primary aria-[current=page]:underline focus-ring">Privacidad</a>
+        <a href="#/terminos" data-nav="terminos" class="inline-flex min-h-11 items-center text-caption text-text-muted underline-offset-4 transition-colors duration-base hover:text-text-primary hover:underline aria-[current=page]:text-text-primary aria-[current=page]:underline focus-ring">Términos</a>
+      </nav>
+      <p class="text-caption text-text-muted">© 2026</p>
+    </div>
+  </aside>
+
+  <div class="flex min-w-0 flex-1 flex-col">
+    <!-- TOPBAR -->
+    <header class="sticky top-0 z-30 flex h-16 items-center justify-between gap-3 border-b border-border-default bg-white/90 px-4 backdrop-blur md:px-6">
+      <div class="flex min-w-0 flex-1 items-center gap-3">
+        <button type="button" data-menu-button aria-controls="app-drawer" aria-expanded="false" class="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-button border border-border-default transition-colors duration-base hover:bg-surface-subtle lg:hidden focus-ring" aria-label="Abrir menú">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+        <h1 data-page-title class="min-w-0 truncate font-display text-h4 font-medium">Biblioteca</h1>
+        <p data-dirty hidden class="hidden shrink-0 items-center gap-2 text-caption text-text-muted md:inline-flex"><span class="h-2 w-2 rounded-full bg-warning-dot" aria-hidden="true"></span>Sin guardar</p>
+      </div>
+      <div data-actions="biblioteca" class="flex shrink-0 items-center gap-2 md:gap-3">
+        <label class="btn btn-secondary w-11 px-0 md:w-auto md:px-4 focus-within:shadow-[var(--shadow-focus)]" aria-label="Importar JSON">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 21V9m0 0l-4 4m4-4l4 4M4 3h16"/></svg>
+          <span class="hidden md:inline">Importar</span>
+          <input type="file" accept="application/json,.json" data-import class="sr-only" />
+        </label>
+        <button type="button" data-export-library class="btn btn-secondary btn-arrow w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Exportar biblioteca">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="hidden md:inline">Exportar biblioteca</span>
+        </button>
+        <a href="#/editor?new=1" class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Nuevo asset">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" class="md:hidden"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="hidden md:inline">Nuevo asset</span>
+        </a>
+      </div>
+      <div data-actions="editor" hidden class="flex shrink-0 items-center gap-2 md:gap-3">
+        <button type="button" data-open-export class="btn btn-secondary btn-arrow w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Exportar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="hidden md:inline">Exportar</span>
+        </button>
+        <button type="button" data-save class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Guardar en la biblioteca">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" class="md:hidden"><path d="M5 12l5 5L20 7"/></svg>
+          <span class="hidden md:inline">Guardar</span>
+        </button>
+      </div>
+      <div data-actions="paletas" hidden class="flex shrink-0 items-center gap-2">
+        <button type="button" data-new-palette class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Nueva paleta">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" class="md:hidden"><path d="M12 5v14M5 12h14"/></svg>
+          <span class="hidden md:inline">Nueva paleta</span>
+        </button>
+      </div>
+    </header>
+
+    <main id="main" tabindex="-1" class="flex-1 p-4 focus-visible:shadow-none md:p-6">
+
+      <!-- ============ BIBLIOTECA ============ -->
+      <div data-view="biblioteca">
+        <div class="rise flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div class="min-w-0">
+            <h2 class="max-w-[20ch] font-display text-h2 font-medium">Assets 3D para los sitios de Elaniin</h2>
+            <p class="mt-2 max-w-[56ch] text-body text-text-secondary">Pasa el cursor sobre una card para verla en vivo. Ábrela en el editor para ajustarla o copia el embed directo.</p>
+          </div>
+          <p class="mono-label shrink-0 text-caption text-text-muted" data-lib-count aria-live="polite"></p>
+        </div>
+
+        <div class="mt-6 grid-page">
+          <div class="col-span-12 min-w-0 md:col-span-12 xl:col-span-4">
+            <label for="lib-q" class="sr-only">Buscar assets</label>
+            <div class="relative">
+              <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              <input id="lib-q" type="search" data-lib-q class="field pl-10 focus-ring" placeholder="Buscar por nombre o etiqueta" autocomplete="off" />
+            </div>
+          </div>
+          <div class="col-span-12 min-w-0 sm:col-span-4 xl:col-span-3">
+            <label for="lib-shape" class="sr-only">Filtrar por forma</label>
+            <select id="lib-shape" data-lib-shape class="field focus-ring"><option value="">Todas las formas</option></select>
+          </div>
+          <div class="col-span-12 min-w-0 sm:col-span-4 xl:col-span-3">
+            <label for="lib-tag" class="sr-only">Filtrar por etiqueta</label>
+            <select id="lib-tag" data-lib-tag class="field focus-ring"><option value="">Todas las etiquetas</option></select>
+          </div>
+          <div class="col-span-12 min-w-0 sm:col-span-4 xl:col-span-2">
+            <label for="lib-sort" class="sr-only">Ordenar</label>
+            <select id="lib-sort" data-lib-sort class="field focus-ring">
+              <option value="recent">Más recientes</option>
+              <option value="name">Nombre A–Z</option>
+            </select>
+          </div>
+        </div>
+        <div data-lib-chips class="mt-4 flex flex-wrap items-center gap-2" hidden></div>
+
+        <ul data-lib-grid class="mt-6 grid-auto" style="--card-min: 17rem"></ul>
+        <div data-lib-empty hidden class="mt-6 rounded-card border border-border-default bg-white pad-card text-center">
+          <h3 class="font-display text-h4 font-medium">Ningún asset coincide</h3>
+          <p class="mx-auto mt-2 max-w-[56ch] text-body-sm text-text-secondary">Prueba con otra búsqueda o limpia los filtros.</p>
+          <button type="button" data-lib-clear-all class="btn btn-secondary mt-6 focus-ring">Limpiar filtros</button>
+        </div>
+      </div>
+
+      <!-- ============ EDITOR ============ -->
+      <div data-view="editor" hidden>
+        <div class="grid-page">
+          <section class="col-span-12 min-w-0 self-start xl:sticky xl:top-22 xl:col-span-8" aria-label="Vista previa">
+            <div class="rounded-card border border-border-default bg-white p-4 md:p-6">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="seg w-auto max-w-full" role="group" aria-label="Proporción" data-aspects></div>
+                <div class="flex items-center gap-2">
+                  <p class="mono-label text-caption text-text-muted tabular-nums" data-loop-label></p>
+                  <button type="button" data-play class="icon-btn border border-border-default focus-ring" aria-label="Pausar"></button>
+                </div>
+              </div>
+              <div data-stage-wrap class="mt-4 flex h-[56vh] items-center justify-center md:h-[min(68vh,640px)]">
+                <div data-stage class="relative overflow-hidden rounded-card border border-border-default bg-surface-subtle"></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="col-span-12 min-w-0 xl:col-span-4" aria-label="Controles">
+            <div data-panel class="divide-y divide-border-default rounded-card border border-border-default bg-white"></div>
+          </section>
+        </div>
+      </div>
+
+      <!-- ============ PALETAS ============ -->
+      <div data-view="paletas" hidden>
+        <div class="rise">
+          <h2 class="max-w-[20ch] font-display text-h2 font-medium">Gradientes listos para reutilizar</h2>
+          <p class="mt-2 max-w-[56ch] text-body text-text-secondary">Cada paleta tiene de 2 a 6 colores. Aplícala al asset que tienes abierto en el editor.</p>
+        </div>
+        <ul data-pal-grid class="mt-6 grid-auto" style="--card-min: 16rem"></ul>
+      </div>
+
+      <!-- ============ GUÍA ============ -->
+      <div data-view="guia" hidden>
+        <article class="max-w-[68ch]">
+          <h2 class="font-display text-h2 font-medium">Cómo poner un asset en un sitio</h2>
+          <p class="mt-3 text-lead text-text-secondary">Cada asset es un componente web. Pegas dos líneas, el navegador hace el resto.</p>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">1. Copia el embed</h3>
+          <p class="mt-2 text-body text-text-secondary">Desde la biblioteca (icono de código) o desde el editor en Exportar → Embed. El código trae la configuración completa: no depende de esta biblioteca.</p>
+          <pre class="code-block mt-4" data-guide-snippet></pre>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">2. Dale tamaño</h3>
+          <p class="mt-2 text-body text-text-secondary">El asset llena su contenedor. Usa <code class="font-mono text-code">aspect-ratio</code> o un alto fijo. Para fondos de sección, ponlo en <code class="font-mono text-code">position:absolute; inset:0</code> y exporta con encuadre “Llenar”.</p>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">3. Atributos</h3>
+          <div class="mt-4 overflow-x-auto rounded-card border border-border-default bg-white">
+            <table class="w-full min-w-[32rem] text-left text-body-sm">
+              <thead><tr class="border-b border-border-strong"><th class="mono-label px-4 py-3 text-caption text-text-muted">Atributo</th><th class="mono-label px-4 py-3 text-caption text-text-muted">Qué hace</th></tr></thead>
+              <tbody>
+                <tr class="border-b border-border-default"><td class="px-4 py-3 font-mono text-code">config</td><td class="px-4 py-3 text-text-secondary">JSON del asset (colores, formas, cuadrícula, vidrio). Cambiarlo actualiza en vivo.</td></tr>
+                <tr><td class="px-4 py-3 font-mono text-code">src</td><td class="px-4 py-3 text-text-secondary">URL a un .json exportado. Útil para cambiar el asset sin tocar el HTML.</td></tr>
+              </tbody>
+            </table>
+          </div>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">4. Rendimiento</h3>
+          <ul class="mt-2 list-disc space-y-2 pl-5 text-body text-text-secondary">
+            <li>Se pausa solo cuando sale de pantalla y queda quieto con “reducir movimiento”.</li>
+            <li>Cada asset usa un contexto WebGL. Máximo 6 por página; para más, exporta video o imagen.</li>
+            <li>El video exportado es un loop perfecto: el último cuadro empalma con el primero.</li>
+          </ul>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">5. Compartir con el equipo</h3>
+          <p class="mt-2 text-body text-text-secondary">Lo que guardas vive en tu navegador. En Biblioteca → Exportar biblioteca descargas un <code class="font-mono text-code">library.json</code>: reemplázalo en el repo <code class="font-mono text-code">assets-web-elaniin</code> y haz commit.</p>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">6. Geometría en Blender</h3>
+          <p class="mt-2 text-body text-text-secondary">El cubo de vidrio sale de <code class="font-mono text-code">blender/make_tile.py</code> (3 perfiles: Suave, Redondo, Píldora). Para cambiar biseles o radios, edita el script y regénéralo:</p>
+          <pre class="code-block mt-4">/Applications/Blender.app/Contents/MacOS/Blender -b -P blender/make_tile.py</pre>
+          <p class="mt-2 text-body text-text-secondary">También deja <code class="font-mono text-code">assets/tile-*.glb</code> para Figma, Spline o Cinema 4D.</p>
+        </article>
+      </div>
+
+      <!-- ============ LEGAL ============ -->
+      <div data-view="privacidad" hidden>
+        <article class="max-w-[68ch]">
+          <h2 class="font-display text-h2 font-medium">Privacidad</h2>
+          <p class="mt-3 text-body text-text-secondary">Herramienta interna de Elaniin. No usa cookies ni analítica. Los assets y paletas que guardas quedan en el almacenamiento local de tu navegador y solo salen de él si exportas un archivo.</p>
+        </article>
+      </div>
+      <div data-view="terminos" hidden>
+        <article class="max-w-[68ch]">
+          <h2 class="font-display text-h2 font-medium">Términos de uso</h2>
+          <p class="mt-3 text-body text-text-secondary">Uso exclusivo para proyectos de Elaniin y sus clientes. Los assets generados son propiedad de Elaniin. Three.js se distribuye bajo licencia MIT.</p>
+        </article>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- ============ DIÁLOGO: EXPORTAR ============ -->
+<dialog data-export-dialog aria-labelledby="ex-title" class="m-auto w-[calc(100%-2rem)] max-w-2xl rounded-modal border border-border-default bg-white p-0 shadow-menu backdrop:bg-excellence-blue/50">
+  <div class="flex h-16 items-center justify-between gap-3 border-b border-border-default pl-6 pr-3">
+    <h2 id="ex-title" class="min-w-0 truncate font-display text-h4 font-medium">Exportar asset</h2>
+    <button type="button" data-close class="icon-btn focus-ring" aria-label="Cerrar">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+    </button>
+  </div>
+  <div role="tablist" aria-label="Formato" class="flex gap-6 overflow-x-auto border-b border-border-default px-6">
+    <button type="button" role="tab" id="tab-embed" aria-controls="panel-embed" aria-selected="true" class="tab focus-ring" data-tab="embed">Embed</button>
+    <button type="button" role="tab" id="tab-image" aria-controls="panel-image" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="image">Imagen</button>
+    <button type="button" role="tab" id="tab-video" aria-controls="panel-video" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="video">Video</button>
+    <button type="button" role="tab" id="tab-json" aria-controls="panel-json" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="json">JSON</button>
+  </div>
+  <div class="pad-card">
+    <div role="tabpanel" id="panel-embed" aria-labelledby="tab-embed" data-panel-tab="embed">
+      <p class="text-body-sm text-text-secondary">Pega esto en el sitio. Se pausa fuera de pantalla y respeta “reducir movimiento”.</p>
+      <pre class="code-block mt-4" data-embed-code></pre>
+      <div class="mt-4 flex justify-end"><button type="button" class="btn btn-primary focus-ring" data-copy="embed">Copiar código</button></div>
+    </div>
+    <div role="tabpanel" id="panel-image" aria-labelledby="tab-image" data-panel-tab="image" hidden>
+      <div class="grid-page">
+        <div class="col-span-12 min-w-0 md:col-span-6">
+          <label for="img-size" class="text-body-sm text-text-secondary">Tamaño</label>
+          <select id="img-size" data-img-size class="field mt-2 focus-ring"></select>
+        </div>
+        <div class="col-span-12 min-w-0 md:col-span-6">
+          <label for="img-type" class="text-body-sm text-text-secondary">Formato</label>
+          <select id="img-type" data-img-type class="field mt-2 focus-ring">
+            <option value="image/png">PNG</option>
+            <option value="image/webp">WebP</option>
+          </select>
+        </div>
+      </div>
+      <div class="mt-6 flex justify-end"><button type="button" class="btn btn-primary min-w-44 focus-ring" data-img-go>Descargar imagen</button></div>
+    </div>
+    <div role="tabpanel" id="panel-video" aria-labelledby="tab-video" data-panel-tab="video" hidden>
+      <div class="grid-page">
+        <div class="col-span-12 min-w-0 md:col-span-6">
+          <label for="vid-size" class="text-body-sm text-text-secondary">Resolución</label>
+          <select id="vid-size" data-vid-size class="field mt-2 focus-ring"></select>
+        </div>
+        <div class="col-span-12 min-w-0 md:col-span-6">
+          <label for="vid-len" class="text-body-sm text-text-secondary">Duración</label>
+          <select id="vid-len" data-vid-len class="field mt-2 focus-ring"></select>
+        </div>
+      </div>
+      <p class="mt-4 text-body-sm text-text-secondary" data-vid-format></p>
+      <div class="mt-4" data-vid-progress-wrap hidden>
+        <progress data-vid-progress class="h-2 w-full accent-elevate-blue" max="1" value="0" aria-label="Progreso de grabación"></progress>
+      </div>
+      <div class="mt-6 flex justify-end"><button type="button" class="btn btn-primary min-w-44 focus-ring" data-vid-go>Grabar video</button></div>
+    </div>
+    <div role="tabpanel" id="panel-json" aria-labelledby="tab-json" data-panel-tab="json" hidden>
+      <p class="text-body-sm text-text-secondary">Configuración completa. Sirve para el atributo <code class="font-mono text-code">src</code> o para importarla en otra biblioteca.</p>
+      <pre class="code-block mt-4" data-json-code></pre>
+      <div class="mt-4 flex justify-end gap-3">
+        <button type="button" class="btn btn-secondary focus-ring" data-copy="json">Copiar</button>
+        <button type="button" class="btn btn-primary focus-ring" data-json-go>Descargar .json</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<!-- ============ DIÁLOGO: PALETA ============ -->
+<dialog data-pal-dialog aria-labelledby="pal-title" class="m-auto w-[calc(100%-2rem)] max-w-md rounded-modal border border-border-default bg-white p-0 shadow-menu backdrop:bg-excellence-blue/50">
+  <form method="dialog" data-pal-form class="pad-card" novalidate>
+    <h2 id="pal-title" class="font-display text-h4 font-medium">Nueva paleta</h2>
+    <label for="pal-name" class="mt-6 block text-body-sm text-text-secondary">Nombre</label>
+    <input id="pal-name" data-pal-name class="field mt-2 focus-ring" maxlength="40" aria-describedby="pal-name-err" />
+    <p id="pal-name-err" data-pal-err role="alert" hidden class="mt-2 text-caption text-error-text">Escribe un nombre.</p>
+    <p class="mt-6 text-body-sm text-text-secondary">Colores (2 a 6)</p>
+    <ul data-pal-stops class="mt-2 space-y-2"></ul>
+    <button type="button" data-pal-add class="btn btn-secondary mt-3 focus-ring">Agregar color</button>
+    <div class="mt-8 flex justify-end gap-3">
+      <button type="button" value="cancel" data-close class="btn btn-secondary focus-ring">Cancelar</button>
+      <button type="submit" class="btn btn-primary focus-ring">Guardar paleta</button>
+    </div>
+  </form>
+</dialog>
+
+<!-- ============ DIÁLOGO: CONFIRMAR ============ -->
+<dialog data-confirm aria-labelledby="cf-title" class="m-auto w-[calc(100%-2rem)] max-w-md rounded-modal border border-border-default bg-white p-0 shadow-menu backdrop:bg-excellence-blue/50">
+  <form method="dialog" class="pad-card">
+    <h2 id="cf-title" data-confirm-title class="font-display text-h4 font-medium"></h2>
+    <p data-confirm-body class="mt-2 text-body-sm text-text-secondary"></p>
+    <div class="mt-8 flex justify-end gap-3">
+      <button value="cancel" class="btn btn-secondary focus-ring">Cancelar</button>
+      <button value="ok" class="btn btn-dark focus-ring">Eliminar</button>
+    </div>
+  </form>
+</dialog>
+
+<div data-toast role="status" aria-live="polite" hidden class="rise fixed bottom-4 left-1/2 z-50 max-w-[calc(100%-2rem)] -translate-x-1/2 rounded-button bg-excellence-blue px-4 py-3 text-body-sm text-white shadow-menu"></div>
+
+<script type="module">
+import { mount, snapshots, renderImage, recordVideo, videoMime, normalize, embedConfig, loopSeconds, SHAPES, PROFILES, DEFAULTS } from './elaniin-glass.js';
+
+const $ = (s, r = document) => r.querySelector(s);
+const $$ = (s, r = document) => [...r.querySelectorAll(s)];
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const uid = () => 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+const HEX = /^#[0-9a-f]{6}$/i;
+const ASPECTS = ['16:9', '21:9', '4:5', '1:1', '9:16'];
+const ENGINE_URL = new URL('elaniin-glass.js', location.href).href;
+
+/* ---------- toast + utilidades ---------- */
+const toastEl = $('[data-toast]'); let toastT;
+function toast(msg) { toastEl.textContent = msg; toastEl.hidden = false; clearTimeout(toastT); toastT = setTimeout(() => (toastEl.hidden = true), 3200); }
+function download(blob, name) {
+  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = name;
+  document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 5000);
+}
+const slug = s => (s || 'asset').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'asset';
+async function copy(text, okMsg) {
+  try { await navigator.clipboard.writeText(text); toast(okMsg); } catch { toast('No se pudo copiar. Selecciona el texto y copia a mano.'); }
+}
+function busy(btn, on, label) {
+  if (on) { btn.dataset.label = btn.innerHTML; btn.style.minWidth = btn.offsetWidth + 'px'; btn.innerHTML = '<span class="spinner" aria-hidden="true"></span><span>' + label + '</span>'; btn.disabled = true; }
+  else { btn.innerHTML = btn.dataset.label; btn.disabled = false; btn.style.minWidth = ''; }
+}
+const confirmDlg = $('[data-confirm]');
+function confirmAsk(title, body) {
+  $('[data-confirm-title]').textContent = title; $('[data-confirm-body]').textContent = body;
+  confirmDlg.returnValue = ''; confirmDlg.showModal();
+  return new Promise(r => confirmDlg.addEventListener('close', () => r(confirmDlg.returnValue === 'ok'), { once: true }));
+}
+const SHAPE_ICON = {
+  circle: '<circle cx="12" cy="12" r="7"/>',
+  square: '<rect x="5" y="5" width="14" height="14" rx="2"/>',
+  triangle: '<path d="M12 5l7.5 13h-15z"/>',
+  ring: '<circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3.5"/>',
+  diamond: '<path d="M12 3.5l8.5 8.5-8.5 8.5L3.5 12z"/>',
+  cross: '<path d="M9.5 4h5v5.5H20v5h-5.5V20h-5v-5.5H4v-5h5.5z"/>',
+  blob: '<path d="M12 4.5c3 0 7 1.5 7 6s-2.5 9-7 9-7.5-3-7-7.5 4-7.5 7-7.5z"/>',
+};
+const shapeSvg = id => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">${SHAPE_ICON[id]}</svg>`;
+
+/* ---------- datos: library.json (equipo) + navegador (tuyo) ---------- */
+const LS_A = 'elaniin-glass:assets:v1', LS_P = 'elaniin-glass:palettes:v1';
+const load = k => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } };
+const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { toast('Este navegador no permite guardar. Exporta el JSON para no perder cambios.'); return false; } };
+const mine = { assets: load(LS_A), palettes: load(LS_P) };
+let seed = { assets: [], palettes: [] };
+try { seed = await (await fetch('library.json', { cache: 'no-cache' })).json(); } catch { toast('No se pudo cargar library.json'); }
+
+const assets = () => {
+  const ids = new Set(mine.assets.map(a => a.id));
+  return [...mine.assets.map(a => ({ ...a, local: true })), ...seed.assets.filter(a => !ids.has(a.id)).map(a => ({ ...a, local: false }))];
+};
+const palettes = () => [...mine.palettes.map(p => ({ ...p, local: true })), ...seed.palettes.map(p => ({ ...p, local: false }))];
+const findAsset = id => assets().find(a => a.id === id);
+const clean = a => { const { local, ...rest } = a; return rest; };
+
+const ratio = a => a.replace(':', '/');
+function embedCode(a) {
+  const c = JSON.stringify(embedConfig(a)).replace(/'/g, '&#39;');
+  return `<script type="module" src="${ENGINE_URL}"><\/script>\n<elaniin-glass style="display:block;width:100%;aspect-ratio:${ratio(normalize(a).aspect)}" config='${c}'></elaniin-glass>`;
+}
+
+/* ---------- vista previa en vivo de la biblioteca (un solo contexto WebGL) ---------- */
+const live = {
+  host: null, p: null, card: null,
+  async attach(card) {
+    if (reduce || view !== 'biblioteca' || this.card === card) return;
+    const a = findAsset(card.dataset.card); if (!a) return;
+    if (!this.host) { this.host = document.createElement('div'); this.host.className = 'absolute inset-0'; }
+    if (this.card) $('[data-live-badge]', this.card).hidden = true;
+    this.card = card;
+    $('[data-media]', card).appendChild(this.host);
+    $('[data-live-badge]', card).hidden = false;
+    this.p ??= mount(this.host, a, { autoplay: false });
+    const g = await this.p;
+    if (this.card !== card) return;
+    g.set(a); g.time = 0; g.play();
+  },
+  async detach() {
+    if (this.card) $('[data-live-badge]', this.card).hidden = true;
+    this.card = null; this.host?.remove();
+    if (this.p) (await this.p).pause();
+  },
+};
+
+/* ---------- miniaturas ---------- */
+const thumbs = new Map(); let thumbGen = 0;
+async function fillThumbs(list) {
+  const gen = ++thumbGen;
+  const key = a => JSON.stringify(embedConfig(a));
+  const missing = list.filter(a => !thumbs.has(key(a)));
+  const paint = () => list.forEach(a => {
+    const card = $(`[data-card="${CSS.escape(a.id)}"]`); const url = thumbs.get(key(a));
+    if (!card || !url) return;
+    const img = $('[data-thumb]', card); img.src = url; img.hidden = false; $('[data-skeleton]', card).hidden = true;
+  });
+  paint();
+  for (let i = 0; i < missing.length; i += 4) {           // ponytail: lotes de 4, un contexto por lote
+    const batch = missing.slice(i, i + 4);
+    try {
+      const blobs = await snapshots(batch, { width: 640, height: 480 });
+      batch.forEach((a, j) => blobs[j] && thumbs.set(key(a), URL.createObjectURL(blobs[j])));
+    } catch (err) { console.error(err); }
+    if (gen !== thumbGen) return;
+    paint();
+  }
+}
+
+/* ---------- biblioteca ---------- */
+const lib = { q: '', shape: '', tag: '', sort: 'recent' };
+const libGrid = $('[data-lib-grid]');
+Object.entries(SHAPES).forEach(([id, label]) => $('[data-lib-shape]').insertAdjacentHTML('beforeend', `<option value="${id}">${label}</option>`));
+
+function filtered() {
+  let list = assets();
+  const q = lib.q.trim().toLowerCase();
+  if (q) list = list.filter(a => (a.name + ' ' + (a.tags || []).join(' ')).toLowerCase().includes(q));
+  if (lib.shape) list = list.filter(a => (a.shapes || []).includes(lib.shape));
+  if (lib.tag) list = list.filter(a => (a.tags || []).includes(lib.tag));
+  if (lib.sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'es'));
+  else list.sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
+  return list;
+}
+
+function cardHTML(a) {
+  const c = normalize(a);
+  const tags = c.tags.map(t => `<span class="rounded-tag bg-surface-subtle px-2 py-1 text-caption text-text-secondary">${esc(t)}</span>`).join('');
+  const del = a.local ? `<button type="button" class="icon-btn focus-ring" data-act="delete" aria-label="Eliminar ${esc(a.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>` : '';
+  return `<li class="min-w-0">
+  <article data-card="${esc(a.id)}" class="card-glow lift flex h-full flex-col gap-4 rounded-card border border-border-default bg-surface-card p-6">
+    <a href="#/editor?id=${encodeURIComponent(a.id)}" data-media class="relative block overflow-hidden rounded-card bg-surface-subtle focus-ring" style="aspect-ratio:4/3" aria-label="Abrir ${esc(a.name)} en el editor">
+      <img data-thumb alt="" class="absolute inset-0 h-full w-full object-cover" hidden />
+      <span data-skeleton class="absolute inset-0 flex items-center justify-center"><span class="spinner" aria-hidden="true"></span></span>
+      <span class="absolute left-3 top-3 z-10 rounded-tag bg-white/90 px-2 py-1 font-mono text-caption uppercase text-text-secondary">${a.local ? 'Tuyo' : 'Elaniin'}</span>
+      <span data-live-badge hidden class="absolute right-3 top-3 z-10 inline-flex items-center gap-2 rounded-tag bg-white/90 px-2 py-1 text-caption text-text-primary"><span class="live-dot" aria-hidden="true"></span>En vivo</span>
+    </a>
+    <div class="min-w-0">
+      <h3 class="truncate font-display text-body-lg font-medium">${esc(c.name)}</h3>
+      <p class="mono-label mt-1 text-caption text-text-muted">${c.grid.cols}×${c.grid.rows} · ${c.colors.length} colores · ${c.aspect}</p>
+    </div>
+    ${tags ? `<div class="flex flex-wrap gap-2">${tags}</div>` : ''}
+    <div class="mt-auto flex items-center gap-1 border-t border-border-default pt-3">
+      <a href="#/editor?id=${encodeURIComponent(a.id)}" class="btn btn-secondary btn-arrow focus-ring">Editar
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 12h14m-5-5l5 5-5 5"/></svg></a>
+      <span class="flex-1"></span>
+      <button type="button" class="icon-btn focus-ring" data-act="embed" aria-label="Copiar embed de ${esc(a.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
+      <button type="button" class="icon-btn focus-ring" data-act="duplicate" aria-label="Duplicar ${esc(a.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button>
+      ${del}
+    </div>
+  </article>
+</li>`;
+}
+
+function renderLibrary() {
+  const all = assets(), list = filtered();
+  const tags = [...new Set(all.flatMap(a => a.tags || []))].sort((a, b) => a.localeCompare(b, 'es'));
+  const tagSel = $('[data-lib-tag]');
+  tagSel.innerHTML = '<option value="">Todas las etiquetas</option>' + tags.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
+  tagSel.value = lib.tag;
+  $('[data-lib-count]').textContent = `${list.length} de ${all.length} assets`;
+
+  const chips = [];
+  if (lib.q) chips.push(['q', `“${lib.q}”`]);
+  if (lib.shape) chips.push(['shape', SHAPES[lib.shape]]);
+  if (lib.tag) chips.push(['tag', lib.tag]);
+  const chipsEl = $('[data-lib-chips]');
+  chipsEl.hidden = !chips.length;
+  chipsEl.innerHTML = chips.map(([k, l]) => `<button type="button" class="chip focus-ring" data-clear="${k}" aria-label="Quitar filtro ${esc(l)}">${esc(l)}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`).join('')
+    + (chips.length ? '<button type="button" class="btn px-3 text-text-link hover:text-text-link-hover focus-ring" data-clear="all">Limpiar todo</button>' : '');
+
+  live.detach();
+  libGrid.innerHTML = list.map(cardHTML).join('');
+  $('[data-lib-empty]').hidden = list.length > 0;
+  fillThumbs(list);
+  const first = $('[data-card]', libGrid);
+  if (first) live.attach(first);                            // living loop: la primera card siempre en vivo
+}
+
+let qT;
+$('[data-lib-q]').addEventListener('input', e => { clearTimeout(qT); qT = setTimeout(() => { lib.q = e.target.value; renderLibrary(); }, 180); });
+$('[data-lib-shape]').addEventListener('change', e => { lib.shape = e.target.value; renderLibrary(); });
+$('[data-lib-tag]').addEventListener('change', e => { lib.tag = e.target.value; renderLibrary(); });
+$('[data-lib-sort]').addEventListener('change', e => { lib.sort = e.target.value; renderLibrary(); });
+function clearFilter(k) {
+  if (k === 'q' || k === 'all') { lib.q = ''; $('[data-lib-q]').value = ''; }
+  if (k === 'shape' || k === 'all') { lib.shape = ''; $('[data-lib-shape]').value = ''; }
+  if (k === 'tag' || k === 'all') lib.tag = '';
+  renderLibrary();
+}
+$('[data-lib-chips]').addEventListener('click', e => { const b = e.target.closest('[data-clear]'); if (b) clearFilter(b.dataset.clear); });
+$('[data-lib-clear-all]').addEventListener('click', () => clearFilter('all'));
+
+libGrid.addEventListener('pointerover', e => { const c = e.target.closest('[data-card]'); if (c) live.attach(c); });
+libGrid.addEventListener('focusin', e => { const c = e.target.closest('[data-card]'); if (c) live.attach(c); });
+libGrid.addEventListener('click', async e => {
+  const b = e.target.closest('[data-act]'); if (!b) return;
+  const a = findAsset(b.closest('[data-card]').dataset.card); if (!a) return;
+  if (b.dataset.act === 'embed') copy(embedCode(a), `Embed de “${a.name}” copiado`);
+  if (b.dataset.act === 'duplicate') {
+    const copyRec = { ...clean(a), id: uid(), name: a.name + ' (copia)', updated: new Date().toISOString() };
+    mine.assets.unshift(copyRec);
+    if (store(LS_A, mine.assets)) { renderLibrary(); toast(`“${copyRec.name}” creado`); }
+  }
+  if (b.dataset.act === 'delete') {
+    if (!(await confirmAsk(`¿Eliminar “${a.name}”?`, 'Se borra de tu navegador. Si ya está en library.json del repo, seguirá ahí.'))) return;
+    mine.assets = mine.assets.filter(x => x.id !== a.id);
+    store(LS_A, mine.assets);
+    if (ed.id === a.id) { ed.id = null; ed.local = false; }
+    renderLibrary(); toast(`“${a.name}” eliminado`);
+  }
+});
+
+$('[data-export-library]').addEventListener('click', () => {
+  const data = { version: 1, palettes: palettes().map(clean), assets: assets().map(clean) };
+  download(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }), 'library.json');
+  toast('library.json descargado. Reemplázalo en el repo para compartirlo.');
+});
+$('[data-import]').addEventListener('change', async e => {
+  const file = e.target.files[0]; e.target.value = ''; if (!file) return;
+  try {
+    const data = JSON.parse(await file.text());
+    const list = Array.isArray(data) ? data : data.assets ? data.assets : [data];
+    const valid = list.filter(x => x && typeof x === 'object' && (x.colors || x.grid));
+    if (!valid.length) throw new Error('vacío');
+    const now = new Date().toISOString();
+    valid.forEach(x => {
+      const rec = { ...normalize(x), id: x.id || uid(), updated: now };
+      const i = mine.assets.findIndex(m => m.id === rec.id);
+      if (i >= 0) mine.assets[i] = rec; else mine.assets.unshift(rec);
+    });
+    (data.palettes || []).forEach(p => { if (p?.colors?.length >= 2 && !palettes().some(x => x.id === p.id)) mine.palettes.push({ id: p.id || uid(), name: String(p.name || 'Paleta'), colors: p.colors.filter(c => HEX.test(c)).slice(0, 6) }); });
+    store(LS_A, mine.assets); store(LS_P, mine.palettes);
+    renderLibrary(); toast(`${valid.length} asset${valid.length > 1 ? 's' : ''} importado${valid.length > 1 ? 's' : ''}`);
+  } catch { toast('El archivo no es un JSON de assets válido.'); }
+});
+
+/* ---------- editor ---------- */
+const ed = { cfg: normalize(seed.assets[0] || DEFAULTS), id: seed.assets[0]?.id ?? null, local: false, dirty: false };
+let eng = null, engP = null;
+const stage = $('[data-stage]'), stageWrap = $('[data-stage-wrap]'), panel = $('[data-panel]');
+const getP = (o, k) => k.split('.').reduce((x, p) => x?.[p], o);
+const setP = (o, k, v) => { const ps = k.split('.'), last = ps.pop(); ps.reduce((x, p) => (x[p] ??= {}), o)[last] = v; };
+const f2 = v => (+v).toFixed(2), int = v => String(Math.round(v));
+const RANGES = {
+  forma: [['hold', 'Tiempo por forma', 1, 12, 0.5, v => (+v).toFixed(1) + ' s'], ['size', 'Tamaño', 0.2, 2, 0.05, f2], ['softness', 'Difuminado', 0.01, 1, 0.01, f2], ['speed', 'Velocidad', 0.1, 4, 0.1, v => (+v).toFixed(1) + '×']],
+  grid: [['grid.cols', 'Columnas', 1, 24, 1, int], ['grid.rows', 'Filas', 1, 24, 1, int], ['grid.gap', 'Separación', 0, 0.5, 0.01, f2], ['grid.depth', 'Grosor', 0.05, 0.9, 0.01, f2]],
+  glass: [['glass.frost', 'Esmerilado', 0, 1, 0.01, f2], ['glass.refraction', 'Refracción', 0, 3, 0.05, f2], ['glass.ior', 'IOR', 1, 2.2, 0.01, f2]],
+};
+const FMT = Object.fromEntries(Object.values(RANGES).flat().map(r => [r[0], r[5]]));
+
+function rangeRow([k, label, min, max, step, fmt]) {
+  const id = 'r-' + k.replace('.', '-'), v = getP(ed.cfg, k);
+  return `<div class="min-w-0">
+    <div class="flex items-center justify-between gap-3"><label for="${id}" class="text-body-sm text-text-secondary">${label}</label>
+    <output for="${id}" data-out="${k}" class="font-mono text-caption tabular-nums text-text-primary">${fmt(v)}</output></div>
+    <input id="${id}" type="range" class="range focus-ring" data-k="${k}" min="${min}" max="${max}" step="${step}" value="${v}" /></div>`;
+}
+const seg = (k, opts, label) => `<div class="seg" role="group" aria-label="${label}">${Object.entries(opts).map(([v, l]) => `<button type="button" class="seg-btn focus-ring" data-seg="${k}" data-val="${v}" aria-pressed="${getP(ed.cfg, k) === v}">${l}</button>`).join('')}</div>`;
+const section = (title, body) => `<section class="space-y-4 pad-card"><h2 class="font-display text-body-lg font-medium">${title}</h2>${body}</section>`;
+const stopRow = (c, i, n, scope) => `<li class="flex items-center gap-2">
+  <input type="color" class="swatch focus-ring" value="${c}" data-${scope}-color="${i}" aria-label="Color ${i + 1}" />
+  <input class="field min-w-0 font-mono uppercase focus-ring" value="${c}" data-${scope}-hex="${i}" aria-label="Hex del color ${i + 1}" maxlength="7" spellcheck="false" autocomplete="off" />
+  <button type="button" class="icon-btn focus-ring" data-${scope}-rm="${i}" aria-label="Quitar color ${i + 1}" ${n <= 2 ? 'disabled' : ''}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+</li>`;
+
+function shapesHTML() {
+  return Object.entries(SHAPES).map(([id, label]) => {
+    const i = ed.cfg.shapes.indexOf(id);
+    return `<button type="button" class="chip focus-ring" data-shape="${id}" aria-pressed="${i >= 0}">${shapeSvg(id)}${label}${i >= 0 ? `<span class="font-mono text-caption opacity-70">${i + 1}</span>` : ''}</button>`;
+  }).join('');
+}
+
+function renderPanel() {
+  const c = ed.cfg;
+  panel.innerHTML =
+    section('Asset', `
+      <div><label for="ed-name" class="text-body-sm text-text-secondary">Nombre</label>
+      <input id="ed-name" class="field mt-2 focus-ring" data-text="name" value="${esc(c.name)}" maxlength="60" /></div>
+      <div><label for="ed-tags" class="text-body-sm text-text-secondary">Etiquetas</label>
+      <input id="ed-tags" class="field mt-2 focus-ring" data-text="tags" value="${esc(c.tags.join(', '))}" placeholder="hero, frío, card" aria-describedby="ed-tags-hint" />
+      <p id="ed-tags-hint" class="mt-2 text-caption text-text-muted">Separadas por coma.</p></div>`)
+    + section('Gradiente', `
+      <div><label for="ed-pal" class="sr-only">Aplicar paleta</label>
+      <select id="ed-pal" class="field focus-ring" data-apply-palette><option value="">Aplicar una paleta…</option>${palettes().map(p => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select></div>
+      <ul class="space-y-2" data-stops>${c.colors.map((x, i) => stopRow(x, i, c.colors.length, 'stop')).join('')}</ul>
+      <p data-hex-err role="alert" hidden class="text-caption text-error-text">Usa un hex de 6 dígitos, por ejemplo #1054FF.</p>
+      <div class="flex flex-wrap gap-2">
+        <button type="button" class="btn btn-secondary focus-ring" data-stop-add ${c.colors.length >= 6 ? 'disabled' : ''}>Agregar color</button>
+        <button type="button" class="btn btn-secondary focus-ring" data-stop-reverse>Invertir</button>
+        <button type="button" class="btn btn-secondary focus-ring" data-save-palette>Guardar como paleta</button>
+      </div>
+      <div class="flex items-center gap-2 border-t border-border-default pt-4">
+        <input type="color" class="swatch focus-ring" value="${c.background}" data-bg-color aria-label="Color de fondo" />
+        <input class="field min-w-0 font-mono uppercase focus-ring" value="${c.background}" data-bg-hex aria-label="Hex del fondo" maxlength="7" spellcheck="false" autocomplete="off" />
+        <span class="shrink-0 text-body-sm text-text-secondary">Fondo</span>
+      </div>`)
+    + section('Formas', `
+      <p class="text-body-sm text-text-secondary">El orden en que las eliges es la secuencia de la animación.</p>
+      <div class="flex flex-wrap gap-2" data-shapes>${shapesHTML()}</div>
+      ${RANGES.forma.map(rangeRow).join('')}`)
+    + section('Cuadrícula', `
+      ${RANGES.grid.slice(0, 3).map(rangeRow).join('')}
+      <div><p class="mb-2 text-body-sm text-text-secondary">Perfil del cubo (Blender)</p>${seg('grid.profile', PROFILES, 'Perfil del cubo')}</div>
+      ${rangeRow(RANGES.grid[3])}
+      <div><p class="mb-2 text-body-sm text-text-secondary">Encuadre</p>${seg('fit', { contain: 'Contener', cover: 'Llenar' }, 'Encuadre')}</div>`)
+    + section('Vidrio', RANGES.glass.map(rangeRow).join(''));
+}
+
+function renderAspects() {
+  $('[data-aspects]').innerHTML = ASPECTS.map(a => `<button type="button" class="seg-btn px-3 font-mono focus-ring" data-aspect="${a}" aria-pressed="${ed.cfg.aspect === a}">${a}</button>`).join('');
+}
+
+function sizeStage() {
+  const [aw, ah] = ed.cfg.aspect.split(':').map(Number);
+  const r = stageWrap.getBoundingClientRect();
+  let w = r.width, h = (w * ah) / aw;
+  if (h > r.height) { h = r.height; w = (h * aw) / ah; }
+  stage.style.width = Math.floor(w) + 'px'; stage.style.height = Math.floor(h) + 'px';
+}
+new ResizeObserver(sizeStage).observe(stageWrap);
+
+function setDirty(v) {
+  ed.dirty = v;
+  $('[data-dirty]').hidden = !(v && view === 'editor');
+  $('[data-save]').disabled = ed.local && !v;
+}
+function refreshLoop() { $('[data-loop-label]').textContent = `Loop ${loopSeconds(ed.cfg).toFixed(1)} s`; }
+function syncPlay() {
+  const on = eng?.playing;
+  const b = $('[data-play]');
+  b.setAttribute('aria-label', on ? 'Pausar' : 'Reproducir');
+  b.innerHTML = on
+    ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
+    : '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg>';
+}
+function apply(rerenderPanel) {
+  ed.cfg = normalize(ed.cfg);
+  eng?.set(ed.cfg);
+  if (rerenderPanel) renderPanel();
+  refreshLoop(); setDirty(true);
+}
+async function ensureEngine() {
+  engP ??= mount(stage, ed.cfg, { autoplay: !reduce }).then(g => (eng = g));
+  await engP; syncPlay();
+}
+function loadIntoEditor(a, local) {
+  ed.cfg = normalize(a); ed.id = a.id ?? null; ed.local = !!local;
+  renderPanel(); renderAspects(); sizeStage(); refreshLoop(); setDirty(false);
+  eng?.set(ed.cfg);
+}
+async function openEditor(q) {
+  const id = q.get('id');
+  if (q.get('new')) {
+    loadIntoEditor({ ...DEFAULTS, name: 'Nuevo asset' }, false); setDirty(true);
+    history.replaceState(null, '', '#/editor');
+  } else if (id && id !== ed.id) {
+    const a = findAsset(id);
+    if (a) loadIntoEditor(a, a.local); else { toast('Ese asset ya no existe.'); history.replaceState(null, '', '#/editor'); }
+  } else if (!panel.innerHTML) { loadIntoEditor(ed.cfg, ed.local); }
+  setDirty(ed.dirty);
+  requestAnimationFrame(sizeStage);
+  await ensureEngine();
+  if (!reduce && !eng.playing) { eng.play(); syncPlay(); }
+}
+
+panel.addEventListener('input', e => {
+  const t = e.target;
+  if (t.dataset.k) {
+    setP(ed.cfg, t.dataset.k, +t.value);
+    $(`[data-out="${t.dataset.k}"]`).textContent = FMT[t.dataset.k](t.value);
+    apply(false);
+  } else if (t.dataset.text === 'name') { ed.cfg.name = t.value; setDirty(true); }
+  else if (t.dataset.text === 'tags') { ed.cfg.tags = t.value.split(',').map(s => s.trim()).filter(Boolean); setDirty(true); }
+  else if (t.dataset.stopColor !== undefined) {
+    ed.cfg.colors[+t.dataset.stopColor] = t.value; $(`[data-stop-hex="${t.dataset.stopColor}"]`).value = t.value; apply(false);
+  } else if (t.dataset.bgColor !== undefined) { ed.cfg.background = t.value; $('[data-bg-hex]').value = t.value; apply(false); }
+});
+panel.addEventListener('change', e => {
+  const t = e.target, err = $('[data-hex-err]');
+  const hexIn = t.dataset.stopHex ?? (t.dataset.bgHex !== undefined ? 'bg' : null);
+  if (hexIn !== null) {
+    let v = t.value.trim(); if (!v.startsWith('#')) v = '#' + v;
+    const ok = HEX.test(v);
+    t.setAttribute('aria-invalid', String(!ok)); err.hidden = ok;
+    if (ok) {
+      t.removeAttribute('aria-invalid');
+      if (hexIn === 'bg') { ed.cfg.background = v.toLowerCase(); $('[data-bg-color]').value = v; }
+      else { ed.cfg.colors[+hexIn] = v.toLowerCase(); $(`[data-stop-color="${hexIn}"]`).value = v; }
+      t.value = v.toLowerCase(); apply(false);
+    }
+  }
+  if (t.dataset.applyPalette !== undefined && t.value) {
+    const p = palettes().find(x => x.id === t.value);
+    if (p) { ed.cfg.colors = p.colors.slice(); apply(true); toast(`Paleta “${p.name}” aplicada`); }
+  }
+});
+panel.addEventListener('click', e => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.shape) {
+    const s = ed.cfg.shapes, i = s.indexOf(b.dataset.shape);
+    if (i >= 0 && s.length === 1) { toast('Deja al menos una forma.'); return; }
+    if (i >= 0) s.splice(i, 1); else s.push(b.dataset.shape);
+    $('[data-shapes]').innerHTML = shapesHTML(); apply(false);
+    $(`[data-shape="${b.dataset.shape}"]`).focus();
+  }
+  if (b.dataset.seg) {
+    setP(ed.cfg, b.dataset.seg, b.dataset.val);
+    $$(`[data-seg="${b.dataset.seg}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); apply(false);
+  }
+  if (b.dataset.stopRm !== undefined) { ed.cfg.colors.splice(+b.dataset.stopRm, 1); apply(true); }
+  if (b.dataset.stopAdd !== undefined) { const last = ed.cfg.colors.at(-1); ed.cfg.colors.push(last); apply(true); }
+  if (b.dataset.stopReverse !== undefined) { ed.cfg.colors.reverse(); apply(true); }
+  if (b.dataset.savePalette !== undefined) openPaletteDialog(ed.cfg.colors, ed.cfg.name);
+});
+$('[data-aspects]').addEventListener('click', e => {
+  const b = e.target.closest('[data-aspect]'); if (!b) return;
+  ed.cfg.aspect = b.dataset.aspect; renderAspects(); sizeStage(); apply(false);
+});
+$('[data-play]').addEventListener('click', () => { if (!eng) return; eng.playing ? eng.pause() : eng.play(); syncPlay(); });
+
+function saveAsset() {
+  const now = new Date().toISOString();
+  const fromSeed = !ed.local;
+  const id = fromSeed ? uid() : ed.id;
+  if (fromSeed && ed.id && findAsset(ed.id)?.name === ed.cfg.name) ed.cfg.name += ' (copia)';
+  const rec = { ...normalize(ed.cfg), id, updated: now };
+  const i = mine.assets.findIndex(a => a.id === id);
+  if (i >= 0) mine.assets[i] = rec; else mine.assets.unshift(rec);
+  if (!store(LS_A, mine.assets)) return;
+  ed.id = id; ed.local = true; ed.cfg = normalize(rec);
+  $('[data-text="name"]').value = ed.cfg.name;
+  setDirty(false);
+  history.replaceState(null, '', '#/editor?id=' + encodeURIComponent(id));
+  toast(fromSeed ? `Guardado en tu biblioteca como “${ed.cfg.name}”` : `“${ed.cfg.name}” guardado`);
+}
+$('[data-save]').addEventListener('click', saveAsset);
+addEventListener('keydown', e => { if ((e.metaKey || e.ctrlKey) && e.key === 's' && view === 'editor') { e.preventDefault(); if (!$('[data-save]').disabled) saveAsset(); } });
+addEventListener('beforeunload', e => { if (ed.dirty) e.preventDefault(); });
+
+/* ---------- exportar ---------- */
+const exDlg = $('[data-export-dialog]');
+const SIZES = { '16:9': [[1920, 1080], [2560, 1440], [3840, 2160]], '21:9': [[2560, 1080], [3440, 1440]], '4:5': [[1080, 1350], [2160, 2700]], '1:1': [[1080, 1080], [2048, 2048]], '9:16': [[1080, 1920], [2160, 3840]] };
+const VSIZES = { '16:9': [[1280, 720], [1920, 1080]], '21:9': [[1920, 822], [2560, 1080]], '4:5': [[864, 1080], [1080, 1350]], '1:1': [[720, 720], [1080, 1080]], '9:16': [[720, 1280], [1080, 1920]] };
+const opt = ([w, h], i) => `<option value="${w}x${h}" ${i === 0 ? 'selected' : ''}>${w} × ${h}</option>`;
+function selectTab(name) {
+  $$('[role="tab"]', exDlg).forEach(t => { const on = t.dataset.tab === name; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
+  $$('[data-panel-tab]', exDlg).forEach(p => (p.hidden = p.dataset.panelTab !== name));
+}
+function openExport() {
+  const c = ed.cfg, L = loopSeconds(c);
+  $('[data-embed-code]').textContent = embedCode(c);
+  $('[data-json-code]').textContent = JSON.stringify(embedConfig(c), null, 2);
+  $('[data-img-size]').innerHTML = SIZES[c.aspect].map(opt).join('');
+  $('[data-vid-size]').innerHTML = VSIZES[c.aspect].map((s, i) => opt(s, i === VSIZES[c.aspect].length - 1 ? 0 : 1)).join('');
+  $('[data-vid-size]').selectedIndex = VSIZES[c.aspect].length - 1;
+  $('[data-vid-len]').innerHTML = [1, 2, 3].map(n => `<option value="${n}">${n} loop${n > 1 ? 's' : ''} · ${(L * n).toFixed(1)} s</option>`).join('');
+  const mime = videoMime();
+  $('[data-vid-format]').textContent = mime ? `Formato: ${mime.startsWith('video/mp4') ? 'MP4 (H.264)' : 'WebM'}. La grabación corre en tiempo real: no cambies de pestaña.` : 'Este navegador no puede grabar video. Usa Chrome, Edge o Safari recientes.';
+  $('[data-vid-go]').disabled = !mime;
+  selectTab('embed');
+  exDlg.showModal();
+}
+$('[data-open-export]').addEventListener('click', openExport);
+$$('[data-close]', exDlg).forEach(b => b.addEventListener('click', () => exDlg.close()));
+exDlg.addEventListener('click', e => { if (e.target === exDlg) exDlg.close(); });
+$('[role="tablist"]', exDlg).addEventListener('click', e => { const t = e.target.closest('[role="tab"]'); if (t) selectTab(t.dataset.tab); });
+$('[role="tablist"]', exDlg).addEventListener('keydown', e => {
+  if (!['ArrowLeft', 'ArrowRight'].includes(e.key)) return;
+  const tabs = $$('[role="tab"]', exDlg), i = tabs.indexOf(document.activeElement);
+  const n = tabs[(i + (e.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length];
+  selectTab(n.dataset.tab); n.focus();
+});
+$$('[data-copy]', exDlg).forEach(b => b.addEventListener('click', () => {
+  const embed = b.dataset.copy === 'embed';
+  copy(embed ? embedCode(ed.cfg) : JSON.stringify(embedConfig(ed.cfg), null, 2), embed ? 'Embed copiado' : 'JSON copiado');
+}));
+$('[data-json-go]').addEventListener('click', () => {
+  download(new Blob([JSON.stringify({ ...normalize(ed.cfg), id: undefined }, null, 2)], { type: 'application/json' }), slug(ed.cfg.name) + '.json');
+  toast('Exportado · JSON');
+});
+$('[data-img-go]').addEventListener('click', async e => {
+  const btn = e.currentTarget, [w, h] = $('[data-img-size]').value.split('x').map(Number), type = $('[data-img-type]').value;
+  busy(btn, true, 'Renderizando…');
+  try {
+    const blob = await renderImage(ed.cfg, { width: w, height: h, type, time: eng?.time });
+    const ext = type === 'image/png' ? 'png' : 'webp';
+    download(blob, `${slug(ed.cfg.name)}-${w}x${h}.${ext}`);
+    toast(`Exportado · ${ext.toUpperCase()} · ${w}×${h}`);
+  } catch (err) { console.error(err); toast('No se pudo renderizar la imagen. Prueba un tamaño menor.'); }
+  busy(btn, false);
+});
+$('[data-vid-go]').addEventListener('click', async e => {
+  const btn = e.currentTarget, [w, h] = $('[data-vid-size]').value.split('x').map(Number);
+  const seconds = loopSeconds(ed.cfg) * +$('[data-vid-len]').value;
+  const wrap = $('[data-vid-progress-wrap]'), bar = $('[data-vid-progress]');
+  busy(btn, true, 'Grabando…'); wrap.hidden = false; bar.value = 0;
+  const wasPlaying = eng?.playing; eng?.pause(); syncPlay();     // libera GPU para la grabación
+  try {
+    const { blob, ext } = await recordVideo(ed.cfg, { width: w, height: h, seconds, onProgress: p => (bar.value = p) });
+    download(blob, `${slug(ed.cfg.name)}-${w}x${h}.${ext}`);
+    toast(`Exportado · ${ext.toUpperCase()} · ${w}×${h} · ${seconds.toFixed(1)} s`);
+  } catch (err) { console.error(err); toast(err.message || 'No se pudo grabar el video.'); }
+  if (wasPlaying) { eng.play(); syncPlay(); }
+  busy(btn, false); wrap.hidden = true;
+});
+
+/* ---------- paletas ---------- */
+const palDlg = $('[data-pal-dialog]');
+let palDraft = [];
+function renderPalStops() {
+  $('[data-pal-stops]').innerHTML = palDraft.map((c, i) => stopRow(c, i, palDraft.length, 'pal')).join('');
+  $('[data-pal-add]').disabled = palDraft.length >= 6;
+}
+function openPaletteDialog(colors, name = '') {
+  palDraft = colors.slice(0, 6); if (palDraft.length < 2) palDraft = ['#1054ff', '#b9cefb'];
+  $('[data-pal-name]').value = name; $('[data-pal-err]').hidden = true; $('[data-pal-name]').removeAttribute('aria-invalid');
+  renderPalStops(); palDlg.showModal();
+}
+$('[data-new-palette]').addEventListener('click', () => openPaletteDialog(ed.cfg.colors));
+$('[data-pal-add]').addEventListener('click', () => { palDraft.push(palDraft.at(-1)); renderPalStops(); });
+$('[data-pal-stops]').addEventListener('input', e => {
+  const i = e.target.dataset.palColor; if (i === undefined) return;
+  palDraft[+i] = e.target.value; $(`[data-pal-hex="${i}"]`).value = e.target.value;
+});
+$('[data-pal-stops]').addEventListener('change', e => {
+  const i = e.target.dataset.palHex; if (i === undefined) return;
+  let v = e.target.value.trim(); if (!v.startsWith('#')) v = '#' + v;
+  if (HEX.test(v)) { palDraft[+i] = v.toLowerCase(); $(`[data-pal-color="${i}"]`).value = v; e.target.value = v.toLowerCase(); e.target.removeAttribute('aria-invalid'); }
+  else e.target.setAttribute('aria-invalid', 'true');
+});
+$('[data-pal-stops]').addEventListener('click', e => { const b = e.target.closest('[data-pal-rm]'); if (b) { palDraft.splice(+b.dataset.palRm, 1); renderPalStops(); } });
+$('[data-close]', palDlg).addEventListener('click', () => palDlg.close());
+$('[data-pal-form]').addEventListener('submit', e => {
+  e.preventDefault();
+  const name = $('[data-pal-name]').value.trim();
+  if (!name) { $('[data-pal-err]').hidden = false; $('[data-pal-name]').setAttribute('aria-invalid', 'true'); $('[data-pal-name]').focus(); return; }
+  mine.palettes.unshift({ id: uid(), name, colors: palDraft.slice() });
+  if (!store(LS_P, mine.palettes)) return;
+  palDlg.close(); toast(`Paleta “${name}” guardada`);
+  if (view === 'paletas') renderPalettes(); else renderPanel();
+});
+
+function renderPalettes() {
+  $('[data-pal-grid]').innerHTML = palettes().map(p => `<li class="min-w-0">
+    <article class="card-glow lift flex h-full flex-col gap-4 rounded-card border border-border-default bg-surface-card p-6" data-pal="${esc(p.id)}">
+      <div class="flex gap-2" aria-hidden="true">${p.colors.map(c => `<span class="h-11 min-w-0 flex-1 rounded-button border border-border-default" style="background:${c}"></span>`).join('')}</div>
+      <div class="min-w-0">
+        <h3 class="truncate font-display text-body-lg font-medium">${esc(p.name)}</h3>
+        <p class="mono-label mt-1 truncate text-caption text-text-muted">${p.colors.length} colores · ${p.colors.join(' ')}</p>
+      </div>
+      <div class="mt-auto flex items-center gap-1 border-t border-border-default pt-3">
+        <button type="button" class="btn btn-secondary btn-arrow focus-ring" data-pal-use>Usar en editor
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 12h14m-5-5l5 5-5 5"/></svg></button>
+        <span class="flex-1"></span>
+        ${p.local ? `<button type="button" class="icon-btn focus-ring" data-pal-del aria-label="Eliminar paleta ${esc(p.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>` : ''}
+      </div>
+    </article></li>`).join('');
+}
+$('[data-pal-grid]').addEventListener('click', async e => {
+  const card = e.target.closest('[data-pal]'); if (!card) return;
+  const p = palettes().find(x => x.id === card.dataset.pal); if (!p) return;
+  if (e.target.closest('[data-pal-use]')) {
+    ed.cfg.colors = p.colors.slice(); ed.cfg = normalize(ed.cfg); renderPanel(); setDirty(true);
+    location.hash = '#/editor'; toast(`Paleta “${p.name}” aplicada a “${ed.cfg.name}”`);
+  }
+  if (e.target.closest('[data-pal-del]')) {
+    if (!(await confirmAsk(`¿Eliminar la paleta “${p.name}”?`, 'Los assets que ya la usan no cambian.'))) return;
+    mine.palettes = mine.palettes.filter(x => x.id !== p.id); store(LS_P, mine.palettes); renderPalettes(); toast('Paleta eliminada');
+  }
+});
+
+/* ---------- guía ---------- */
+$('[data-guide-snippet]').textContent = embedCode(seed.assets[0] || DEFAULTS);
+
+/* ---------- router ---------- */
+const TITLES = { biblioteca: 'Biblioteca', editor: 'Editor', paletas: 'Paletas', guia: 'Guía de uso', privacidad: 'Privacidad', terminos: 'Términos de uso' };
+let view = null;
+function show(name, q, initial) {
+  view = name;
+  $$('[data-view]').forEach(v => (v.hidden = v.dataset.view !== name));
+  $$('[data-actions]').forEach(v => (v.hidden = v.dataset.actions !== name));
+  $$('[data-nav]').forEach(a => (a.dataset.nav === name ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
+  $('[data-page-title]').textContent = name === 'editor' ? ed.cfg.name || 'Editor' : TITLES[name];
+  document.title = TITLES[name] + ' — Elaniin Assets';
+  if (name === 'biblioteca') renderLibrary(); else live.detach();
+  if (name === 'editor') openEditor(q).then(() => ($('[data-page-title]').textContent = 'Editor · ' + ed.cfg.name));
+  else if (eng) { eng.pause(); syncPlay(); }
+  if (name === 'paletas') renderPalettes();
+  setDirty(ed.dirty);
+  if (!initial) { scrollTo(0, 0); $('#main').focus({ preventScroll: true }); }
+}
+function route(initial) {
+  const [path, qs] = location.hash.replace(/^#\/?/, '').split('?');
+  if (path === 'main') return;
+  show(TITLES[path] ? path : 'biblioteca', new URLSearchParams(qs || ''), initial);
+}
+addEventListener('hashchange', () => route(false));
+route(true);
+
+/* ---------- superficies vivas ---------- */
+if (!reduce) {
+  addEventListener('mousemove', e => {
+    document.documentElement.style.setProperty('--mx', e.clientX + 'px');
+    document.documentElement.style.setProperty('--my', e.clientY + 'px');
+  }, { passive: true });
+  document.addEventListener('pointermove', e => {
+    const c = e.target.closest?.('.card-glow'); if (!c) return;
+    const r = c.getBoundingClientRect(); c.style.setProperty('--cx', (e.clientX - r.left) + 'px'); c.style.setProperty('--cy', (e.clientY - r.top) + 'px');
+  }, { passive: true });
+}
+</script>
+<script>
+/*
+  Elaniin drawer — off-canvas mobile navigation (vanilla, no dependencies).
+
+  Pairs with the `drawer` + `scrim` utilities in tokens.css. Works for a dashboard sidebar
+  (persistent from lg) and for a landing's mobile menu (add `md:hidden` to drawer + scrim and
+  data-drawer-from="md").
+
+  Markup:
+    <button data-menu-button aria-controls="app-drawer" aria-expanded="false" aria-label="Open menu" class="lg:hidden">…</button>
+    <div class="scrim" data-scrim aria-hidden="true"></div>
+    <aside id="app-drawer" data-drawer class="drawer" aria-label="Main">
+      <button data-menu-close aria-label="Close menu">…</button>
+      <nav>…links…</nav>
+    </aside>
+
+  Behavior: focus moves into the drawer; Esc, scrim, close button or any link closes it and
+  returns focus to the menu button; Tab is trapped inside while open; page scroll is locked;
+  it closes by itself when the viewport grows to the persistent layout.
+*/
+(function () {
+  var drawer = document.querySelector('[data-drawer]');
+  var btn = document.querySelector('[data-menu-button]');
+  var scrim = document.querySelector('[data-scrim]');
+  if (!drawer || !btn || !scrim) return;
+
+  var desktop = matchMedia('(min-width: ' + (drawer.dataset.drawerFrom === 'md' ? '48rem' : '64rem') + ')');
+  var FOCUSABLE = 'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  var isOpen = false;
+
+  function setOpen(open, restoreFocus) {
+    if (open === isOpen) return;
+    isOpen = open;
+    drawer.dataset.open = String(open);
+    scrim.dataset.open = String(open);
+    btn.setAttribute('aria-expanded', String(open));
+    document.documentElement.classList.toggle('overflow-hidden', open);
+    if (open) {
+      var first = drawer.querySelector(FOCUSABLE);
+      if (first) first.focus();
+    } else if (restoreFocus) {
+      btn.focus();
+    }
+  }
+
+  btn.addEventListener('click', function () { setOpen(!isOpen, true); });
+  scrim.addEventListener('click', function () { setOpen(false, true); });
+  drawer.addEventListener('click', function (e) {
+    if (e.target.closest('[data-menu-close], a[href]')) setOpen(false, true);
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (!isOpen) return;
+    if (e.key === 'Escape') { setOpen(false, true); return; }
+    if (e.key !== 'Tab') return;
+    var items = drawer.querySelectorAll(FOCUSABLE);
+    if (!items.length) return;
+    var first = items[0], last = items[items.length - 1];
+    if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+  });
+
+  var onResize = function () { if (desktop.matches) setOpen(false, false); };
+  if (desktop.addEventListener) desktop.addEventListener('change', onResize);
+  else desktop.addListener(onResize);
+})();
+</script>
+</body>
+</html>
