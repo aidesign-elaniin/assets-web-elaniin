@@ -1,6 +1,6 @@
 // Generador "Píxel Dither": gradiente pixelado con dither Bayer y un borde que se disuelve.
 // Ref. Pinterest: skyryedesign.com (1115063189023236693), Uniqode/underconsideration (1115063189023266965), 1115063189023236518.
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 const MATRIX = { bayer2: 'Bayer 2', bayer4: 'Bayer 4', bayer8: 'Bayer 8' };
 

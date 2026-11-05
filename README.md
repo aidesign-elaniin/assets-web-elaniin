@@ -45,6 +45,7 @@ Abrir http://localhost:5173. Sitio estático, sin build. Cada push a `main` se p
 | Uso | Formato | Peso | Costo |
 |---|---|---|---|
 | Hero o fondo animado | **Paquete para sitio**: MP4 + WebM + póster + componente React + snippet + `AGENTS.md` | 1–5 MB | Casi nulo (decodificación por hardware) |
+| Secciones, fondos que cambian de tamaño, sitios hechos con IA | **Código (.md)**: el código exacto del asset + componente React + parámetros, en un Markdown | 18–35 KB (sin dependencias) | Dibuja en vivo (1–4 ms/cuadro) |
 | Cards, bajo el pliegue | Imagen WebP | 30–150 KB | Nulo |
 | Interacción real | Embed vivo con póster | ~175 KB + GPU | Alto, 1–2 por página |
 
@@ -53,7 +54,7 @@ El paquete se exporta desde el editor (Exportar → Paquete para sitio), se copi
 ## Embed vivo
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.1.0/elaniin-assets.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.2.0/elaniin-assets.js"></script>
 <elaniin-asset type="glass-grid" poster="/assets/elaniin/hero/poster.webp" style="display:block;width:100%;aspect-ratio:16/9" config='{"colors":["#1054ff","#6a9aff"]}'></elaniin-asset>
 ```
 
@@ -76,6 +77,9 @@ index.html              app: Biblioteca, Generadores, Editor, Paletas, Guía (es
 elaniin-assets.js       loader: registro de generadores, exportación, web component <elaniin-asset>
 library.json            assets y paletas del equipo
 generators/<id>/        un generador por carpeta, autocontenido
+  _shared/lite.js       mini motor WebGL2 (~3 KB, sin Three.js) para los generadores de shader
+  _shared/glsl.js       GLSL común (ruido 4D en loop, rampa, px CSS)
+  _shared/schema.js     validación de config desde `controls` (sin dependencias)
   _shared/runtime.js    base común: bucle de render, validación desde `controls`, GLSL (ruido 4D en loop, rampa, etc.)
   glass-grid/           index.js · tiles.json · make_tile.py (Blender) · tile-*.glb
   _shared/iso-kit.js    kit isométrico Canvas2D: proyección 30°, losas, frost, pastillas, pulsos, encuadre, defineIso
@@ -85,7 +89,7 @@ generators/<id>/        un generador por carpeta, autocontenido
 
 ## Agregar un generador
 
-**Atajo (shader a pantalla completa):** usa `defineGenerator` de `generators/_shared/runtime.js`. Solo declaras `DEFAULTS`, `controls`, `uniforms(c)` (config → uniforms) y `frag` (GLSL). Validación, embed, loop y montaje salen solos. Ejemplos: `halftone/`, `led/`. Para escenas 3D pasa `init(renderer, U)` en vez de `frag` (ver `wave/`, `constellation/`). En GLSL tienes `cssPx()`, `pal(t)`, `lnoise(p, uPh, r)` y `lfbm(p, uPh)`: el ruido recorre un círculo en 4D, así que el loop cierra exacto.
+**Atajo (shader a pantalla completa):** usa `defineGenerator` de `generators/_shared/lite.js` (WebGL puro, sin Three.js; `runtime.js` solo para escenas 3D con `init`). Solo declaras `DEFAULTS`, `controls`, `uniforms(c)` (config → uniforms) y `frag` (GLSL). Validación, embed, loop y montaje salen solos. Ejemplos: `halftone/`, `led/`. Para escenas 3D pasa `init(renderer, U)` en vez de `frag` (ver `wave/`, `constellation/`). En GLSL tienes `cssPx()`, `pal(t)`, `lnoise(p, uPh, r)` y `lfbm(p, uPh)`: el ruido recorre un círculo en 4D, así que el loop cierra exacto.
 
 **Atajo isométrico:** `defineIso` de `generators/_shared/iso-kit.js`. Declaras `DEFAULTS`, `controls`, `build(cfg)` (geometría: `plate`, `bounds`) y `draw(ctx, env)` usando `glassSlab`, `pill`, `chip`, `pulse`, `line`, `logoTop`/`logoRight`. Encuadre, fondo, levitación, sombra, reloj de 12 s y exportación salen solos. Ejemplos cortos: `iso-critical/`, `iso-team/`.
 

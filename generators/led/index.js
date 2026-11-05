@@ -1,7 +1,7 @@
 // Generador "Matriz LED": grilla de puntos con niveles de brillo, varios modos y reacción al cursor.
 // Ref. Pinterest: "Reacting grid" (1115063189023266945), Behance CyberMind (1115063189023266993), 1115063189023266896.
 // Refuerza la trama de puntos del diseñador (rogenizar · Firma: trama #6A9AFF).
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 const MODES = { ripple: 'Onda', scan: 'Escaneo', twinkle: 'Destellos', pulse: 'Pulso', noise: 'Ruido' };
 const SHAPES = { circle: 'Círculo', square: 'Cuadrado' };

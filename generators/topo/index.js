@@ -1,7 +1,7 @@
 // Generador "Topografía": curvas de nivel de ruido que se mueven, con bandas opcionales.
 // Ref. Pinterest: Adobe Stock "White topographic animated background" (1115063189023266914), 1115063189023267085.
 // Encaja con el line art técnico de 1px del diseñador (rogenizar · Firma).
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe, mount } = defineGenerator({
   DEFAULTS: {

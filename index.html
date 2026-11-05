@@ -1109,6 +1109,7 @@
               <thead><tr class="border-b border-border-strong"><th class="mono-label px-4 py-3 text-caption text-text-muted">Uso</th><th class="mono-label px-4 py-3 text-caption text-text-muted">Formato</th><th class="mono-label px-4 py-3 text-caption text-text-muted">Peso</th><th class="mono-label px-4 py-3 text-caption text-text-muted">Costo en el sitio</th></tr></thead>
               <tbody>
                 <tr class="border-b border-border-default"><td class="px-4 py-3">Hero o fondo animado</td><td class="px-4 py-3 text-text-secondary">Paquete para sitio (MP4 + WebM + póster)</td><td class="px-4 py-3 font-mono text-code">1–5 MB</td><td class="px-4 py-3 text-text-secondary">Casi nulo: lo decodifica el hardware</td></tr>
+                <tr class="border-b border-border-default"><td class="px-4 py-3">Secciones y sitios hechos con IA</td><td class="px-4 py-3 text-text-secondary">Código (.md): código exacto + componente React</td><td class="px-4 py-3 font-mono text-code">18–35 KB</td><td class="px-4 py-3 text-text-secondary">Dibuja en vivo, 1–4 ms por cuadro</td></tr>
                 <tr class="border-b border-border-default"><td class="px-4 py-3">Cards, miniaturas, bajo el pliegue</td><td class="px-4 py-3 text-text-secondary">Imagen WebP (póster)</td><td class="px-4 py-3 font-mono text-code">30–150 KB</td><td class="px-4 py-3 text-text-secondary">Nulo</td></tr>
                 <tr><td class="px-4 py-3">Interacción real (LED que sigue el cursor)</td><td class="px-4 py-3 text-text-secondary">Embed vivo con póster</td><td class="px-4 py-3 font-mono text-code">~175 KB + GPU</td><td class="px-4 py-3 text-text-secondary">Alto: máximo 1–2 por página</td></tr>
               </tbody>
@@ -1120,7 +1121,8 @@
 
           <h3 class="mt-10 font-display text-h4 font-medium">3. Si construyes el sitio con IA</h3>
           <ul class="mt-2 list-disc space-y-2 pl-5 text-body text-text-secondary">
-            <li>Pon el paquete en el repo antes de pedirle la sección a la IA. Su <code class="font-mono text-code">AGENTS.md</code> le dice dónde va, qué componente usar y qué no tocar (muted, loop, playsInline, aria-hidden).</li>
+            <li>Lo más simple: Exportar → <strong>Código (.md)</strong> y pégale el .md a Claude Code. Trae el código exacto del asset; la IA solo crea los archivos y lo coloca.</li>
+            <li>Si prefieres video, pon el paquete en el repo antes de pedirle la sección a la IA. Su <code class="font-mono text-code">AGENTS.md</code> le dice dónde va, qué componente usar y qué no tocar (muted, loop, playsInline, aria-hidden).</li>
             <li>Pídele algo concreto: “usa <code class="font-mono text-code">public/assets/elaniin/hero-glass/HeroGlass.tsx</code> como fondo del hero con fill y priority”.</li>
             <li>Para que la IA explore el catálogo por su cuenta: <code class="font-mono text-code">llms.txt</code> y <code class="font-mono text-code">library.json</code> de esta biblioteca.</li>
           </ul>
@@ -1179,6 +1181,7 @@
   </div>
   <div role="tablist" aria-label="Formato" class="flex gap-6 overflow-x-auto border-b border-border-default px-6">
     <button type="button" role="tab" id="tab-pack" aria-controls="panel-pack" aria-selected="true" class="tab focus-ring" data-tab="pack">Paquete para sitio</button>
+    <button type="button" role="tab" id="tab-code" aria-controls="panel-code" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="code">Código (.md)</button>
     <button type="button" role="tab" id="tab-embed" aria-controls="panel-embed" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="embed">Embed vivo</button>
     <button type="button" role="tab" id="tab-image" aria-controls="panel-image" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="image">Imagen</button>
     <button type="button" role="tab" id="tab-video" aria-controls="panel-video" aria-selected="false" tabindex="-1" class="tab focus-ring" data-tab="video">Video</button>
@@ -1206,6 +1209,14 @@
         <progress data-pack-progress class="h-2 w-full accent-elevate-blue" max="1" value="0" aria-label="Progreso del paquete"></progress>
       </div>
       <div class="mt-6 flex justify-end"><button type="button" class="btn btn-primary min-w-56 focus-ring" data-pack-go>Descargar paquete .zip</button></div>
+    </div>
+    <div role="tabpanel" id="panel-code" aria-labelledby="tab-code" data-panel-tab="code" hidden>
+      <p class="text-body-sm text-text-secondary">Un solo <code class="font-mono text-code">.md</code> con el código exacto del asset (no una descripción), el componente React, el snippet HTML, la tabla de parámetros y las reglas. Se lo das a Claude Code y lo crea dentro del sitio, sin videos ni dependencias de esta biblioteca. Pesa KB en vez de MB, se ve nítido a cualquier tamaño y se edita desde el código.</p>
+      <p class="mt-4 font-mono text-caption tabular-nums text-text-muted" data-code-info></p>
+      <div class="mt-6 flex flex-wrap justify-end gap-3">
+        <button type="button" class="btn btn-secondary focus-ring" data-code-copy>Copiar .md</button>
+        <button type="button" class="btn btn-primary min-w-44 focus-ring" data-code-go>Descargar .md</button>
+      </div>
     </div>
     <div role="tabpanel" id="panel-embed" aria-labelledby="tab-embed" data-panel-tab="embed" hidden>
       <p class="text-body-sm text-text-secondary">Úsalo solo si necesitas interacción (por ejemplo, la Matriz LED que sigue el cursor). Carga Three.js (~170 KB) y dibuja en vivo: monta al acercarse a la pantalla, se pausa fuera de ella, corre a 30 fps y respeta “reducir movimiento”. Agrega <code class="font-mono text-code">poster="…"</code> con el póster del paquete. La URL está fijada a una versión publicada, así que los cambios futuros no rompen tu sitio.</p>
@@ -1302,12 +1313,13 @@
 const LIB = await import('./elaniin-assets.js?t=' + Date.now());
 const { GENERATORS, DEFAULT_TYPE, loadGenerator, mount, snapshots, renderImage, recordVideo, videoMime, encodeVideo, canEncode } = LIB;
 const PACK = import('./export-pack.js?t=' + Date.now());   // se usa solo al exportar
+const CODE = import('./export-code.js?t=' + Date.now());
 
 // URL pública (GitHub Pages): los embeds siempre apuntan aquí, aunque la app corra en local.
 const PUBLIC_BASE = 'https://aidesign-elaniin.github.io/assets-web-elaniin/';
 // Embeds fijados a una versión publicada (tag de git servido por jsDelivr): un cambio futuro no rompe los sitios.
 // Al publicar una versión nueva: git tag vX.Y.Z && git push --tags, y actualizar RELEASE.
-const RELEASE = '1.1.0';
+const RELEASE = '1.2.0';
 const LOADER_URL = `https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v${RELEASE}/elaniin-assets.js`;
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -1837,6 +1849,7 @@ function openExport() {
   $('[data-pack-size]').selectedIndex = VSIZES[c.aspect].length - 1;
   $('[data-pack-go]').disabled = !canEncode();
   updateEstimates();
+  codeInfo();
   selectTab('pack');
   exDlg.showModal();
 }
@@ -1877,6 +1890,29 @@ async function updateEstimates() {
   $('[data-pack-estimate]').textContent = `≈ MP4 ${mb((br * L) / 8)}${webm ? ` · WebM ${mb((br * 0.75 * L) / 8)}` : ''} · póster ~${w > 1500 || h > 1500 ? '120' : '60'} KB · loop ${L.toFixed(1)} s a 30 fps`;
 }
 ['change', 'input'].forEach(ev => ['[data-pack-size]', '[data-pack-quality]', '[data-pack-webm]'].forEach(sel => $(sel).addEventListener(ev, updateEstimates)));
+// Código (.md): se arma al pedirlo, empaquetando las fuentes de este mismo sitio
+const CODE_BASE = () => `https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v${RELEASE}/`;
+async function codeMd() {
+  const { buildCodeMd } = await CODE;
+  return buildCodeMd(ed.cfg, { gen: genOf(ed.cfg), slug: slug(ed.cfg.name), generatorName: GENERATORS[ed.cfg.type].name, release: RELEASE, libraryUrl: PUBLIC_BASE, publicBase: CODE_BASE() });
+}
+const usesThree = t => ['glass-grid', 'wave', 'constellation'].includes(t);
+function codeInfo() {
+  $('[data-code-info]').textContent = usesThree(ed.cfg.type)
+    ? 'Incluye el motor del asset · usa three@0.169.0 (vidrio o 3D real) · ~15–20 KB + Three.js'
+    : 'Incluye el motor del asset · sin dependencias · ~18–35 KB de JavaScript (≈6–10 KB comprimido)';
+}
+$('[data-code-go]').addEventListener('click', async e => {
+  const btn = e.currentTarget; busy(btn, true, 'Armando…');
+  try { const md = await codeMd(); download(new Blob([md], { type: 'text/markdown' }), `${slug(ed.cfg.name)}.md`); toast(`Exportado · ${slug(ed.cfg.name)}.md · ${mb(new Blob([md]).size)}`); }
+  catch (err) { console.error(err); toast('No se pudo armar el .md.'); }
+  busy(btn, false);
+});
+$('[data-code-copy]').addEventListener('click', async e => {
+  const btn = e.currentTarget; busy(btn, true, 'Armando…');
+  try { copy(await codeMd(), '.md copiado: pégalo en Claude Code'); } catch (err) { console.error(err); toast('No se pudo armar el .md.'); }
+  busy(btn, false);
+});
 $('[data-pack-go]').addEventListener('click', async e => {
   const btn = e.currentTarget, [w, h] = $('[data-pack-size]').value.split('x').map(Number);
   const wrap = $('[data-pack-progress-wrap]'), bar = $('[data-pack-progress]'), step = $('[data-pack-step]');

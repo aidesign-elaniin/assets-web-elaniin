@@ -1,6 +1,6 @@
 // Generador "Orbe Luminoso": esfera con borde deformado, rim de color, gradiente interno, glow y grano.
 // Ref. Pinterest: 1115063189023267063 (un solo pin; encaje alto como hero con #1054FF).
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe, mount } = defineGenerator({
   DEFAULTS: {

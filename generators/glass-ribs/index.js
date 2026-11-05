@@ -1,7 +1,7 @@
 // Generador "Glass Ribs": vidrio acanalado (estrías) fijo sobre formas y gradientes en movimiento.
 // Mismo fondo que Glass Grid (formas que mutan + gradiente de 2–6 colores) y material editable
 // (esmerilado, refracción, IOR, brillo). Shader puro: cada estría actúa como lente cilíndrica.
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 const SHAPES = { circle: 'Círculo', square: 'Cuadrado', triangle: 'Triángulo', ring: 'Anillo', diamond: 'Rombo', cross: 'Cruz', blob: 'Orgánico' };
 const SHAPE_IDS = Object.keys(SHAPES);

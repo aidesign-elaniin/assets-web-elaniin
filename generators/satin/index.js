@@ -1,7 +1,7 @@
 // Generador "Satén Líquido": superficie satinada con deformación de dominio y brillo especular suave.
 // Ref. Pinterest: MotionHUB (1115063189023266937), 1115063189023267085, 1115063189023266692.
 // Se distingue de Barridos por la forma orgánica y el especular (no hay bandas rectas).
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe, mount } = defineGenerator({
   DEFAULTS: {

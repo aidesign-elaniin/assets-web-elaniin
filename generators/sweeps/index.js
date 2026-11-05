@@ -1,14 +1,11 @@
 // Generador "Barridos": fondos con barridos diagonales difusos, glows de esquina y trama.
 // Lenguaje del diseñador de planta (rogenizar · Firma 2/2): barridos 115°/65°/150° sobre navy,
 // trama de puntos, glows radiales #023CA0 / #022B63 (elaniin-website: CTA desktop-08, cards desktop-04).
-// Contrato de generador: ver README.md en la raíz.
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
-import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js';
+const TEXTURES = { dots: 'Puntos', grid: 'Grilla', stripes: 'Rayas', none: 'Ninguna' };
 
-export const TEXTURES = { dots: 'Puntos', grid: 'Grilla', stripes: 'Rayas', none: 'Ninguna' };
-const TEX_IDS = Object.keys(TEXTURES);
-
-export const DEFAULTS = {
+const D = {
   colors: ['#1054ff', '#0848cc'],
   background: '#01172e',
   angle: 115,          // grados, como CSS linear-gradient
@@ -26,7 +23,7 @@ export const DEFAULTS = {
   textureOpacity: 0.06,
 };
 
-export const controls = [
+const C = [
   { title: 'Color', items: [
     { type: 'colors', key: 'colors', min: 2, max: 4 },
     { type: 'color', key: 'background', label: 'Fondo' },
@@ -52,54 +49,22 @@ export const controls = [
   ] },
 ];
 
-const HEX = /^#[0-9a-f]{6}$/i;
-const num = (v, lo, hi, d) => (Number.isFinite(+v) ? Math.min(hi, Math.max(lo, +v)) : d);
-const hex = (v, d) => (HEX.test(v) ? v : d);
-
-export function normalize(c = {}) {
-  const d = DEFAULTS;
-  let colors = (Array.isArray(c.colors) ? c.colors : d.colors).filter(x => HEX.test(x)).slice(0, 4);
-  if (colors.length === 1) colors = [colors[0], colors[0]];
-  if (!colors.length) colors = d.colors.slice();
-  return {
-    ...c,
-    colors,
-    background: hex(c.background, d.background),
-    angle: num(c.angle, 0, 180, d.angle),
-    period: num(c.period, 0.15, 1.2, d.period),
-    width: num(c.width, 0.02, 0.3, d.width),
-    length: num(c.length, 0.3, 3, d.length),
-    intensity: num(c.intensity, 0, 1, d.intensity),
-    speed: num(c.speed, 0.1, 4, d.speed),
-    glow: num(c.glow, 0, 1, d.glow),
-    glow1: hex(c.glow1, d.glow1),
-    glow2: hex(c.glow2, d.glow2),
-    texture: c.texture in TEXTURES ? c.texture : d.texture,
-    pitch: Math.round(num(c.pitch, 6, 48, d.pitch)),
-    textureColor: hex(c.textureColor, d.textureColor),
-    textureOpacity: num(c.textureOpacity, 0, 1, d.textureOpacity),
-  };
-}
-
-export const loopSeconds = c => 12 / c.speed;
-
-export function embedConfig(c) {
-  const n = normalize(c), out = {};
-  for (const k of Object.keys(DEFAULTS)) out[k] = n[k];
-  return out;
-}
-
-export const describe = c => `${c.colors.length} colores · ${Math.round(c.angle)}° · ${TEXTURES[c.texture].toLowerCase()}`;
-
-const FRAG = /* glsl */`
-  uniform vec2 uRes; uniform float uDpr, uPh;
-  uniform vec3 uBg; uniform vec3 uC[4]; uniform int uN;
+export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe, mount } = defineGenerator({
+  DEFAULTS: D,
+  controls: C,
+  describe: c => `${c.colors.length} colores · ${Math.round(c.angle)}° · ${TEXTURES[c.texture].toLowerCase()}`,
+  uniforms: c => ({
+    uBg: c.background, uAngle: c.angle, uPeriod: c.period, uWidth: c.width, uLength: c.length, uIntensity: c.intensity,
+    uGlow: c.glow, uG1: c.glow1, uG2: c.glow2, uTex: Object.keys(TEXTURES).indexOf(c.texture), uPitch: c.pitch,
+    uTexOp: c.textureOpacity, uTexC: c.textureColor,
+  }),
+  frag: /* glsl */`
+  uniform vec3 uBg;
   uniform float uAngle, uPeriod, uWidth, uLength, uIntensity, uGlow;
   uniform vec3 uG1, uG2;
   uniform int uTex; uniform float uPitch, uTexOp; uniform vec3 uTexC;
-  const float TAU = 6.2831853;
   void main(){
-    vec2 px = gl_FragCoord.xy / uDpr; px.y = uRes.y - px.y;         // px CSS, y hacia abajo
+    vec2 px = cssPx();   // px CSS, y hacia abajo
     float m = min(uRes.x, uRes.y);
     float a = radians(uAngle);
     vec2 dir = vec2(sin(a), -cos(a)), per = vec2(cos(a), sin(a));   // misma convención que CSS
@@ -135,85 +100,5 @@ const FRAG = /* glsl */`
     }
     gl_FragColor = vec4(col, 1.);
     #include <colorspace_fragment>
-  }`;
-
-// ponytail: el bucle play/resize se repite en cada generador; extraer a generators/_shared/ al tercer generador.
-export async function mount(host, config, opts = {}) {
-  const renderer = new THREE.WebGLRenderer({ antialias: false, preserveDrawingBuffer: !!opts.preserve });
-  const dpr = opts.dpr ?? Math.min(devicePixelRatio, 2);
-  renderer.setPixelRatio(dpr);
-  const canvas = renderer.domElement;
-  canvas.style.cssText = 'display:block;width:100%;height:100%';
-  canvas.setAttribute('aria-hidden', 'true');
-  host.appendChild(canvas);
-
-  const scene = new THREE.Scene(), camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
-  const U = {
-    uRes: { value: new THREE.Vector2(1, 1) }, uDpr: { value: dpr }, uPh: { value: 0 },
-    uBg: { value: new THREE.Color() }, uC: { value: Array.from({ length: 4 }, () => new THREE.Color()) }, uN: { value: 2 },
-    uAngle: { value: 115 }, uPeriod: { value: 0.45 }, uWidth: { value: 0.09 }, uLength: { value: 1.2 },
-    uIntensity: { value: 1 }, uGlow: { value: 0.6 }, uG1: { value: new THREE.Color() }, uG2: { value: new THREE.Color() },
-    uTex: { value: 0 }, uPitch: { value: 16 }, uTexOp: { value: 0.1 }, uTexC: { value: new THREE.Color() },
-  };
-  const mat = new THREE.ShaderMaterial({
-    uniforms: U, fragmentShader: FRAG,
-    vertexShader: 'void main(){ gl_Position = vec4(position.xy, 0., 1.); }',
-    depthTest: false, depthWrite: false,
-  });
-  const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), mat);
-  scene.add(quad);
-
-  let cfg;
-  function resize(w, h) {
-    w = Math.max(1, Math.round(w)); h = Math.max(1, Math.round(h));
-    renderer.setSize(w, h, false);
-    U.uRes.value.set(w, h);
-  }
-  function set(c) {
-    cfg = normalize(c);
-    cfg.colors.forEach((x, i) => U.uC.value[i].set(x));
-    U.uN.value = cfg.colors.length;
-    U.uBg.value.set(cfg.background);
-    U.uAngle.value = cfg.angle; U.uPeriod.value = cfg.period; U.uWidth.value = cfg.width;
-    U.uLength.value = cfg.length; U.uIntensity.value = cfg.intensity; U.uGlow.value = cfg.glow;
-    U.uG1.value.set(cfg.glow1); U.uG2.value.set(cfg.glow2);
-    U.uTex.value = TEX_IDS.indexOf(cfg.texture); U.uPitch.value = cfg.pitch;
-    U.uTexOp.value = cfg.textureOpacity; U.uTexC.value.set(cfg.textureColor);
-    if (!running) renderAt(time);
-  }
-  function renderAt(t) {
-    const L = loopSeconds(cfg);
-    U.uPh.value = ((((t % L) + L) % L) / L) * Math.PI * 2;
-    renderer.render(scene, camera);
-  }
-
-  let time = 0, running = false, last = 0;
-  const tick = now => { time += Math.min(0.05, (now - (last || now)) / 1000); last = now; renderAt(time); };
-  const play = () => { if (running) return; running = true; last = 0; renderer.setAnimationLoop(tick); };
-  const pause = () => { running = false; renderer.setAnimationLoop(null); };
-
-  let ro;
-  if (opts.size) resize(...opts.size);
-  else {
-    const r = host.getBoundingClientRect();
-    resize(r.width || 300, r.height || 150);
-    ro = new ResizeObserver(([e]) => { resize(e.contentRect.width, e.contentRect.height); if (!running) renderAt(time); });
-    ro.observe(host);
-  }
-  set(config);
-  if (opts.autoplay !== false) play();
-
-  return {
-    canvas, set, play, pause, renderAt, resize,
-    get playing() { return running; },
-    get time() { return time; },
-    set time(t) { time = t; if (!running) renderAt(t); },
-    get config() { return cfg; },
-    destroy() {
-      pause(); ro?.disconnect();
-      quad.geometry.dispose(); mat.dispose();
-      renderer.dispose(); renderer.forceContextLoss();
-      canvas.remove();
-    },
-  };
-}
+  }`,
+});

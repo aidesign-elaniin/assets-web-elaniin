@@ -1,6 +1,6 @@
 // Generador "Halftone Fluido": grilla de puntos cuyo tamaño sigue un ruido que fluye.
 // Ref. Pinterest: fffunction.studio (1115063189023266953), 1115063189023266880, 1115063189023267002.
-import { defineGenerator } from '../_shared/runtime.js';
+import { defineGenerator } from '../_shared/lite.js';   // WebGL puro, sin Three.js
 
 const SHAPES = { circle: 'Círculo', square: 'Cuadrado', rounded: 'Redondeado' };
 
