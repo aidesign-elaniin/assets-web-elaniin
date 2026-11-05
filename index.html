@@ -1256,7 +1256,8 @@
 <div data-toast role="status" aria-live="polite" hidden class="rise fixed bottom-4 left-1/2 z-50 max-w-[calc(100%-2rem)] -translate-x-1/2 rounded-button bg-excellence-blue px-4 py-3 text-body-sm text-white shadow-menu"></div>
 
 <script type="module">
-import { GENERATORS, DEFAULT_TYPE, loadGenerator, mount, snapshots, renderImage, recordVideo, videoMime } from './elaniin-assets.js';
+// La app siempre trae la última versión (Pages cachea 10 min); los sitios usan la URL estable.
+const { GENERATORS, DEFAULT_TYPE, loadGenerator, mount, snapshots, renderImage, recordVideo, videoMime } = await import('./elaniin-assets.js?t=' + Date.now());
 
 // URL pública (GitHub Pages): los embeds siempre apuntan aquí, aunque la app corra en local.
 const PUBLIC_BASE = 'https://aidesign-elaniin.github.io/assets-web-elaniin/';
