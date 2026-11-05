@@ -114,6 +114,60 @@
   ],
   "assets": [
     {
+      "id": "iso-hero",
+      "type": "iso",
+      "name": "Iso Hero",
+      "tags": [
+        "hero",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-pipeline",
+      "type": "iso",
+      "name": "Iso Pipeline",
+      "tags": [
+        "hero",
+        "claro",
+        "marca"
+      ],
+      "aspect": "1:1",
+      "layers": 4,
+      "l1Look": "cloud",
+      "l1Label": "Infra",
+      "l1Icon": "server",
+      "l2Look": "software",
+      "l2Label": "Plataforma",
+      "l2Icon": "layers",
+      "l3Look": "cloud",
+      "l3Label": "Datos",
+      "l3Icon": "database",
+      "l4Look": "wire",
+      "l4Label": "Próximo",
+      "l4Icon": "rocket"
+    },
+    {
+      "id": "iso-ai",
+      "type": "iso",
+      "name": "Iso AI",
+      "tags": [
+        "card",
+        "claro"
+      ],
+      "aspect": "4:5",
+      "layers": 2,
+      "grid": "none",
+      "background": "#f0f0f3",
+      "l1Look": "software",
+      "l1Label": "Tu equipo",
+      "l1Icon": "code",
+      "l2Look": "ai",
+      "l2Label": "AI delivery",
+      "l2Icon": "sparkles"
+    },
+    {
       "id": "halftone-azul",
       "type": "halftone",
       "name": "Halftone Azul",

@@ -1576,6 +1576,10 @@ function multiInner(it) {
 const CTL = {
   range: rangeRow, seg: segHTML, colors: colorsHTML, color: colorHTML,
   multi: it => `<div class="flex flex-wrap gap-2" data-multi="${it.key}">${multiInner(it)}</div>`,
+  text: it => `<div><label for="t-${it.key}" class="text-body-sm text-text-secondary">${esc(it.label)}</label>
+    <input id="t-${it.key}" class="field mt-2 focus-ring" data-text-key="${it.key}" value="${esc(getP(ed.cfg, it.key))}" maxlength="${it.max ?? 40}" /></div>`,
+  select: it => `<div><label for="s-${it.key}" class="text-body-sm text-text-secondary">${esc(it.label)}</label>
+    <select id="s-${it.key}" class="field mt-2 focus-ring" data-select-key="${it.key}">${Object.entries(it.options).map(([v, l]) => `<option value="${v}" ${getP(ed.cfg, it.key) === v ? 'selected' : ''}>${esc(l)}</option>`).join('')}</select></div>`,
 };
 const HEX_ERR = '<p data-hex-err role="alert" hidden class="text-caption text-error-text">Usa un hex de 6 dígitos, por ejemplo #1054FF.</p>';
 const section = (title, body, hint) => `<section class="space-y-4 pad-card"><h2 class="font-display text-body-lg font-medium">${esc(title)}</h2>${hint ? `<p class="text-body-sm text-text-secondary">${esc(hint)}</p>` : ''}${body}</section>`;
@@ -1673,10 +1677,12 @@ panel.addEventListener('input', e => {
   else if (d.text === 'tags') { ed.cfg.tags = t.value.split(',').map(s => s.trim()).filter(Boolean); setDirty(true); }
   else if (d.stopColor !== undefined) { getP(ed.cfg, d.key)[+d.stopColor] = t.value; $(`[data-stop-hex="${d.stopColor}"][data-key="${d.key}"]`).value = t.value; apply(false); }
   else if (d.colorKey) { setP(ed.cfg, d.colorKey, t.value); $(`[data-hex-key="${d.colorKey}"]`).value = t.value; apply(false); }
+  else if (d.textKey) { setP(ed.cfg, d.textKey, t.value); apply(false); }
 });
 panel.addEventListener('change', e => {
   const t = e.target, d = t.dataset;
   if (d.stopHex !== undefined) { const v = readHex(t); if (v) { getP(ed.cfg, d.key)[+d.stopHex] = v; $(`[data-stop-color="${d.stopHex}"][data-key="${d.key}"]`).value = v; apply(false); } }
+  if (d.selectKey) { setP(ed.cfg, d.selectKey, t.value); apply(false); }
   if (d.hexKey) { const v = readHex(t); if (v) { setP(ed.cfg, d.hexKey, v); $(`[data-color-key="${d.hexKey}"]`).value = v; apply(false); } }
   if (d.applyPalette !== undefined && t.value) {
     const p = palettes().find(x => x.id === t.value);

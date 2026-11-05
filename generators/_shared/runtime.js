@@ -16,7 +16,8 @@ export function makeNormalize(DEFAULTS, controls) {
       if (it.type === 'range') {
         let n = Number.isFinite(+v) && v !== null && v !== '' ? Math.min(it.max, Math.max(it.min, +v)) : d;
         out[it.key] = it.digits === 0 ? Math.round(n) : n;
-      } else if (it.type === 'seg') out[it.key] = v in it.options ? v : d;
+      } else if (it.type === 'seg' || it.type === 'select') out[it.key] = v in it.options ? v : d;
+      else if (it.type === 'text') out[it.key] = typeof v === 'string' ? v.slice(0, it.max ?? 40) : d;
       else if (it.type === 'color') out[it.key] = HEX.test(v) ? v.toLowerCase() : d;
       else if (it.type === 'colors') {
         let l = (Array.isArray(v) ? v : d).filter(x => HEX.test(x)).map(x => x.toLowerCase()).slice(0, it.max ?? 6);

@@ -15,6 +15,7 @@ export const GENERATORS = {
     name: 'Barridos',
     description: 'Fondos con barridos diagonales difusos, glows de esquina y trama de puntos, grilla o rayas. El lenguaje de los CTA y cards del sitio Elaniin.',
   },
+  iso: { name: 'Iso Stack', description: 'Pila isométrica de losas de vidrio con etiquetas, riser y pulso de luz. El kit oficial del hero Elaniin, editable capa por capa.' },
   halftone: { name: 'Halftone Fluido', description: 'Grilla de puntos cuyo tamaño sigue un ruido que fluye. Trama de impresión en movimiento.' },
   dither: { name: 'Píxel Dither', description: 'Gradiente pixelado con dither Bayer y un borde que se disuelve entre 2 a 4 colores.' },
   led: { name: 'Matriz LED', description: 'Grilla de LEDs con niveles de brillo: onda, escaneo, destellos, pulso o ruido. Reacciona al cursor.' },

@@ -3,12 +3,13 @@
 Biblioteca de assets animados para los sitios de Elaniin. Cada tipo de asset es un **generador** con su propio editor, y todos exportan embed, imagen, video en loop y JSON.
 
 - Sitio: https://aidesign-elaniin.github.io/assets-web-elaniin/
-- 10 generadores, todos con loop perfecto:
+- 11 generadores, todos con loop perfecto:
 
 | `type` | Nombre | Origen |
 |---|---|---|
 | `glass-grid` | Glass Grid | Referencias del equipo · cubo modelado en Blender |
 | `sweeps` | Barridos | ADN del diseñador (`/rogenizar`): CTA y cards de elaniin.com |
+| `iso` | Iso Stack | Kit isométrico oficial (`elaniin-style`) en Canvas2D: 1–4 losas editables, frost, pulso, reloj de 12 s |
 | `halftone` | Halftone Fluido | Board de Pinterest |
 | `dither` | Píxel Dither | Board de Pinterest |
 | `led` | Matriz LED (reacciona al cursor) | Board de Pinterest + trama de puntos del diseñador |
@@ -50,6 +51,7 @@ library.json            assets y paletas del equipo
 generators/<id>/        un generador por carpeta, autocontenido
   _shared/runtime.js    base común: bucle de render, validación desde `controls`, GLSL (ruido 4D en loop, rampa, etc.)
   glass-grid/           index.js · tiles.json · make_tile.py (Blender) · tile-*.glb
+  iso/                  Canvas2D, misma geometría y reloj que templates/iso-stack.js
   sweeps/ halftone/ dither/ led/ topo/ satin/ orb/ wave/ constellation/
 ```
 
@@ -85,6 +87,8 @@ La biblioteca, el editor, las miniaturas y la exportación (PNG, MP4, embed, JSO
 | `color` | `key`, `label` |
 | `colors` | `key`, `min`, `max` (lista de stops + paletas) |
 | `multi` | `key`, `options`, `icons?` (SVG interno 24×24), `min` (selección ordenada) |
+| `select` | `key`, `label`, `options` (lista desplegable) |
+| `text` | `key`, `label`, `max` |
 
 `key` acepta rutas con punto (`grid.cols`).
 
