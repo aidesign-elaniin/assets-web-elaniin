@@ -74,6 +74,67 @@
   ],
   "assets": [
     {
+      "id": "iso-staff-aug",
+      "type": "iso-staff",
+      "name": "Staff augmentation",
+      "tags": [
+        "card",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-equipo-dedicado",
+      "type": "iso-squad",
+      "name": "Equipo dedicado",
+      "tags": [
+        "card",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-entrega-proyecto",
+      "type": "iso-delivery",
+      "name": "Entrega de proyecto",
+      "tags": [
+        "card",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-hero-oscuro",
+      "type": "iso",
+      "name": "Iso Hero Oscuro",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "4:5",
+      "theme": "dark",
+      "background": "#141414",
+      "grid": "none"
+    },
+    {
+      "id": "iso-pipeline-navy",
+      "type": "iso-pipeline",
+      "name": "Pipeline Navy",
+      "tags": [
+        "card",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "4:5",
+      "theme": "dark",
+      "background": "#01172e",
+      "grid": "none"
+    },
+    {
       "id": "iso-equipo",
       "type": "iso-team",
       "name": "Iso Equipo",

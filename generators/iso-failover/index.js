@@ -1,6 +1,6 @@
 // Escena iso "Primario / Respaldo" (elaniin.com · routes · sector público · Stay available when it matters):
 // el tráfico entra al primario; cuando falla, el respaldo toma la carga y luego el primario se recupera.
-import { defineIso, SCENE_DEFAULTS, sceneSection, textField, iconSelect, slab, glassSlab, pill, chip, pulse, line, project, clamp01, wave } from '../_shared/iso-kit.js';
+import { defineIso, ink, SCENE_DEFAULTS, sceneSection, textField, iconSelect, slab, glassSlab, pill, chip, pulse, line, project, clamp01, wave } from '../_shared/iso-kit.js';
 
 export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe, mount } = defineIso({
   DEFAULTS: { ...SCENE_DEFAULTS, primary: 'Primario', primaryIcon: 'server', backup: 'Respaldo', backupIcon: 'refresh', nodeIcon: 'users' },
@@ -31,8 +31,8 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
     const z = 10, n = { x: S.node.x, y: S.node.y, z };
     const toP = [n, { x: S.primary.x + S.primary.w / 2, y: S.node.y, z }, { x: S.primary.x + S.primary.w / 2, y: S.primary.d, z }];
     const toB = [n, { x: S.backup.x + S.backup.w / 2, y: S.node.y, z }, { x: S.backup.x + S.backup.w / 2, y: S.backup.d, z }];
-    line(ctx, toP, o, { dash: [4, 4], color: `rgba(1,23,46,${0.45 - 0.25 * fail})` });
-    line(ctx, toB, o, { dash: [4, 4], color: `rgba(1,23,46,${0.2 + 0.25 * fail})` });
+    line(ctx, toP, o, { dash: [4, 4], color: ink(0.45 - 0.25 * fail) });
+    line(ctx, toB, o, { dash: [4, 4], color: ink(0.2 + 0.25 * fail) });
     // pulsos: cada 1.2 s sale uno del nodo hacia el servidor activo
     for (let s = 0; s < 12000; s += 1200) {
       const k = (t - s) / 1000;

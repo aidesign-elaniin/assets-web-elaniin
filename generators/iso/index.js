@@ -1,7 +1,7 @@
 // Generador "Iso Stack": la pila del hero de elaniin.com (riser, brazos, pulso) con 1–12 losas y grosor automático.
 // Fuente: elaniin-style templates/iso-stack.js. Todo el dibujo base sale de ../_shared/iso-kit.js.
 import {
-  defineIso, LOOKS, ICON_NAMES, COS30, ELEVATE, PILL_H, project, clamp01, ease, wave, envelope, pointAt,
+  defineIso, ink, LOOKS, ICON_NAMES, COS30, ELEVATE, PILL_H, project, clamp01, ease, wave, envelope, pointAt,
   slab, pill, logoRight, pulse, glassSlab, sceneSection, SCENE_DEFAULTS,
 } from '../_shared/iso-kit.js';
 
@@ -77,7 +77,7 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
     slab(ctx, 'plate', plate, o); slab(ctx, 'plate', riser, o);
     const tr = trace3.map(p => project(p, o));
     ctx.beginPath(); tr.forEach((p, i) => (i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y)));
-    ctx.strokeStyle = 'rgba(1,23,46,.4)'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.strokeStyle = ink(0.4); ctx.lineWidth = 1; ctx.stroke();
 
     // brazos: del riser a la esquina de cada losa; se telescopan con el deslizamiento
     st.forEach((s, i) => {
@@ -86,7 +86,7 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
       const travelling = t >= row.B && t < row.A, prog = ease(clamp01((t - row.B) / T.branch));
       const head = project({ x: RX + (SLIDE * envs[i] - RX) * prog, y: RY, z: level }, o);
       const trail = travelling ? 1 : t >= row.A ? clamp01(1 - (t - row.A) / 700) : 0;
-      ctx.strokeStyle = 'rgba(1,23,46,.5)'; ctx.lineWidth = 1;
+      ctx.strokeStyle = ink(0.5); ctx.lineWidth = 1;
       ctx.beginPath(); ctx.moveTo(from.x, from.y); ctx.lineTo(to.x, to.y); ctx.stroke();
       if (trail > 0) {
         ctx.save(); ctx.globalAlpha = trail; ctx.strokeStyle = ELEVATE; ctx.lineWidth = 2; ctx.lineCap = 'round';

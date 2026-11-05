@@ -1,6 +1,6 @@
 // Escena iso "Servicio" (elaniin.com · routes · sector público · Reach the people you serve):
 // un servicio al centro y las personas alrededor; el servicio llega a cada una con un pulso.
-import { defineIso, SCENE_DEFAULTS, sceneSection, textField, iconSelect, slab, glassSlab, pill, chip, pulse, line, project, clamp01, ease, envelope, wave } from '../_shared/iso-kit.js';
+import { defineIso, ink, SCENE_DEFAULTS, sceneSection, textField, iconSelect, slab, glassSlab, pill, chip, pulse, line, project, clamp01, ease, envelope, wave } from '../_shared/iso-kit.js';
 
 export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe, mount } = defineIso({
   DEFAULTS: { ...SCENE_DEFAULTS, label: 'Servicio', icon: 'landmark', people: 10, personIcon: 'user' },
@@ -33,7 +33,7 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
     const z = 10;
     // rutas punteadas y fichas de las personas (las de atrás primero)
     const order = [...S.people].sort((a, b) => a.x + a.y - (b.x + b.y));
-    for (const p of S.people) line(ctx, [{ x: S.cx, y: S.cy, z }, { x: p.x, y: p.y, z }], o, { dash: [3, 5], color: 'rgba(1,23,46,.25)' });
+    for (const p of S.people) line(ctx, [{ x: S.cx, y: S.cy, z }, { x: p.x, y: p.y, z }], o, { dash: [3, 5], color: ink(0.25) });
     const behind = order.filter(p => p.x + p.y < S.cx + S.cy), front = order.filter(p => p.x + p.y >= S.cx + S.cy);
     const person = p => chip(ctx, p.x, p.y, z, o, c.personIcon, { active: envelope(t, p.start + 900, 200, 600, 500) });
     behind.forEach(person);

@@ -3,7 +3,7 @@
 Biblioteca de assets animados para los sitios de Elaniin. Cada tipo de asset es un **generador** con su propio editor, y todos exportan embed, imagen, video en loop y JSON.
 
 - Sitio: https://aidesign-elaniin.github.io/assets-web-elaniin/
-- 20 generadores, todos con loop perfecto:
+- 23 generadores, todos con loop perfecto. Las escenas `iso*` tienen tema **Claro** (hero/routes/solutions) y **Oscuro** (vidrio ahumado de #engagement):
 
 | `type` | Nombre | Origen |
 |---|---|---|
@@ -19,6 +19,9 @@ Biblioteca de assets animados para los sitios de Elaniin. Cada tipo de asset es 
 | `iso-pipeline` | Iso · Pipeline | solutions · AI across the pipeline (2–7 etapas) |
 | `iso-platform` | Iso · Plataforma | solutions · Build and modernize (plataforma + apps) |
 | `iso-availability` | Iso · Disponibilidad | solutions · Built for real demand (réplicas) |
+| `iso-staff` | Iso · Staff augmentation | engagement · una losa por persona con su nombre |
+| `iso-squad` | Iso · Equipo dedicado | engagement · núcleo + disciplinas alrededor |
+| `iso-delivery` | Iso · Entrega por fases | engagement · escalones hasta la meta |
 | `halftone` | Halftone Fluido | Board de Pinterest |
 | `dither` | Píxel Dither | Board de Pinterest |
 | `led` | Matriz LED (reacciona al cursor) | Board de Pinterest + trama de puntos del diseñador |

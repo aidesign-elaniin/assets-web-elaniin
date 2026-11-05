@@ -8,6 +8,16 @@ export const COS30 = Math.cos(Math.PI / 6);
 export const ELEVATE = '#1054ff', NAVY = '#01172e', GREEN = '#1f9d61';
 export const LIFT = 36, PILL_H = 38, PERIOD = 12000;
 
+// Tema: 'light' (hero, routes, solutions) u 'oscuro' (engagement: vidrio ahumado sobre #141414).
+// Se fija en cada cuadro antes de dibujar; el dibujo es síncrono, así que varias escenas en la página no chocan.
+let THEME = 'light';
+export const isDark = () => THEME === 'dark';
+export const ink = a => (THEME === 'dark' ? `rgba(255,255,255,${(a * 0.6).toFixed(3)})` : `rgba(1,23,46,${a})`);
+// Vidrio ahumado medido en elaniin.com (#engagement): blanco con fill-opacity .07 / .18 / .12, arista blanco 24 %
+const SMOKE = { left: 0.07, right: 0.18, top: 0.12 };
+const SMOKE_TINT = { brand: '#6a9aff', ai: '#4d75fd' };
+const logoColor = () => (THEME === 'dark' ? '#7b9bff' : ELEVATE);
+
 export const LOOKS = { software: 'Software', brand: 'Marca (azul)', ai: 'AI', cloud: 'Cloud', wire: 'Por construir' };
 // colores de los tokens Elaniin (isometric.md §1): cada entidad tiene el suyo
 export const FACES = {
@@ -85,6 +95,7 @@ const PATHS = {};
 export const path = d => (PATHS[d] ??= new Path2D(d));
 
 export function slab(ctx, look, b, o) {
+  if (THEME === 'dark') return smokeSlab(ctx, look, b, o);
   const dark = look === 'ai', wire = look === 'wire', f = FACES[look] || FACES.software;
   const left = [{ x: b.x, y: b.y + b.d, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z + b.h }, { x: b.x, y: b.y + b.d, z: b.z + b.h }];
   const right = [{ x: b.x + b.w, y: b.y, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z + b.h }, { x: b.x + b.w, y: b.y, z: b.z + b.h }];
@@ -110,6 +121,21 @@ export function slab(ctx, look, b, o) {
     if (dark) for (let i = 12; i < b.w; i += 12) { ctx.moveTo(b.x + i, b.y); ctx.lineTo(b.x + i, b.y + b.d); }
     for (let j = dark ? 12 : 10; j < b.d; j += dark ? 12 : 10) { ctx.moveTo(b.x, b.y + j); ctx.lineTo(b.x + b.w, b.y + j); }
     ctx.stroke();
+  }
+  ctx.restore();
+}
+
+function smokeSlab(ctx, look, b, o) {
+  const wire = look === 'wire', tint = SMOKE_TINT[look] || '#ffffff', k = look === 'ai' || look === 'brand' ? 1.5 : 1;
+  const left = [{ x: b.x, y: b.y + b.d, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z + b.h }, { x: b.x, y: b.y + b.d, z: b.z + b.h }];
+  const right = [{ x: b.x + b.w, y: b.y, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z }, { x: b.x + b.w, y: b.y + b.d, z: b.z + b.h }, { x: b.x + b.w, y: b.y, z: b.z + b.h }];
+  const a0 = ctx.globalAlpha;
+  ctx.save(); ctx.lineWidth = 1; ctx.lineJoin = 'round'; ctx.strokeStyle = 'rgba(255,255,255,.24)';
+  if (wire) ctx.setLineDash([4, 4]);
+  for (const [face, op] of [[left, SMOKE.left], [right, SMOKE.right], [topFace(b), SMOKE.top]]) {
+    poly(ctx, face, o);
+    if (!wire) { ctx.globalAlpha = a0 * Math.min(1, op * k); ctx.fillStyle = tint; ctx.fill(); }
+    ctx.globalAlpha = a0; ctx.stroke();
   }
   ctx.restore();
 }
@@ -156,7 +182,7 @@ export function pill(ctx, s, o, floatY = 0) {
 export function chip(ctx, x, y, z, o, name, { r = 13, a = 1, active = 0 } = {}) {
   ctx.save(); ctx.globalAlpha *= a; plane(ctx, o, z);
   ctx.beginPath(); ctx.arc(x, y, r, 0, 7); ctx.fillStyle = '#fff'; ctx.fill();
-  ctx.lineWidth = 1 + active; ctx.strokeStyle = active ? ELEVATE : 'rgba(1,23,46,.7)'; ctx.stroke();
+  ctx.lineWidth = 1 + active; ctx.strokeStyle = active ? ELEVATE : 'rgba(1,23,46,.7)'; ctx.stroke();   // la ficha es blanca en ambos temas
   ctx.transform(0, -1, 1, 0, x, y);
   icon(ctx, name, -r * 0.55, -r * 0.55, r * 1.1);
   ctx.restore();
@@ -170,7 +196,7 @@ export function logoRight(ctx, b, o) {
   ctx.save();
   ctx.transform(COS30, -0.5, 0, 1, o.x + (b.w - b.d) * COS30, o.y + (b.w + b.d) / 2 - zTop);
   ctx.translate(u, 0); ctx.scale(width / 281.45, width / 281.45);
-  ctx.fillStyle = ELEVATE; ctx.fill(path(LOGO));
+  ctx.fillStyle = logoColor(); ctx.fill(path(LOGO));
   ctx.restore();
 }
 export function logoTop(ctx, b, o, width = 96) {
@@ -178,7 +204,7 @@ export function logoTop(ctx, b, o, width = 96) {
   ctx.save(); plane(ctx, o, b.z + b.h);
   ctx.transform(0, -1, 1, 0, b.x + b.w / 2 - height / 2, b.y + b.d / 2 + width / 2);
   ctx.scale(width / 281.45, width / 281.45);
-  ctx.fillStyle = ELEVATE; ctx.fill(path(LOGO));
+  ctx.fillStyle = logoColor(); ctx.fill(path(LOGO));
   ctx.restore();
 }
 
@@ -194,7 +220,7 @@ export function pulse(ctx, p, a = 1) {
 }
 
 // Línea en el mundo (puntos 3D). dash: [4,4] para conexiones punteadas.
-export function line(ctx, pts, o, { color = 'rgba(1,23,46,.4)', width = 1, dash = null } = {}) {
+export function line(ctx, pts, o, { color = ink(0.4), width = 1, dash = null } = {}) {
   ctx.save(); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineJoin = 'round'; ctx.lineCap = 'round';
   if (dash) ctx.setLineDash(dash);
   ctx.beginPath();
@@ -229,8 +255,9 @@ export function glassSlab(ctx, env, look, b, { a = 1, glow = 0 } = {}) {
 }
 
 // ---------- controles comunes ----------
-export const SCENE_DEFAULTS = { background: '#ffffff', grid: 'dots', zoom: 1, speed: 1 };
+export const SCENE_DEFAULTS = { theme: 'light', background: '#ffffff', grid: 'dots', zoom: 1, speed: 1 };
 export const sceneSection = (extra = []) => ({ title: 'Escena', items: [
+  { type: 'seg', key: 'theme', label: 'Tema', options: { light: 'Claro', dark: 'Oscuro' } },
   ...extra,
   { type: 'seg', key: 'grid', label: 'Trama de fondo', options: { dots: 'Puntos', none: 'Ninguna' } },
   { type: 'color', key: 'background', label: 'Fondo' },
@@ -251,11 +278,19 @@ export function defineIso({ DEFAULTS, controls, describe, build, draw, migrate }
 
   function frame(ctx, canvas, cfg, S, ms, W, H, dpr) {
     const t = ms % PERIOD;
+    THEME = cfg.theme === 'dark' ? 'dark' : 'light';
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     ctx.globalAlpha = 1; ctx.filter = 'none';
-    ctx.fillStyle = cfg.background; ctx.fillRect(0, 0, W, H);
-    if (cfg.grid === 'dots') {   // grilla de puntos del hero (#D3D4DC, 2px cada 16px)
-      ctx.fillStyle = '#d3d4dc';
+    const hex = cfg.background.replace('#', ''), lum = (parseInt(hex.slice(0, 2), 16) * 0.299 + parseInt(hex.slice(2, 4), 16) * 0.587 + parseInt(hex.slice(4, 6), 16) * 0.114) / 255;
+    ctx.fillStyle = THEME === 'dark' && lum > 0.5 ? '#141414' : cfg.background;   // oscuro con fondo claro => #141414 del sitio
+    ctx.fillRect(0, 0, W, H);
+    if (THEME === 'dark') {   // glow navy radial abajo a la derecha (#engagement)
+      const g = ctx.createRadialGradient(W * 0.8, H * 1.05, 0, W * 0.8, H * 1.05, Math.max(W, H) * 0.75);
+      g.addColorStop(0, 'rgba(2,60,160,.45)'); g.addColorStop(0.5, 'rgba(2,43,99,.22)'); g.addColorStop(1, 'rgba(2,43,99,0)');
+      ctx.fillStyle = g; ctx.fillRect(0, 0, W, H);
+    }
+    if (cfg.grid === 'dots') {   // grilla de puntos del hero (#D3D4DC, 2px cada 16px); en oscuro, blanco 6 %
+      ctx.fillStyle = THEME === 'dark' ? 'rgba(255,255,255,.06)' : '#d3d4dc';
       for (let x = 8; x < W; x += 16) for (let y = 8; y < H; y += 16) ctx.fillRect(x - 1, y - 1, 2, 2);
     }
     const pts = S.bounds.map(p => project(p, { x: 0, y: 0 }));
@@ -265,7 +300,7 @@ export function defineIso({ DEFAULTS, controls, describe, build, draw, migrate }
     ctx.scale(k, k);
     // sombra en el suelo: no levita
     const P = S.plate;
-    ctx.fillStyle = '#f0f0f3';
+    ctx.fillStyle = THEME === 'dark' ? 'rgba(255,255,255,.03)' : '#f0f0f3';
     poly(ctx, [{ x: P.x + 10, y: P.y + 10, z: -LIFT }, { x: P.x + P.w - 10, y: P.y + 10, z: -LIFT }, { x: P.x + P.w - 10, y: P.y + P.d - 10, z: -LIFT }, { x: P.x + 10, y: P.y + P.d - 10, z: -LIFT }], o);
     ctx.fill();
     ctx.translate(0, -6 * wave(t, 6000));   // levitación 6px, 2 ciclos por loop
