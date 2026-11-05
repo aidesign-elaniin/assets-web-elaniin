@@ -59,7 +59,7 @@ export async function buildPack(lib, asset, { slug, generatorName, width, height
 </script>
 `);
   files[`${Name}.tsx`] = enc(`// ${cfg.name} · Elaniin Assets (${generatorName}) · ${width}×${height} · loop ${seconds.toFixed(1)} s
-// Archivos en ${base}/. Decorativo (aria-hidden). priority = true solo si está en el primer pantallazo.
+// Va en components/elaniin/. Videos y póster en ${base}/. Decorativo (aria-hidden). priority = true solo si está en el primer pantallazo.
 'use client';
 import { useEffect, useRef } from 'react';
 
@@ -104,8 +104,8 @@ ${hasWebm ? `| \`${slug}.webm\` | VP9, más liviano; el navegador lo elige si pu
 ${webmNote ? `\n> Sin WebM: ${webmNote}\n` : ''}
 ## Reglas para quien lo integre (persona o IA)
 
-1. Copia esta carpeta a \`${base}/\` (Next.js, Vite, Astro) o al directorio estático del proyecto. Sirve los archivos desde el propio sitio: no enlaces a URLs externas.
-2. En React/Next importa \`${Name}.tsx\`. En HTML usa \`snippet.html\`. No quites \`muted\`, \`loop\` ni \`playsInline\`: sin ellos el autoplay falla en iOS.
+1. Copia los videos y \`poster.webp\` a \`${base}/\` (Next.js, Vite, Astro) o al directorio estático del proyecto. Sirve los archivos desde el propio sitio: no enlaces a URLs externas.
+2. En React/Next mueve \`${Name}.tsx\` a la carpeta de componentes (por ejemplo \`components/elaniin/\`) e impórtalo desde ahí; no lo dejes en \`public/\`. En HTML usa \`snippet.html\`. No quites \`muted\`, \`loop\` ni \`playsInline\`: sin ellos el autoplay falla en iOS.
 3. Es decorativo: deja \`aria-hidden\`. El significado va en el texto de la sección.
 4. Reserva el espacio (\`aspect-ratio: ${ratio}\`) para no mover el layout. Como fondo de sección: contenedor \`position: relative\` y \`<${Name} fill />\`.
 5. En el primer pantallazo usa \`priority\` (preload auto). Más abajo deja el valor por defecto (\`preload="metadata"\`).
