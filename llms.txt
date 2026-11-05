@@ -1,0 +1,33 @@
+# Elaniin Assets
+
+> Biblioteca de assets animados (fondos, heros, ilustraciones isométricas) para los sitios de Elaniin. Cada asset sale de un generador paramétrico y se exporta como video en loop, imagen o embed. Paleta: solo tokens Elaniin (#1054FF, rampa azul, #01172E, #F0F0F3).
+
+Si construyes un sitio de Elaniin con IA, usa estos assets así:
+
+## Cómo elegir y usar un asset
+
+1. Catálogo: `library.json` (campos: `id`, `type`, `name`, `tags`, `aspect` + configuración). Tags útiles: `hero`, `card`, `fondo`, `claro`, `oscuro`, `marca`.
+2. Formato por defecto: **paquete para sitio** (video MP4/WebM en loop + póster + componente React + snippet HTML + AGENTS.md). Lo exporta una persona desde el editor: Biblioteca → abrir asset → Exportar → Paquete para sitio. Se copia a `public/assets/elaniin/<slug>/` del proyecto y se siguen las reglas de su `AGENTS.md`.
+3. Imagen fija (cards, miniaturas, contenido bajo el pliegue): `poster.webp` del paquete o Exportar → Imagen.
+4. Embed vivo solo si hace falta interacción (p. ej. `led` reacciona al cursor). Usa la URL versionada y un póster:
+
+```html
+<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.0.0/elaniin-assets.js"></script>
+<elaniin-asset type="glass-grid" poster="/assets/elaniin/<slug>/poster.webp" style="display:block;width:100%;aspect-ratio:16/9" config='{…de library.json…}'></elaniin-asset>
+```
+
+Atributos: `type`, `config` (JSON) o `src` (URL a JSON), `poster`, `fps` (30), `dpr` (1.5). Monta al acercarse a la pantalla, se pausa fuera de ella y con "reducir movimiento" muestra solo el póster.
+
+## Reglas
+
+- Decorativo: `aria-hidden`; el significado va en el texto.
+- Reserva espacio con `aspect-ratio` para no mover el layout.
+- Máximo 2–3 assets animados por página; el resto como imagen.
+- No uses colores fuera de la paleta Elaniin.
+
+## Enlaces
+
+- [Biblioteca y editor](https://aidesign-elaniin.github.io/assets-web-elaniin/)
+- [Catálogo JSON](https://aidesign-elaniin.github.io/assets-web-elaniin/library.json)
+- [Guía de uso](https://aidesign-elaniin.github.io/assets-web-elaniin/#/guia)
+- [Código y README](https://github.com/aidesign-elaniin/assets-web-elaniin)

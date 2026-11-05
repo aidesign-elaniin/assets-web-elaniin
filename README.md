@@ -39,11 +39,21 @@ python3 -m http.server 5173
 
 Abrir http://localhost:5173. Sitio estático, sin build. Cada push a `main` se publica en GitHub Pages.
 
-## Embed en un sitio
+## Usar un asset en un sitio
+
+| Uso | Formato | Peso | Costo |
+|---|---|---|---|
+| Hero o fondo animado | **Paquete para sitio**: MP4 + WebM + póster + componente React + snippet + `AGENTS.md` | 1–5 MB | Casi nulo (decodificación por hardware) |
+| Cards, bajo el pliegue | Imagen WebP | 30–150 KB | Nulo |
+| Interacción real | Embed vivo con póster | ~175 KB + GPU | Alto, 1–2 por página |
+
+El paquete se exporta desde el editor (Exportar → Paquete para sitio), se copia a `public/assets/elaniin/<slug>/` y no depende de esta biblioteca. El video se renderiza cuadro a cuadro con WebCodecs (Mediabunny): loop exacto y bitrate controlado. Para IA: `llms.txt` + `library.json` + el `AGENTS.md` de cada paquete.
+
+## Embed vivo
 
 ```html
-<script type="module" src="https://aidesign-elaniin.github.io/assets-web-elaniin/elaniin-assets.js"></script>
-<elaniin-asset type="glass-grid" style="display:block;width:100%;aspect-ratio:16/9" config='{"colors":["#1054ff","#22d3ee"]}'></elaniin-asset>
+<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.0.0/elaniin-assets.js"></script>
+<elaniin-asset type="glass-grid" poster="/assets/elaniin/hero/poster.webp" style="display:block;width:100%;aspect-ratio:16/9" config='{"colors":["#1054ff","#6a9aff"]}'></elaniin-asset>
 ```
 
 | Atributo | Qué hace |
@@ -51,8 +61,12 @@ Abrir http://localhost:5173. Sitio estático, sin build. Cada push a `main` se p
 | `type` | Generador (`glass-grid`, `sweeps`, …). Solo se descarga ese generador. |
 | `config` | JSON del asset. Cambiarlo actualiza en vivo. |
 | `src` | URL a un `.json` exportado, en lugar de `config`. |
+| `poster` | Imagen mientras carga; con "reducir movimiento" se muestra solo el póster. |
+| `fps` / `dpr` | Límites de costo (30 y 1.5 por defecto). |
 
-Se pausa fuera de pantalla y queda quieto con "reducir movimiento". Los embeds apuntan a `main`: un cambio que rompa la config de un generador rompe los sitios que lo usan. Cambios compatibles hacia atrás siempre (`normalize` rellena lo que falte).
+Monta al acercarse a la pantalla, se pausa fuera de ella y corre a 30 fps. Los embeds apuntan a un **tag** servido por jsDelivr, no a `main`.
+
+**Publicar una versión:** `git tag vX.Y.Z && git push --tags`, luego actualizar `RELEASE` en `index.html`. Mantener cambios compatibles hacia atrás (`normalize` rellena lo que falte).
 
 ## Estructura
 

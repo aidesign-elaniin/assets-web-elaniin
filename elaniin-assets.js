@@ -122,30 +122,85 @@ export async function recordVideo(asset, { width = 1920, height = 1080, seconds,
   return { blob: new Blob(chunks, { type: mime.split(';')[0] }), ext: mime.startsWith('video/mp4') ? 'mp4' : 'webm' };
 }
 
+// Video cuadro a cuadro con WebCodecs (Mediabunny): loop exacto, sin cuadros perdidos y con bitrate controlado.
+// Solo se descarga al exportar. Si el navegador no tiene WebCodecs, usar recordVideo (tiempo real).
+const MEDIABUNNY = 'https://cdn.jsdelivr.net/npm/mediabunny@1.61.6/+esm';
+export const canEncode = () => typeof VideoEncoder !== 'undefined';
+export async function encodeVideo(asset, { width = 1920, height = 1080, seconds, fps = 30, codec = 'avc', bitrate = 3e6, onProgress } = {}) {
+  const { Output, Mp4OutputFormat, WebMOutputFormat, BufferTarget, CanvasSource, canEncodeVideo } = await import(MEDIABUNNY);
+  const label = codec === 'avc' ? 'MP4 (H.264)' : 'WebM (VP9)';
+  if (!(await canEncodeVideo(codec, { width, height, bitrate }))) throw new Error(`Este navegador no puede codificar ${label} a ${width}×${height}.`);
+  const gen = await loadGenerator(asset.type || DEFAULT_TYPE), host = offscreenHost(width, height);
+  const g = await gen.mount(host, asset, { size: [width, height], dpr: 1, autoplay: false, preserve: true });
+  const frames = Math.round((seconds ?? gen.loopSeconds(g.config)) * fps);   // t = 0 … (N-1)/fps: el cuadro N sería el 0 => loop exacto
+  const output = new Output({ format: codec === 'avc' ? new Mp4OutputFormat({ fastStart: 'in-memory' }) : new WebMOutputFormat(), target: new BufferTarget() });
+  const source = new CanvasSource(g.canvas, { codec, bitrate, keyFrameInterval: 2 });
+  output.addVideoTrack(source, { frameRate: fps });
+  try {
+    await output.start();
+    for (let i = 0; i < frames; i++) {
+      g.renderAt(i / fps);
+      await source.add(i / fps, 1 / fps);
+      onProgress?.((i + 1) / frames);
+    }
+    await output.finalize();
+  } finally { g.destroy(); host.remove(); }
+  return { blob: new Blob([output.target.buffer], { type: codec === 'avc' ? 'video/mp4' : 'video/webm' }), ext: codec === 'avc' ? 'mp4' : 'webm', frames, fps };
+}
+
 // ---------- web component ----------
+// <elaniin-asset type config|src poster? fps? dpr?>
+// - Monta solo cuando está a 200 px de entrar en pantalla y se pausa al salir.
+// - poster: imagen mientras carga; con "reducir movimiento" se muestra solo el póster (sin JS de render ni GPU).
+// - fps (30 por defecto) y dpr (1.5 por defecto) limitan el costo en retina y en teléfonos.
 class ElaniinAsset extends HTMLElement {
-  static observedAttributes = ['type', 'config', 'src'];
-  async connectedCallback() {
-    if (this._g || this._busy) return;
-    this._busy = true;
+  static observedAttributes = ['type', 'config', 'src', 'poster'];
+  connectedCallback() {
     const cs = getComputedStyle(this);
     if (cs.display === 'inline') this.style.display = 'block';
     if (cs.position === 'static') this.style.position = 'relative';
     this.style.overflow = 'hidden';
+    this._showPoster();
+    this._reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (this._reduce && this.getAttribute('poster')) return;
+    this._near = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      this._near.disconnect(); this._near = null; this._start();
+    }, { rootMargin: '200px' });
+    this._near.observe(this);
+  }
+  _showPoster() {
+    const p = this.getAttribute('poster');
+    Object.assign(this.style, p ? { backgroundImage: `url("${p}")`, backgroundSize: 'cover', backgroundPosition: 'center' } : { backgroundImage: '' });
+  }
+  async _start() {
+    if (this._g || this._busy) return;
+    this._busy = true;
     try {
       const a = await this._read();
       this._type = a.type;
-      this._g = await mount(this, a, { autoplay: false });
+      const dpr = Math.min(devicePixelRatio || 1, +(this.getAttribute('dpr') || 1.5));
+      this._g = await mount(this, a, { autoplay: false, dpr });
     } catch (err) { console.error('[elaniin-asset]', err); this._busy = false; return; }
     this._busy = false;
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
+    if (!this.isConnected) { this._g.destroy(); this._g = null; return; }
+    if (this._reduce) { this._g.time = 0; return; }   // una imagen quieta
+    const fps = Math.max(1, Math.min(60, +(this.getAttribute('fps') || 30)));
+    let raf = 0, last = 0, acc = 0, t = 0;
+    const loop = now => {
+      raf = requestAnimationFrame(loop);
+      acc += last ? Math.min(0.1, (now - last) / 1000) : 0; last = now;
+      if (acc >= 1 / fps - 0.002) { t += acc; acc = 0; this._g.time = t; }   // dibuja solo fps veces por segundo
+    };
+    this._stop = () => { cancelAnimationFrame(raf); raf = 0; };
     this._io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !reduce.matches) this._g.play(); else this._g.pause();
+      if (e.isIntersecting && !raf) { last = 0; raf = requestAnimationFrame(loop); } else if (!e.isIntersecting) this._stop();
     });
     this._io.observe(this);
   }
-  disconnectedCallback() { this._io?.disconnect(); this._g?.destroy(); this._g = null; }
-  async attributeChangedCallback() {
+  disconnectedCallback() { this._near?.disconnect(); this._io?.disconnect(); this._stop?.(); this._g?.destroy(); this._g = null; }
+  async attributeChangedCallback(name) {
+    if (name === 'poster') return this._showPoster();
     if (!this._g) return;
     const a = await this._read();
     if (a.type !== this._type) { this.disconnectedCallback(); this.connectedCallback(); } else this._g.set(a);

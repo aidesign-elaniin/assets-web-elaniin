@@ -2,7 +2,7 @@
 // encuadre automático, levitación 6px con sombra fija y reloj de 12 s.
 // Fuente: elaniin-style (references/isometric.md, templates/iso-stack.js) y las escenas de elaniin.com (canary).
 // Lo usan todos los generadores iso/ e iso-*/. Canvas2D => exportan PNG/MP4 como el resto.
-import { makeNormalize } from './runtime.js';
+import { makeNormalize } from './schema.js';   // sin Three.js: los isométricos son Canvas2D
 
 export const COS30 = Math.cos(Math.PI / 6);
 export const ELEVATE = '#1054ff', NAVY = '#01172e', GREEN = '#1f9d61';
