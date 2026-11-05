@@ -1319,7 +1319,7 @@ const CODE = import('./export-code.js?t=' + Date.now());
 const PUBLIC_BASE = 'https://aidesign-elaniin.github.io/assets-web-elaniin/';
 // Embeds fijados a una versión publicada (tag de git servido por jsDelivr): un cambio futuro no rompe los sitios.
 // Al publicar una versión nueva: git tag vX.Y.Z && git push --tags, y actualizar RELEASE.
-const RELEASE = '1.2.0';
+const RELEASE = '1.3.0';
 const LOADER_URL = `https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v${RELEASE}/elaniin-assets.js`;
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -1896,7 +1896,7 @@ async function codeMd() {
   const { buildCodeMd } = await CODE;
   return buildCodeMd(ed.cfg, { gen: genOf(ed.cfg), slug: slug(ed.cfg.name), generatorName: GENERATORS[ed.cfg.type].name, release: RELEASE, libraryUrl: PUBLIC_BASE, publicBase: CODE_BASE() });
 }
-const usesThree = t => ['glass-grid', 'wave', 'constellation'].includes(t);
+const usesThree = t => ['glass-grid', 'wave', 'constellation', 'rubik'].includes(t);
 function codeInfo() {
   $('[data-code-info]').textContent = usesThree(ed.cfg.type)
     ? 'Incluye el motor del asset · usa three@0.169.0 (vidrio o 3D real) · ~15–20 KB + Three.js'

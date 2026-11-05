@@ -32,6 +32,7 @@ export const GENERATORS = {
   'iso-staff': { name: 'Iso · Staff augmentation', description: 'Una losa por persona, cada una con su nombre; la última se suma al equipo. Estilo oscuro de engagement.' },
   'iso-squad': { name: 'Iso · Equipo dedicado', description: 'Un núcleo rodeado por las disciplinas del equipo, que le entregan trabajo con pulsos.' },
   'iso-delivery': { name: 'Iso · Entrega por fases', description: 'Escalones que suben de descubrimiento a lanzamiento; el avance recorre cada fase hasta la meta.' },
+  rubik: { name: 'Cubo Rubik', description: 'Cubo 3×3 en estilo lineal con un texto por cara: los giros desarman el glifo y los inversos lo arman. Loop por las 4 caras.' },
   halftone: { name: 'Halftone Fluido', description: 'Grilla de puntos cuyo tamaño sigue un ruido que fluye. Trama de impresión en movimiento.' },
   dither: { name: 'Píxel Dither', description: 'Gradiente pixelado con dither Bayer y un borde que se disuelve entre 2 a 4 colores.' },
   led: { name: 'Matriz LED', description: 'Grilla de LEDs con niveles de brillo: onda, escaneo, destellos, pulso o ruido. Reacciona al cursor.' },

@@ -74,6 +74,64 @@
   ],
   "assets": [
     {
+      "id": "rubik-elan",
+      "type": "rubik",
+      "name": "Rubik ELAN",
+      "tags": [
+        "hero",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "rubik-elevate",
+      "type": "rubik",
+      "name": "Rubik Elevate",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "1:1",
+      "front": "A",
+      "right": "I",
+      "back": "2",
+      "left": "7",
+      "top": "E",
+      "bottom": "+",
+      "glyph": "#1054ff",
+      "line": "#1054ff",
+      "lineOpacity": 0.3,
+      "moves": 8,
+      "seed": 42
+    },
+    {
+      "id": "rubik-navy",
+      "type": "rubik",
+      "name": "Rubik Navy",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "16:9",
+      "front": "01",
+      "right": "02",
+      "back": "03",
+      "left": "04",
+      "top": "↑",
+      "bottom": "↓",
+      "glyph": "#ffffff",
+      "cube": "#01172e",
+      "line": "#6a9aff",
+      "lineOpacity": 0.45,
+      "background": "#01172e",
+      "moves": 7,
+      "explode": 0.5,
+      "seed": 5
+    },
+    {
       "id": "ribs-elevate",
       "type": "glass-ribs",
       "name": "Ribs Elevate",

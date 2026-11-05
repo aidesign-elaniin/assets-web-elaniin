@@ -83,7 +83,7 @@ export function createMount({ normalize, loopSeconds, init, uniforms }) {
         pause(); ro?.disconnect();
         host.removeEventListener('pointermove', onMove); host.removeEventListener('pointerleave', onLeave);
         view.dispose?.();
-        view.scene.traverse(o => { o.geometry?.dispose(); o.material?.dispose(); });
+        view.scene.traverse(o => { o.geometry?.dispose(); [].concat(o.material || []).forEach(m => m.dispose()); });   // material puede ser un arreglo (una por cara)
         renderer.dispose(); renderer.forceContextLoss();
         canvas.remove();
       },

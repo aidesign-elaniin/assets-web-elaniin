@@ -3,12 +3,13 @@
 Biblioteca de assets animados para los sitios de Elaniin. Cada tipo de asset es un **generador** con su propio editor, y todos exportan embed, imagen, video en loop y JSON.
 
 - Sitio: https://aidesign-elaniin.github.io/assets-web-elaniin/
-- 24 generadores, todos con loop perfecto. Las escenas `iso*` tienen tema **Claro** (hero/routes/solutions) y **Oscuro** (vidrio ahumado de #engagement):
+- 25 generadores, todos con loop perfecto. Las escenas `iso*` tienen tema **Claro** (hero/routes/solutions) y **Oscuro** (vidrio ahumado de #engagement):
 
 | `type` | Nombre | Origen |
 |---|---|---|
 | `glass-grid` | Glass Grid | Referencias del equipo · cubo modelado en Blender |
 | `glass-ribs` | Glass Ribs | Vidrio acanalado sobre el mismo fondo animado de Glass Grid; material editable |
+| `rubik` | Cubo Rubik | Cubo 3×3 lineal con texto por cara que se desarma y se arma (ref. video) |
 | `sweeps` | Barridos | ADN del diseñador (`/rogenizar`): CTA y cards de elaniin.com |
 | `iso` | Iso · Stack | Pila del hero de elaniin.com: 1–12 losas, grosor automático, frost, pulso, reloj de 12 s |
 | `iso-team` | Iso · Equipo | elaniin.com (canary) · routes · Scale your engineering team |
@@ -54,7 +55,7 @@ El paquete se exporta desde el editor (Exportar → Paquete para sitio), se copi
 ## Embed vivo
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.2.0/elaniin-assets.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.3.0/elaniin-assets.js"></script>
 <elaniin-asset type="glass-grid" poster="/assets/elaniin/hero/poster.webp" style="display:block;width:100%;aspect-ratio:16/9" config='{"colors":["#1054ff","#6a9aff"]}'></elaniin-asset>
 ```
 
