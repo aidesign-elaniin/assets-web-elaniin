@@ -3,7 +3,20 @@
 Biblioteca de assets animados para los sitios de Elaniin. Cada tipo de asset es un **generador** con su propio editor, y todos exportan embed, imagen, video en loop y JSON.
 
 - Sitio: https://aidesign-elaniin.github.io/assets-web-elaniin/
-- Generadores actuales: **Glass Grid** (vidrio esmerilado + cubo de Blender) y **Barridos** (lenguaje de CTA y cards del sitio Elaniin, vía `rogenizar`).
+- 10 generadores, todos con loop perfecto:
+
+| `type` | Nombre | Origen |
+|---|---|---|
+| `glass-grid` | Glass Grid | Referencias del equipo · cubo modelado en Blender |
+| `sweeps` | Barridos | ADN del diseñador (`/rogenizar`): CTA y cards de elaniin.com |
+| `halftone` | Halftone Fluido | Board de Pinterest |
+| `dither` | Píxel Dither | Board de Pinterest |
+| `led` | Matriz LED (reacciona al cursor) | Board de Pinterest + trama de puntos del diseñador |
+| `topo` | Topografía | Board de Pinterest + line art técnico del diseñador |
+| `satin` | Satén Líquido | Board de Pinterest |
+| `orb` | Orbe Luminoso | Board de Pinterest |
+| `wave` | Onda de Partículas (3D) | Board de Pinterest |
+| `constellation` | Constelación | Board de Pinterest + nodos con halo del diseñador |
 
 ## Correr local
 
@@ -35,11 +48,16 @@ index.html              app: Biblioteca, Generadores, Editor, Paletas, Guía (es
 elaniin-assets.js       loader: registro de generadores, exportación, web component <elaniin-asset>
 library.json            assets y paletas del equipo
 generators/<id>/        un generador por carpeta, autocontenido
+  _shared/runtime.js    base común: bucle de render, validación desde `controls`, GLSL (ruido 4D en loop, rampa, etc.)
   glass-grid/           index.js · tiles.json · make_tile.py (Blender) · tile-*.glb
-  sweeps/               index.js
+  sweeps/ halftone/ dither/ led/ topo/ satin/ orb/ wave/ constellation/
 ```
 
 ## Agregar un generador
+
+**Atajo (shader a pantalla completa):** usa `defineGenerator` de `generators/_shared/runtime.js`. Solo declaras `DEFAULTS`, `controls`, `uniforms(c)` (config → uniforms) y `frag` (GLSL). Validación, embed, loop y montaje salen solos. Ejemplos: `halftone/`, `led/`. Para escenas 3D pasa `init(renderer, U)` en vez de `frag` (ver `wave/`, `constellation/`). En GLSL tienes `cssPx()`, `pal(t)`, `lnoise(p, uPh, r)` y `lfbm(p, uPh)`: el ruido recorre un círculo en 4D, así que el loop cierra exacto.
+
+**Contrato completo** (para generadores a mano como `glass-grid/`):
 
 1. Crea `generators/<id>/index.js` que exporte:
 

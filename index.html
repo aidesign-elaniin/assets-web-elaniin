@@ -1512,7 +1512,7 @@ $('[data-import]').addEventListener('change', async e => {
 /* ---------- generadores (catálogo) ---------- */
 function renderGenerators() {
   const all = assets();
-  const reps = Object.keys(GEN).map(t => ({ ...(all.find(a => typeOf(a) === t) || fresh(t)), id: 'gen-' + t, type: t }));
+  const reps = Object.keys(GENERATORS).filter(t => GEN[t]).map(t => ({ ...(all.find(a => typeOf(a) === t) || fresh(t)), id: 'gen-' + t, type: t }));
   $('[data-gen-grid]').innerHTML = reps.map(r => {
     const g = GENERATORS[r.type], n = all.filter(a => typeOf(a) === r.type).length;
     return `<li class="min-w-0">

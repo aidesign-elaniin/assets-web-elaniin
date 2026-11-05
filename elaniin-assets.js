@@ -15,6 +15,14 @@ export const GENERATORS = {
     name: 'Barridos',
     description: 'Fondos con barridos diagonales difusos, glows de esquina y trama de puntos, grilla o rayas. El lenguaje de los CTA y cards del sitio Elaniin.',
   },
+  halftone: { name: 'Halftone Fluido', description: 'Grilla de puntos cuyo tamaño sigue un ruido que fluye. Trama de impresión en movimiento.' },
+  dither: { name: 'Píxel Dither', description: 'Gradiente pixelado con dither Bayer y un borde que se disuelve entre 2 a 4 colores.' },
+  led: { name: 'Matriz LED', description: 'Grilla de LEDs con niveles de brillo: onda, escaneo, destellos, pulso o ruido. Reacciona al cursor.' },
+  topo: { name: 'Topografía', description: 'Curvas de nivel animadas con curvas maestras y relleno por bandas. Line art técnico.' },
+  satin: { name: 'Satén Líquido', description: 'Superficie satinada que se pliega, con brillo especular suave y grano.' },
+  orb: { name: 'Orbe Luminoso', description: 'Esfera con borde ondulante, rim de color, gradiente interno y glow. Pensado para heros.' },
+  wave: { name: 'Onda de Partículas', description: 'Malla 3D de puntos ondulada por ruido, en perspectiva y con niebla de profundidad.' },
+  constellation: { name: 'Constelación', description: 'Nodos a la deriva unidos por líneas según distancia, con profundidad. Evoca los nodos con halo del sitio.' },
 };
 export const DEFAULT_TYPE = 'glass-grid';
 

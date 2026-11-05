@@ -114,6 +114,258 @@
   ],
   "assets": [
     {
+      "id": "halftone-azul",
+      "type": "halftone",
+      "name": "Halftone Azul",
+      "tags": [
+        "fondo",
+        "claro",
+        "marca"
+      ],
+      "aspect": "16:9",
+      "colors": [
+        "#b9cefb",
+        "#1054ff"
+      ],
+      "background": "#ffffff",
+      "cell": 14,
+      "shape": "circle"
+    },
+    {
+      "id": "halftone-navy",
+      "type": "halftone",
+      "name": "Halftone Navy",
+      "tags": [
+        "hero",
+        "oscuro"
+      ],
+      "aspect": "4:5",
+      "colors": [
+        "#022b63",
+        "#6a9aff"
+      ],
+      "background": "#01172e",
+      "cell": 12,
+      "shape": "rounded",
+      "scale": 2,
+      "contrast": 3.2
+    },
+    {
+      "id": "dither-cobalto",
+      "type": "dither",
+      "name": "Dither Cobalto",
+      "tags": [
+        "fondo",
+        "marca"
+      ],
+      "aspect": "9:16",
+      "colors": [
+        "#1054ff",
+        "#f0f0f3"
+      ],
+      "pixel": 8,
+      "angle": 180,
+      "edge": 0.55
+    },
+    {
+      "id": "dither-rampa",
+      "type": "dither",
+      "name": "Dither Rampa",
+      "tags": [
+        "hero",
+        "marca"
+      ],
+      "aspect": "16:9",
+      "colors": [
+        "#01172e",
+        "#1054ff",
+        "#b9cefb",
+        "#ffffff"
+      ],
+      "pixel": 6,
+      "matrix": "bayer8",
+      "angle": 90,
+      "spread": 0.9,
+      "noise": 0.4
+    },
+    {
+      "id": "led-onda",
+      "type": "led",
+      "name": "LED Onda",
+      "tags": [
+        "hero",
+        "oscuro"
+      ],
+      "aspect": "16:9",
+      "mode": "ripple"
+    },
+    {
+      "id": "led-destellos",
+      "type": "led",
+      "name": "LED Destellos",
+      "tags": [
+        "card",
+        "claro"
+      ],
+      "aspect": "1:1",
+      "colors": [
+        "#b9cefb",
+        "#1054ff"
+      ],
+      "off": "#e4e4ea",
+      "background": "#ffffff",
+      "mode": "twinkle",
+      "cell": 16,
+      "glow": 0.15,
+      "frequency": 3
+    },
+    {
+      "id": "topo-linea",
+      "type": "topo",
+      "name": "Topo Línea",
+      "tags": [
+        "fondo",
+        "claro",
+        "marca"
+      ],
+      "aspect": "16:9"
+    },
+    {
+      "id": "topo-noche",
+      "type": "topo",
+      "name": "Topo Noche",
+      "tags": [
+        "fondo",
+        "oscuro"
+      ],
+      "aspect": "21:9",
+      "colors": [
+        "#022b63",
+        "#6a9aff"
+      ],
+      "background": "#01172e",
+      "levels": 18,
+      "bands": 0.4
+    },
+    {
+      "id": "saten-navy",
+      "type": "satin",
+      "name": "Satén Navy",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "16:9"
+    },
+    {
+      "id": "saten-hielo",
+      "type": "satin",
+      "name": "Satén Hielo",
+      "tags": [
+        "fondo",
+        "claro"
+      ],
+      "aspect": "4:5",
+      "colors": [
+        "#ffffff",
+        "#e7eeff",
+        "#b9cefb",
+        "#6a9aff"
+      ],
+      "shine": 0.4,
+      "grain": 0.02
+    },
+    {
+      "id": "orbe-cobalto",
+      "type": "orb",
+      "name": "Orbe Cobalto",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "16:9"
+    },
+    {
+      "id": "orbe-claro",
+      "type": "orb",
+      "name": "Orbe Claro",
+      "tags": [
+        "card",
+        "claro"
+      ],
+      "aspect": "1:1",
+      "colors": [
+        "#ffffff",
+        "#b9cefb",
+        "#6a9aff",
+        "#1054ff"
+      ],
+      "rim": "#1054ff",
+      "background": "#f0f0f3",
+      "glow": 0.35,
+      "grain": 0.02
+    },
+    {
+      "id": "onda-navy",
+      "type": "wave",
+      "name": "Onda Navy",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "21:9"
+    },
+    {
+      "id": "onda-clara",
+      "type": "wave",
+      "name": "Onda Clara",
+      "tags": [
+        "fondo",
+        "claro"
+      ],
+      "aspect": "16:9",
+      "colors": [
+        "#b9cefb",
+        "#6a9aff",
+        "#1054ff"
+      ],
+      "background": "#ffffff",
+      "tilt": 30,
+      "size": 2
+    },
+    {
+      "id": "red-navy",
+      "type": "constellation",
+      "name": "Red Navy",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "16:9"
+    },
+    {
+      "id": "red-clara",
+      "type": "constellation",
+      "name": "Red Clara",
+      "tags": [
+        "card",
+        "claro"
+      ],
+      "aspect": "4:5",
+      "colors": [
+        "#1054ff",
+        "#b9cefb"
+      ],
+      "lineColor": "#6a9aff",
+      "background": "#ffffff",
+      "nodes": 50,
+      "seed": 42
+    },
+    {
       "id": "cta-navy",
       "type": "sweeps",
       "name": "CTA Navy",
