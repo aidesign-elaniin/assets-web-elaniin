@@ -23,46 +23,6 @@
       ]
     },
     {
-      "id": "aqua",
-      "name": "Aqua",
-      "colors": [
-        "#1aa7ff",
-        "#22d3ee",
-        "#16c24a",
-        "#5b8cff"
-      ]
-    },
-    {
-      "id": "lima",
-      "name": "Lima",
-      "colors": [
-        "#2e9e2a",
-        "#55d81c",
-        "#d8f000",
-        "#8fd96a"
-      ]
-    },
-    {
-      "id": "sunset",
-      "name": "Sunset",
-      "colors": [
-        "#ff3d3d",
-        "#ff7a33",
-        "#ffc93c",
-        "#fff1e0"
-      ]
-    },
-    {
-      "id": "azul",
-      "name": "Azul",
-      "colors": [
-        "#2f6ff5",
-        "#5b95ff",
-        "#a8c8ff",
-        "#3b82f6"
-      ]
-    },
-    {
       "id": "elaniin",
       "name": "Elaniin",
       "colors": [
@@ -73,41 +33,41 @@
       ]
     },
     {
-      "id": "coral",
-      "name": "Coral",
-      "colors": [
-        "#ff5c8a",
-        "#ff8f70",
-        "#ffc1a6",
-        "#c86bfa"
-      ]
-    },
-    {
-      "id": "menta",
-      "name": "Menta",
-      "colors": [
-        "#00c2a8",
-        "#5eead4",
-        "#a7f3d0",
-        "#38bdf8"
-      ]
-    },
-    {
-      "id": "violeta",
-      "name": "Violeta",
-      "colors": [
-        "#6d28d9",
-        "#8b5cf6",
-        "#c4b5fd",
-        "#ec4899"
-      ]
-    },
-    {
       "id": "noche",
       "name": "Noche",
       "colors": [
         "#1054ff",
         "#4d75fd",
+        "#7b9bff"
+      ]
+    },
+    {
+      "id": "cobalto",
+      "name": "Cobalto",
+      "colors": [
+        "#023ca0",
+        "#1054ff",
+        "#6a9aff",
+        "#d7e2f8"
+      ]
+    },
+    {
+      "id": "tint",
+      "name": "Tint",
+      "colors": [
+        "#b9cefb",
+        "#6a9aff",
+        "#1054ff",
+        "#022b63"
+      ]
+    },
+    {
+      "id": "excellence",
+      "name": "Excellence",
+      "colors": [
+        "#01172e",
+        "#022b63",
+        "#1054ff",
         "#7b9bff"
       ]
     }
