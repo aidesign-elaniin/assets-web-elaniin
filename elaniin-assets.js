@@ -67,16 +67,23 @@ export async function snapshots(assets, { width = 640, height = 480, type = 'ima
   const out = new Array(assets.length);
   const byType = {};
   assets.forEach((a, i) => (byType[a.type || DEFAULT_TYPE] ??= []).push(i));
+  // Un error (generador roto, módulo viejo en caché, contexto perdido) solo deja sin imagen a ese asset: nunca tumba el lote.
   for (const [t, idx] of Object.entries(byType)) {
-    const gen = await loadGenerator(t), host = offscreenHost(width, height);
-    const g = await gen.mount(host, assets[idx[0]], { size: [width, height], dpr: 1, autoplay: false, preserve: true });
+    const host = offscreenHost(width, height);
+    let gen, g;
     try {
-      for (const i of idx) {
+      gen = await loadGenerator(t);
+      g = await gen.mount(host, assets[idx[0]], { size: [width, height], dpr: 1, autoplay: false, preserve: true });
+    } catch (err) { console.error(`miniaturas ${t}:`, err); }
+    for (const i of g ? idx : []) {
+      try {
         g.set(assets[i]);
         g.renderAt(stillTime(gen, assets[i]));
         out[i] = await new Promise(r => g.canvas.toBlob(r, type, 0.9));
-      }
-    } finally { g.destroy(); host.remove(); }
+      } catch (err) { console.error(`miniatura ${assets[i].id || t}:`, err); }
+    }
+    try { g?.destroy(); } catch (err) { console.error(`destroy ${t}:`, err); }
+    host.remove();
   }
   return out;
 }

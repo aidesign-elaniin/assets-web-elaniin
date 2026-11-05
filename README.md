@@ -55,7 +55,7 @@ El paquete se exporta desde el editor (Exportar → Paquete para sitio), se copi
 ## Embed vivo
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.3.0/elaniin-assets.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.3.1/elaniin-assets.js"></script>
 <elaniin-asset type="glass-grid" poster="/assets/elaniin/hero/poster.webp" style="display:block;width:100%;aspect-ratio:16/9" config='{"colors":["#1054ff","#6a9aff"]}'></elaniin-asset>
 ```
 

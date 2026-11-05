@@ -1319,7 +1319,7 @@ const CODE = import('./export-code.js?t=' + Date.now());
 const PUBLIC_BASE = 'https://aidesign-elaniin.github.io/assets-web-elaniin/';
 // Embeds fijados a una versión publicada (tag de git servido por jsDelivr): un cambio futuro no rompe los sitios.
 // Al publicar una versión nueva: git tag vX.Y.Z && git push --tags, y actualizar RELEASE.
-const RELEASE = '1.3.0';
+const RELEASE = '1.3.1';
 const LOADER_URL = `https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v${RELEASE}/elaniin-assets.js`;
 
 const $ = (s, r = document) => r.querySelector(s);
@@ -1433,7 +1433,10 @@ async function fillThumbs(list, attr) {
     const batch = missing.slice(i, i + 4).map(norm);
     try {
       const blobs = await snapshots(batch, { width: 640, height: 480 });
-      batch.forEach((a, j) => blobs[j] && thumbs.set(thumbKey(a), URL.createObjectURL(blobs[j])));
+      batch.forEach((a, j) => {
+        if (blobs[j]) return thumbs.set(thumbKey(a), URL.createObjectURL(blobs[j]));
+        const el = $(`[${attr}="${CSS.escape(a.id)}"]`); if (el) $('[data-skeleton]', el).hidden = true;   // sin imagen: sin spinner eterno (al pasar el cursor se ve en vivo)
+      });
     } catch (err) { console.error(err); }
     if (gen !== thumbGen) return;
     paint();

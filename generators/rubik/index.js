@@ -80,45 +80,53 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
     const camera = new THREE.PerspectiveCamera(22, 1, 0.1, 100);
     const root = new THREE.Group(); scene.add(root);
 
-    // texturas: un canvas por cara con su glifo; cada cubito toma su tercio
-    const canvases = {}, textures = {}, faceMats = {};
-    for (const f of FACES) {
-      const cv = document.createElement('canvas'); cv.width = cv.height = 768;
-      canvases[f] = cv;
-      const tx = new THREE.CanvasTexture(cv); tx.colorSpace = THREE.SRGBColorSpace; tx.anisotropy = 4;
-      textures[f] = tx;
-      faceMats[f] = new THREE.MeshBasicMaterial({ map: tx, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
-    }
-    const innerMat = new THREE.MeshBasicMaterial({ color: 0xffffff, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
+    // Un solo atlas 3×2 (una celda por cara) => 1 textura, 1 material, 1 draw call por cubito.
+    // Las caras interiores apuntan a un punto del margen liso del atlas (el glifo ocupa el 88% central), así salen del color del cubo.
+    const S = 768, atlas = document.createElement('canvas');
+    atlas.width = S * 3; atlas.height = S * 2;
+    const tex = new THREE.CanvasTexture(atlas); tex.colorSpace = THREE.SRGBColorSpace; tex.anisotropy = 4;
+    const cell = f => { const i = FACES.indexOf(f); return [i % 3, Math.floor(i / 3)]; };   // [columna, fila] desde arriba
+    const toAtlas = (f, u, v) => { const [c, r] = cell(f); return [(c + u) / 3, (1 - r + v) / 2]; };   // flipY: fila 0 = mitad superior
+    const PLAIN = toAtlas('front', 0.02, 0.98);
+    const mat = new THREE.MeshBasicMaterial({ map: tex, polygonOffset: true, polygonOffsetFactor: 1, polygonOffsetUnits: 1 });
     const lineMat = new THREE.LineBasicMaterial({ color: 0x01172e, transparent: true, opacity: 0.35 });
     const edges = new THREE.EdgesGeometry(new THREE.BoxGeometry(0.96, 0.96, 0.96));
 
     // 27 cubitos con UVs calculadas desde su posición en el cubo armado
     const cubies = [];
+    const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
     for (let x = -1; x <= 1; x++) for (let y = -1; y <= 1; y++) for (let z = -1; z <= 1; z++) {
       const geo = new THREE.BoxGeometry(0.96, 0.96, 0.96);
       const pos = geo.attributes.position, uv = geo.attributes.uv;
       for (let i = 0; i < pos.count; i++) {
         const face = BOX[Math.floor(i / 4)], F = FRAME[face];
+        const outer = F.n[0] * x + F.n[1] * y + F.n[2] * z === 1;   // la cara mira hacia afuera del cubo armado
         const p = [x + pos.getX(i) / 0.96, y + pos.getY(i) / 0.96, z + pos.getZ(i) / 0.96];   // ±0.48 del cubito -> ±0.5 de su celda
-        const dot = (a, b) => a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
-        uv.setXY(i, (dot(p, F.r) + 1.5) / 3, (dot(p, F.u) + 1.5) / 3);
+        uv.setXY(i, ...(outer ? toAtlas(face, (dot(p, F.r) + 1.5) / 3, (dot(p, F.u) + 1.5) / 3) : PLAIN));
       }
-      const outer = BOX.map(f => { const n = FRAME[f].n; return n[0] === x && x !== 0 || n[1] === y && y !== 0 || n[2] === z && z !== 0; });
-      const mesh = new THREE.Mesh(geo, BOX.map((f, k) => (outer[k] ? faceMats[f] : innerMat)));
+      geo.clearGroups();
+      const mesh = new THREE.Mesh(geo, mat);
       mesh.add(new THREE.LineSegments(edges, lineMat));
       root.add(mesh);
       cubies.push({ mesh, home: new THREE.Vector3(x, y, z) });
     }
 
-    let cfg, segs = [], aspect = 1;
+    let cfg, segs = [], aspect = 1, painted = '', dead = false;
+    const memo = new Map();   // estados de giro ya calculados (se reinicia al cambiar giros/variación)
     const AX = [new THREE.Vector3(1, 0, 0), new THREE.Vector3(0, 1, 0), new THREE.Vector3(0, 0, 1)];
     const q = new THREE.Quaternion(), v = new THREE.Vector3();
 
-    function paint() {
+    // Repinta y sube el atlas solo si cambió algo que se ve en él (texto, colores, grosor), no al mover cámara o giros.
+    function paint(force) {
+      const key = JSON.stringify([...FACES.map(f => cfg[f]), cfg.glyph, cfg.cube, cfg.weight]);
+      if (key === painted && !force) return;
+      painted = key;
+      const g = atlas.getContext('2d');
+      g.setTransform(1, 0, 0, 1, 0, 0);
+      g.fillStyle = cfg.cube; g.fillRect(0, 0, atlas.width, atlas.height);
       for (const f of FACES) {
-        const cv = canvases[f], g = cv.getContext('2d'), S = cv.width, text = (cfg[f] || '').trim();
-        g.fillStyle = cfg.cube; g.fillRect(0, 0, S, S);
+        const text = (cfg[f] || '').trim(), [c, r] = cell(f);
+        g.setTransform(1, 0, 0, 1, c * S, r * S);
         if (text) {
           g.fillStyle = cfg.glyph; g.textAlign = 'center'; g.textBaseline = 'alphabetic';
           // glifo grande y pesado como en la referencia: relleno + trazo del mismo color (grosor editable)
@@ -134,19 +142,21 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
           g.fillText(text, S / 2, y);
           if (cfg.weight > 0) { g.strokeStyle = cfg.glyph; g.lineWidth = stroke(size); g.lineJoin = 'miter'; g.miterLimit = 3; g.strokeText(text, S / 2, y); }
         }
-        textures[f].needsUpdate = true;
       }
+      tex.needsUpdate = true;
     }
-    // la fuente puede llegar después: repintar cuando cargue
-    document.fonts?.load('600 100px "Instrument Sans"').then(() => cfg && paint()).catch(() => {});
+    // la fuente puede llegar después: repintar cuando cargue (si el montaje sigue vivo)
+    document.fonts?.load('600 100px "Instrument Sans"').then(() => !dead && cfg && paint(true)).catch(() => {});
 
-    // estado de cada cubito tras aplicar giros completos (posición entera + orientación)
-    function applyMoves(moves) {
+    // estado de cada cubito tras aplicar giros completos (posición entera + orientación); memoizado por clave
+    function applyMoves(moves, key) {
+      if (memo.has(key)) return memo.get(key);
       const st = cubies.map(c => ({ p: c.home.clone(), q: new THREE.Quaternion() }));
       for (const m of moves) {
         q.setFromAxisAngle(AX[m.axis], (m.dir * Math.PI) / 2);
         for (const s of st) if (Math.round(s.p.getComponent(m.axis)) === m.layer) { s.p.applyQuaternion(q).round(); s.q.premultiply(q); }
       }
+      memo.set(key, st);
       return st;
     }
     function place(st, partial, k, gap) {
@@ -165,11 +175,10 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
     return {
       scene, camera,
       apply(c) {
-        cfg = c;
-        scene.background = new THREE.Color(c.background);
-        innerMat.color.set(c.cube);
+        (scene.background ??= new THREE.Color()).set(c.background);
         lineMat.color.set(c.line); lineMat.opacity = c.lineOpacity; lineMat.visible = c.lineOpacity > 0.001;
-        segs = SIDES.map((_, i) => scramble(c.seed * 7 + i * 131, c.moves));
+        if (cfg?.seed !== c.seed || cfg?.moves !== c.moves) { segs = SIDES.map((_, i) => scramble(c.seed * 7 + i * 131, c.moves)); memo.clear(); }
+        cfg = c;
         paint();
       },
       resize(w, h) { aspect = w / h; camera.aspect = aspect; camera.updateProjectionMatrix(); },
@@ -178,15 +187,15 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
         const moves = segs[seg], M = moves.length;
         const a = T.hold, b = a + T.out, cmid = b + T.mid, d = cmid + T.back, e = d + T.rest;
         let st, partial = null, k = 0, gap = 0;
-        if (s < a || s >= d) st = applyMoves([]);
+        if (s < a || s >= d) st = applyMoves([], 'home');
         else if (s < b) {   // desarma
           const x = ((s - a) / T.out) * M, n = Math.floor(x);
-          st = applyMoves(moves.slice(0, n)); partial = moves[n]; k = ease(x - n); gap = ease((s - a) / T.out);
-        } else if (s < cmid) { st = applyMoves(moves); gap = 1; }
+          st = applyMoves(moves.slice(0, n), `${seg}o${n}`); partial = moves[n]; k = ease(x - n); gap = ease((s - a) / T.out);
+        } else if (s < cmid) { st = applyMoves(moves, `${seg}o${M}`); gap = 1; }
         else {   // arma: giros inversos en orden contrario
           const inv = moves.slice().reverse().map(m => ({ ...m, dir: -m.dir }));
           const x = ((s - cmid) / T.back) * M, n = Math.min(M - 1, Math.floor(x));
-          st = applyMoves([...moves, ...inv.slice(0, n)]); partial = inv[n]; k = ease(x - n); gap = 1 - ease((s - cmid) / T.back);
+          st = applyMoves([...moves, ...inv.slice(0, n)], `${seg}b${n}`); partial = inv[n]; k = ease(x - n); gap = 1 - ease((s - cmid) / T.back);
         }
         place(st, partial, k, gap * cfg.explode);
         // giro de 90° a la siguiente cara lateral (4 caras = 360° => loop exacto)
@@ -198,7 +207,7 @@ export const { DEFAULTS, controls, normalize, loopSeconds, embedConfig, describe
         camera.position.set(Math.sin(yaw) * Math.cos(pitch) * dist, Math.sin(pitch) * dist, Math.cos(yaw) * Math.cos(pitch) * dist);
         camera.lookAt(0, 0, 0);
       },
-      dispose() { Object.values(textures).forEach(t => t.dispose()); edges.dispose(); },
+      dispose() { dead = true; tex.dispose(); edges.dispose(); },
     };
   },
 });
