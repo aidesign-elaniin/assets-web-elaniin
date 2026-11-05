@@ -1518,7 +1518,7 @@ function renderGenerators() {
     const g = GENERATORS[r.type], n = all.filter(a => typeOf(a) === r.type).length;
     return `<li class="min-w-0">
     <article data-gen="${esc(r.id)}" class="card-glow lift flex h-full flex-col gap-4 rounded-card border border-border-default bg-surface-card p-6">
-      <div data-media class="relative overflow-hidden rounded-card bg-surface-subtle" style="aspect-ratio:4/3">${mediaHTML(n + ' assets', false)}</div>
+      <div data-media class="relative overflow-hidden rounded-card bg-surface-subtle" style="aspect-ratio:4/3">${mediaHTML(n + (n === 1 ? ' asset' : ' assets'), false)}</div>
       <div class="min-w-0">
         <h3 class="font-display text-h4 font-medium">${esc(g.name)}</h3>
         <p class="mt-2 text-body-sm text-text-secondary">${esc(g.description)}</p>
