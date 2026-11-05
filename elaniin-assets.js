@@ -11,6 +11,10 @@ export const GENERATORS = {
     name: 'Glass Grid',
     description: 'Cuadrícula fija de vidrio esmerilado sobre formas y gradientes en movimiento. Cubo modelado en Blender.',
   },
+  'glass-ribs': {
+    name: 'Glass Ribs',
+    description: 'Vidrio acanalado (estrías) fijo sobre formas y gradientes en movimiento. Material editable: esmerilado, refracción, IOR y brillo de arista.',
+  },
   sweeps: {
     name: 'Barridos',
     description: 'Fondos con barridos diagonales difusos, glows de esquina y trama de puntos, grilla o rayas. El lenguaje de los CTA y cards del sitio Elaniin.',

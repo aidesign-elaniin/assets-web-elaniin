@@ -12,7 +12,7 @@ Si construyes un sitio de Elaniin con IA, usa estos assets así:
 4. Embed vivo solo si hace falta interacción (p. ej. `led` reacciona al cursor). Usa la URL versionada y un póster:
 
 ```html
-<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.0.0/elaniin-assets.js"></script>
+<script type="module" src="https://cdn.jsdelivr.net/gh/aidesign-elaniin/assets-web-elaniin@v1.1.0/elaniin-assets.js"></script>
 <elaniin-asset type="glass-grid" poster="/assets/elaniin/<slug>/poster.webp" style="display:block;width:100%;aspect-ratio:16/9" config='{…de library.json…}'></elaniin-asset>
 ```
 

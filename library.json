@@ -74,6 +74,106 @@
   ],
   "assets": [
     {
+      "id": "ribs-elevate",
+      "type": "glass-ribs",
+      "name": "Ribs Elevate",
+      "tags": [
+        "hero",
+        "claro",
+        "marca"
+      ],
+      "aspect": "9:16",
+      "colors": [
+        "#1054ff",
+        "#4d75fd",
+        "#6a9aff",
+        "#d7e2f8"
+      ],
+      "background": "#ffffff",
+      "shapes": [
+        "blob",
+        "circle",
+        "diamond"
+      ],
+      "hold": 4,
+      "size": 1.1,
+      "softness": 0.22,
+      "speed": 1,
+      "rib": 30,
+      "angle": 0,
+      "profile": "round",
+      "frost": 0.35,
+      "refraction": 1,
+      "ior": 1.45,
+      "shine": 0.5
+    },
+    {
+      "id": "ribs-navy",
+      "type": "glass-ribs",
+      "name": "Ribs Navy",
+      "tags": [
+        "hero",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "16:9",
+      "colors": [
+        "#023ca0",
+        "#1054ff",
+        "#6a9aff",
+        "#b9cefb"
+      ],
+      "background": "#01172e",
+      "shapes": [
+        "circle",
+        "blob"
+      ],
+      "hold": 4.5,
+      "size": 1.2,
+      "softness": 0.25,
+      "speed": 0.9,
+      "rib": 22,
+      "angle": 0,
+      "profile": "round",
+      "frost": 0.3,
+      "refraction": 1.1,
+      "ior": 1.5,
+      "shine": 0.35
+    },
+    {
+      "id": "ribs-prisma",
+      "type": "glass-ribs",
+      "name": "Ribs Prisma",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "1:1",
+      "colors": [
+        "#022b63",
+        "#1054ff",
+        "#6a9aff",
+        "#e7eeff"
+      ],
+      "background": "#f0f0f3",
+      "shapes": [
+        "ring",
+        "square"
+      ],
+      "hold": 4,
+      "size": 1,
+      "softness": 0.2,
+      "speed": 1,
+      "rib": 44,
+      "angle": 18,
+      "profile": "prism",
+      "frost": 0.25,
+      "refraction": 1.2,
+      "ior": 1.4,
+      "shine": 0.6
+    },
+    {
       "id": "iso-staff-aug",
       "type": "iso-staff",
       "name": "Staff augmentation",
