@@ -24,6 +24,19 @@ export function makeNormalize(DEFAULTS, controls) {
         if (!l.length) l = d.slice();
         while (l.length < (it.min ?? 1)) l.push(l.at(-1));
         out[it.key] = l;
+      } else if (it.type === 'list') {
+        // lista de objetos: cada campo se valida con su propio tipo; it.item es el elemento por defecto
+        const fix = x => {
+          const o = { ...it.item };
+          for (const f of it.fields) {
+            const fv = x?.[f.key];
+            if (f.type === 'select') o[f.key] = fv in f.options ? fv : it.item[f.key];
+            else if (f.type === 'text') o[f.key] = typeof fv === 'string' ? fv.slice(0, f.max ?? 40) : it.item[f.key];
+          }
+          return o;
+        };
+        const l = (Array.isArray(v) ? v : d).slice(0, it.max ?? 12).map(fix);
+        out[it.key] = l.length >= (it.min ?? 0) ? l : structuredClone(d);
       } else if (it.type === 'multi') {
         const l = (Array.isArray(v) ? v : d).filter(x => x in it.options);
         out[it.key] = l.length >= (it.min ?? 0) ? l : d.slice();

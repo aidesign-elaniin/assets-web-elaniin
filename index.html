@@ -1577,6 +1577,27 @@ function multiInner(it) {
 const CTL = {
   range: rangeRow, seg: segHTML, colors: colorsHTML, color: colorHTML,
   multi: it => `<div class="flex flex-wrap gap-2" data-multi="${it.key}">${multiInner(it)}</div>`,
+  list: it => {
+    const l = getP(ed.cfg, it.key), n = l.length, name = it.itemName ?? 'Elemento';
+    const field = (f, item, i) => {
+      const id = `lf-${it.key}-${i}-${f.key}`, lab = `<label for="${id}" class="text-caption text-text-secondary">${esc(f.label)}</label>`;
+      if (f.type === 'text') return `<div class="col-span-2 min-w-0">${lab}<input id="${id}" class="field mt-1 focus-ring" data-lf="${f.key}" data-key="${it.key}" data-i="${i}" value="${esc(item[f.key])}" maxlength="${f.max ?? 40}" /></div>`;
+      return `<div class="min-w-0">${lab}<select id="${id}" class="field mt-1 focus-ring" data-lf="${f.key}" data-key="${it.key}" data-i="${i}">${Object.entries(f.options).map(([v, o]) => `<option value="${v}" ${item[f.key] === v ? 'selected' : ''}>${esc(o)}</option>`).join('')}</select></div>`;
+    };
+    const btn = (attr, i, label, svg, off) => `<button type="button" class="icon-btn focus-ring" ${attr} data-key="${it.key}" data-i="${i}" aria-label="${label} ${name.toLowerCase()} ${i + 1}" ${off ? 'disabled' : ''}>${icon(svg)}</button>`;
+    // stackOrder: el último elemento se muestra arriba (pilas); si no, orden natural (listas, pipelines)
+    const up = it.stackOrder ? 1 : -1, [first, last] = it.ends ?? (it.stackOrder ? ['abajo', 'arriba'] : ['primera', 'última']);
+    const seq = l.map((item, i) => [item, i]);
+    const rows = (it.stackOrder ? seq.reverse() : seq).map(([item, i]) => `<li class="space-y-3 rounded-card border border-border-default p-4">
+      <div class="flex items-center justify-between gap-2">
+        <p class="mono-label text-caption text-text-muted">${esc(name)} ${i + 1}${n > 1 && i === n - 1 ? ' · ' + last : ''}${n > 1 && i === 0 ? ' · ' + first : ''}</p>
+        <div class="flex">${btn(`data-list-move="${up}"`, i, 'Subir', '<path d="M12 19V5m-6 6l6-6 6 6"/>', i + up < 0 || i + up >= n)}${btn(`data-list-move="${-up}"`, i, 'Bajar', '<path d="M12 5v14m6-6l-6 6-6-6"/>', i - up < 0 || i - up >= n)}${btn('data-list-rm', i, 'Quitar', '<path d="M6 6l12 12M18 6L6 18"/>', n <= (it.min ?? 0))}</div>
+      </div>
+      <div class="grid grid-cols-2 gap-3">${it.fields.map(f => field(f, item, i)).join('')}</div></li>`).join('');
+    return `<ol class="space-y-3" data-list="${it.key}">${rows}</ol>
+      <div class="flex items-center justify-between gap-3"><button type="button" class="btn btn-secondary focus-ring" data-list-add data-key="${it.key}" ${n >= (it.max ?? 99) ? 'disabled' : ''}>Agregar ${esc(name.toLowerCase())}</button>
+      <p class="font-mono text-caption tabular-nums text-text-muted">${n} / ${it.max ?? '∞'}</p></div>`;
+  },
   text: it => `<div><label for="t-${it.key}" class="text-body-sm text-text-secondary">${esc(it.label)}</label>
     <input id="t-${it.key}" class="field mt-2 focus-ring" data-text-key="${it.key}" value="${esc(getP(ed.cfg, it.key))}" maxlength="${it.max ?? 40}" /></div>`,
   select: it => `<div><label for="s-${it.key}" class="text-body-sm text-text-secondary">${esc(it.label)}</label>
@@ -1679,11 +1700,13 @@ panel.addEventListener('input', e => {
   else if (d.stopColor !== undefined) { getP(ed.cfg, d.key)[+d.stopColor] = t.value; $(`[data-stop-hex="${d.stopColor}"][data-key="${d.key}"]`).value = t.value; apply(false); }
   else if (d.colorKey) { setP(ed.cfg, d.colorKey, t.value); $(`[data-hex-key="${d.colorKey}"]`).value = t.value; apply(false); }
   else if (d.textKey) { setP(ed.cfg, d.textKey, t.value); apply(false); }
+  else if (d.lf && t.tagName === 'INPUT') { getP(ed.cfg, d.key)[+d.i][d.lf] = t.value; apply(false); }
 });
 panel.addEventListener('change', e => {
   const t = e.target, d = t.dataset;
   if (d.stopHex !== undefined) { const v = readHex(t); if (v) { getP(ed.cfg, d.key)[+d.stopHex] = v; $(`[data-stop-color="${d.stopHex}"][data-key="${d.key}"]`).value = v; apply(false); } }
   if (d.selectKey) { setP(ed.cfg, d.selectKey, t.value); apply(false); }
+  if (d.lf && t.tagName === 'SELECT') { getP(ed.cfg, d.key)[+d.i][d.lf] = t.value; apply(false); }
   if (d.hexKey) { const v = readHex(t); if (v) { setP(ed.cfg, d.hexKey, v); $(`[data-color-key="${d.hexKey}"]`).value = v; apply(false); } }
   if (d.applyPalette !== undefined && t.value) {
     const p = palettes().find(x => x.id === t.value);
@@ -1699,6 +1722,17 @@ panel.addEventListener('click', e => {
     if (i >= 0) s.splice(i, 1); else s.push(d.multiOpt);
     $(`[data-multi="${d.key}"]`).innerHTML = multiInner(it); apply(false);
     $(`[data-multi-opt="${d.multiOpt}"][data-key="${d.key}"]`).focus();
+  }
+  if (d.listAdd !== undefined) {
+    const it = SPEC[d.key], l = getP(ed.cfg, d.key);
+    l.push(structuredClone(it.next ? it.next(l) : it.item)); apply(true);
+    $(`[data-lf][data-key="${d.key}"][data-i="${l.length - 1}"]`)?.focus();
+  }
+  if (d.listRm !== undefined) { getP(ed.cfg, d.key).splice(+d.i, 1); apply(true); $(`[data-list-add][data-key="${d.key}"]`)?.focus(); }
+  if (d.listMove) {
+    const l = getP(ed.cfg, d.key), i = +d.i, j = i + +d.listMove;
+    [l[i], l[j]] = [l[j], l[i]]; apply(true);
+    $(`[data-list-move="${d.listMove}"][data-key="${d.key}"][data-i="${j}"]:not(:disabled)`)?.focus();
   }
   if (d.seg) { setP(ed.cfg, d.seg, d.val); $$(`[data-seg="${d.seg}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); apply(false); }
   if (d.stopRm !== undefined) { getP(ed.cfg, d.key).splice(+d.stopRm, 1); apply(true); }

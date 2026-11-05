@@ -114,6 +114,158 @@
   ],
   "assets": [
     {
+      "id": "iso-equipo",
+      "type": "iso-team",
+      "name": "Iso Equipo",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-modernizacion",
+      "type": "iso-migration",
+      "name": "Iso Modernización",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-producto",
+      "type": "iso-product",
+      "name": "Iso Producto",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-entrega",
+      "type": "iso-pipeline",
+      "name": "Iso Entrega",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-plataforma-apps",
+      "type": "iso-platform",
+      "name": "Iso Plataforma + apps",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-disponibilidad",
+      "type": "iso-availability",
+      "name": "Iso Disponibilidad",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-critico",
+      "type": "iso-critical",
+      "name": "Iso Crítico",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-servicio",
+      "type": "iso-service",
+      "name": "Iso Servicio público",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-respaldo",
+      "type": "iso-failover",
+      "name": "Iso Primario / Respaldo",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5"
+    },
+    {
+      "id": "iso-plataforma",
+      "type": "iso",
+      "name": "Iso Plataforma",
+      "tags": [
+        "hero",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5",
+      "stack": [
+        {
+          "look": "cloud",
+          "label": "Cloud",
+          "icon": "cloud"
+        },
+        {
+          "look": "cloud",
+          "label": "Red",
+          "icon": "server"
+        },
+        {
+          "look": "software",
+          "label": "Datos",
+          "icon": "database"
+        },
+        {
+          "look": "software",
+          "label": "Seguridad",
+          "icon": "shield"
+        },
+        {
+          "look": "software",
+          "label": "Plataforma",
+          "icon": "layers"
+        },
+        {
+          "look": "software",
+          "label": "Producto",
+          "icon": "code"
+        },
+        {
+          "look": "ai",
+          "label": "AI delivery",
+          "icon": "sparkles"
+        },
+        {
+          "look": "wire",
+          "label": "Próximo",
+          "icon": "rocket"
+        }
+      ]
+    },
+    {
       "id": "iso-hero",
       "type": "iso",
       "name": "Iso Hero",
@@ -122,7 +274,24 @@
         "claro",
         "marca"
       ],
-      "aspect": "4:5"
+      "aspect": "4:5",
+      "stack": [
+        {
+          "look": "cloud",
+          "label": "Cloud",
+          "icon": "cloud"
+        },
+        {
+          "look": "software",
+          "label": "Software",
+          "icon": "code"
+        },
+        {
+          "look": "ai",
+          "label": "AI delivery",
+          "icon": "sparkles"
+        }
+      ]
     },
     {
       "id": "iso-pipeline",
@@ -134,19 +303,28 @@
         "marca"
       ],
       "aspect": "1:1",
-      "layers": 4,
-      "l1Look": "cloud",
-      "l1Label": "Infra",
-      "l1Icon": "server",
-      "l2Look": "software",
-      "l2Label": "Plataforma",
-      "l2Icon": "layers",
-      "l3Look": "cloud",
-      "l3Label": "Datos",
-      "l3Icon": "database",
-      "l4Look": "wire",
-      "l4Label": "Próximo",
-      "l4Icon": "rocket"
+      "stack": [
+        {
+          "look": "cloud",
+          "label": "Infra",
+          "icon": "server"
+        },
+        {
+          "look": "software",
+          "label": "Plataforma",
+          "icon": "layers"
+        },
+        {
+          "look": "cloud",
+          "label": "Datos",
+          "icon": "database"
+        },
+        {
+          "look": "wire",
+          "label": "Próximo",
+          "icon": "rocket"
+        }
+      ]
     },
     {
       "id": "iso-ai",
@@ -157,15 +335,20 @@
         "claro"
       ],
       "aspect": "4:5",
-      "layers": 2,
       "grid": "none",
       "background": "#f0f0f3",
-      "l1Look": "software",
-      "l1Label": "Tu equipo",
-      "l1Icon": "code",
-      "l2Look": "ai",
-      "l2Label": "AI delivery",
-      "l2Icon": "sparkles"
+      "stack": [
+        {
+          "look": "software",
+          "label": "Tu equipo",
+          "icon": "code"
+        },
+        {
+          "look": "ai",
+          "label": "AI delivery",
+          "icon": "sparkles"
+        }
+      ]
     },
     {
       "id": "halftone-azul",

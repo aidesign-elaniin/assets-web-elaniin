@@ -3,13 +3,22 @@
 Biblioteca de assets animados para los sitios de Elaniin. Cada tipo de asset es un **generador** con su propio editor, y todos exportan embed, imagen, video en loop y JSON.
 
 - Sitio: https://aidesign-elaniin.github.io/assets-web-elaniin/
-- 11 generadores, todos con loop perfecto:
+- 20 generadores, todos con loop perfecto:
 
 | `type` | Nombre | Origen |
 |---|---|---|
 | `glass-grid` | Glass Grid | Referencias del equipo · cubo modelado en Blender |
 | `sweeps` | Barridos | ADN del diseñador (`/rogenizar`): CTA y cards de elaniin.com |
-| `iso` | Iso Stack | Kit isométrico oficial (`elaniin-style`) en Canvas2D: 1–4 losas editables, frost, pulso, reloj de 12 s |
+| `iso` | Iso · Stack | Pila del hero de elaniin.com: 1–12 losas, grosor automático, frost, pulso, reloj de 12 s |
+| `iso-team` | Iso · Equipo | elaniin.com (canary) · routes · Scale your engineering team |
+| `iso-migration` | Iso · Modernización | routes · Modernize a critical system |
+| `iso-product` | Iso · Producto | routes · Build the software your business runs on |
+| `iso-critical` | Iso · Crítico | routes (sector público) · Build critical software |
+| `iso-service` | Iso · Servicio | routes (sector público) · Reach the people you serve |
+| `iso-failover` | Iso · Primario / Respaldo | routes (sector público) · Stay available when it matters |
+| `iso-pipeline` | Iso · Pipeline | solutions · AI across the pipeline (2–7 etapas) |
+| `iso-platform` | Iso · Plataforma | solutions · Build and modernize (plataforma + apps) |
+| `iso-availability` | Iso · Disponibilidad | solutions · Built for real demand (réplicas) |
 | `halftone` | Halftone Fluido | Board de Pinterest |
 | `dither` | Píxel Dither | Board de Pinterest |
 | `led` | Matriz LED (reacciona al cursor) | Board de Pinterest + trama de puntos del diseñador |
@@ -51,13 +60,16 @@ library.json            assets y paletas del equipo
 generators/<id>/        un generador por carpeta, autocontenido
   _shared/runtime.js    base común: bucle de render, validación desde `controls`, GLSL (ruido 4D en loop, rampa, etc.)
   glass-grid/           index.js · tiles.json · make_tile.py (Blender) · tile-*.glb
-  iso/                  Canvas2D, misma geometría y reloj que templates/iso-stack.js
+  _shared/iso-kit.js    kit isométrico Canvas2D: proyección 30°, losas, frost, pastillas, pulsos, encuadre, defineIso
+  iso/ iso-*/           escenas isométricas (una carpeta por escena)
   sweeps/ halftone/ dither/ led/ topo/ satin/ orb/ wave/ constellation/
 ```
 
 ## Agregar un generador
 
 **Atajo (shader a pantalla completa):** usa `defineGenerator` de `generators/_shared/runtime.js`. Solo declaras `DEFAULTS`, `controls`, `uniforms(c)` (config → uniforms) y `frag` (GLSL). Validación, embed, loop y montaje salen solos. Ejemplos: `halftone/`, `led/`. Para escenas 3D pasa `init(renderer, U)` en vez de `frag` (ver `wave/`, `constellation/`). En GLSL tienes `cssPx()`, `pal(t)`, `lnoise(p, uPh, r)` y `lfbm(p, uPh)`: el ruido recorre un círculo en 4D, así que el loop cierra exacto.
+
+**Atajo isométrico:** `defineIso` de `generators/_shared/iso-kit.js`. Declaras `DEFAULTS`, `controls`, `build(cfg)` (geometría: `plate`, `bounds`) y `draw(ctx, env)` usando `glassSlab`, `pill`, `chip`, `pulse`, `line`, `logoTop`/`logoRight`. Encuadre, fondo, levitación, sombra, reloj de 12 s y exportación salen solos. Ejemplos cortos: `iso-critical/`, `iso-team/`.
 
 **Contrato completo** (para generadores a mano como `glass-grid/`):
 
@@ -89,6 +101,7 @@ La biblioteca, el editor, las miniaturas y la exportación (PNG, MP4, embed, JSO
 | `multi` | `key`, `options`, `icons?` (SVG interno 24×24), `min` (selección ordenada) |
 | `select` | `key`, `label`, `options` (lista desplegable) |
 | `text` | `key`, `label`, `max` |
+| `list` | `key`, `itemName`, `min`, `max`, `item` (elemento por defecto), `fields` (`text`/`select`), `next?(lista)`, `stackOrder?` |
 
 `key` acepta rutas con punto (`grid.cols`).
 
