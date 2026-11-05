@@ -29,7 +29,8 @@ export const DEFAULT_TYPE = 'glass-grid';
 
 const modules = {};
 export function loadGenerator(type) {
-  if (!GENERATORS[type]) return Promise.reject(new Error(`Generador desconocido: "${type}"`));
+  // el registro es solo catálogo: un sitio con este archivo en caché igual puede cargar generadores nuevos
+  if (!/^[a-z0-9-]+$/.test(type || '')) return Promise.reject(new Error(`Tipo de generador inválido: "${type}"`));
   return (modules[type] ??= import(new URL(`./generators/${type}/index.js`, import.meta.url).href));
 }
 export const mount = async (host, asset, opts) => (await loadGenerator(asset.type || DEFAULT_TYPE)).mount(host, asset, opts);
