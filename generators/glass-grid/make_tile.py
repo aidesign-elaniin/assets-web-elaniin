@@ -2,10 +2,10 @@
 Genera la geometría del cubo de vidrio en Blender.
 
 Uso:
-  /Applications/Blender.app/Contents/MacOS/Blender -b -P blender/make_tile.py
+  /Applications/Blender.app/Contents/MacOS/Blender -b -P generators/glass-grid/make_tile.py
 
-Salida (assets/):
-  tiles.json  -> lo carga elaniin-glass.js (posiciones, normales, índices por perfil)
+Salida (esta carpeta):
+  tiles.json  -> lo carga index.js (posiciones, normales, índices por perfil)
   tile-<perfil>.glb -> para usar el cubo en Figma/Spline/Cinema, etc.
 
 Cada perfil = radio de esquina distinto. Tile mide 1x1 de frente, DEPTH de grosor;
@@ -14,8 +14,7 @@ el motor escala Z para el grosor elegido en el editor.
 import bpy, bmesh, json, math, os
 from mathutils import Vector
 
-ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
-OUT = os.path.join(ROOT, "assets")
+OUT = os.path.dirname(os.path.abspath(__file__))  # todo queda dentro del generador
 PROFILES = {"suave": 0.12, "redondo": 0.24, "pildora": 0.40}  # radio de esquina (tile = 1)
 DEPTH = 0.3
 EDGE = 0.05        # bisel del canto frontal/trasero

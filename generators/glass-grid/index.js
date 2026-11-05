@@ -1,11 +1,6 @@
-// Elaniin Glass — motor de assets "glass grid".
-// Un solo archivo para el editor y para los sitios: lo que se ve en el editor es lo que se publica.
-//
-// Uso en un sitio:
-//   <script type="module" src="https://<host>/elaniin-glass.js"></script>
-//   <elaniin-glass style="display:block;aspect-ratio:16/9" config='{"colors":["#1aa7ff","#16c24a"]}'></elaniin-glass>
-//
-// La geometría del cubo sale de Blender (blender/make_tile.py -> assets/tiles.json).
+// Generador "Glass Grid": cuadrícula fija de vidrio esmerilado sobre formas y gradientes en movimiento.
+// La geometría del cubo sale de Blender (make_tile.py -> tiles.json).
+// Contrato de generador: ver README.md en la raíz.
 
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.min.js';
 
@@ -14,11 +9,18 @@ export const SHAPES = {
   diamond: 'Rombo', cross: 'Cruz', blob: 'Orgánico',
 };
 const SHAPE_IDS = Object.keys(SHAPES);
+const SHAPE_ICONS = {
+  circle: '<circle cx="12" cy="12" r="7"/>',
+  square: '<rect x="5" y="5" width="14" height="14" rx="2"/>',
+  triangle: '<path d="M12 5l7.5 13h-15z"/>',
+  ring: '<circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3.5"/>',
+  diamond: '<path d="M12 3.5l8.5 8.5-8.5 8.5L3.5 12z"/>',
+  cross: '<path d="M9.5 4h5v5.5H20v5h-5.5V20h-5v-5.5H4v-5h5.5z"/>',
+  blob: '<path d="M12 4.5c3 0 7 1.5 7 6s-2.5 9-7 9-7.5-3-7-7.5 4-7.5 7-7.5z"/>',
+};
 export const PROFILES = { suave: 'Suave', redondo: 'Redondo', pildora: 'Píldora' };
 
 export const DEFAULTS = {
-  name: 'Sin título',
-  tags: [],
   colors: ['#1aa7ff', '#22d3ee', '#16c24a', '#5b8cff'],
   background: '#f1f2f4',
   shapes: ['circle', 'square', 'triangle', 'ring', 'diamond'],
@@ -29,8 +31,35 @@ export const DEFAULTS = {
   grid: { cols: 8, rows: 7, gap: 0.08, profile: 'redondo', depth: 0.3 },
   glass: { frost: 0.55, refraction: 1, ior: 1.4 },
   fit: 'contain',     // contain = cuadrícula completa con aire · cover = llena el contenedor
-  aspect: '16:9',
 };
+
+// Esquema del panel del editor (lo dibuja la app; ver README → Controles).
+export const controls = [
+  { title: 'Gradiente', items: [
+    { type: 'colors', key: 'colors', min: 2, max: 6 },
+    { type: 'color', key: 'background', label: 'Fondo' },
+  ] },
+  { title: 'Formas', hint: 'El orden en que las eliges es la secuencia de la animación.', items: [
+    { type: 'multi', key: 'shapes', options: SHAPES, icons: SHAPE_ICONS, min: 1 },
+    { type: 'range', key: 'hold', label: 'Tiempo por forma', min: 1, max: 12, step: 0.5, digits: 1, unit: ' s' },
+    { type: 'range', key: 'size', label: 'Tamaño', min: 0.2, max: 2, step: 0.05 },
+    { type: 'range', key: 'softness', label: 'Difuminado', min: 0.01, max: 1, step: 0.01 },
+    { type: 'range', key: 'speed', label: 'Velocidad', min: 0.1, max: 4, step: 0.1, digits: 1, unit: '×' },
+  ] },
+  { title: 'Cuadrícula', items: [
+    { type: 'range', key: 'grid.cols', label: 'Columnas', min: 1, max: 24, step: 1, digits: 0 },
+    { type: 'range', key: 'grid.rows', label: 'Filas', min: 1, max: 24, step: 1, digits: 0 },
+    { type: 'range', key: 'grid.gap', label: 'Separación', min: 0, max: 0.5, step: 0.01 },
+    { type: 'seg', key: 'grid.profile', label: 'Perfil del cubo (Blender)', options: PROFILES },
+    { type: 'range', key: 'grid.depth', label: 'Grosor', min: 0.05, max: 0.9, step: 0.01 },
+    { type: 'seg', key: 'fit', label: 'Encuadre', options: { contain: 'Contener', cover: 'Llenar' } },
+  ] },
+  { title: 'Vidrio', items: [
+    { type: 'range', key: 'glass.frost', label: 'Esmerilado', min: 0, max: 1, step: 0.01 },
+    { type: 'range', key: 'glass.refraction', label: 'Refracción', min: 0, max: 3, step: 0.05 },
+    { type: 'range', key: 'glass.ior', label: 'IOR', min: 1, max: 2.2, step: 0.01 },
+  ] },
+];
 
 const HEX = /^#[0-9a-f]{6}$/i;
 const num = (v, lo, hi, d) => (Number.isFinite(+v) ? Math.min(hi, Math.max(lo, +v)) : d);
@@ -45,8 +74,6 @@ export function normalize(c = {}) {
   if (!shapes.length) shapes = ['circle'];
   return {
     ...c,
-    name: String(c.name ?? d.name),
-    tags: Array.isArray(c.tags) ? c.tags.map(String) : [],
     colors,
     background: HEX.test(c.background) ? c.background : d.background,
     shapes,
@@ -67,7 +94,6 @@ export function normalize(c = {}) {
       ior: num(gl.ior, 1, 2.2, d.glass.ior),
     },
     fit: c.fit === 'cover' ? 'cover' : 'contain',
-    aspect: ['16:9', '4:5', '1:1', '9:16', '21:9'].includes(c.aspect) ? c.aspect : d.aspect,
   };
 }
 
@@ -77,14 +103,17 @@ export function loopSeconds(c) {
   return (n > 1 ? n * c.hold : Math.max(c.hold * 3, 8)) / c.speed;
 }
 
-// Solo lo que viaja en el embed (sin id, fechas, etc.)
+// Solo los campos que viajan en el embed.
 export function embedConfig(c) {
-  const { name, tags, colors, background, shapes, hold, size, softness, speed, grid, glass, fit } = normalize(c);
+  const { colors, background, shapes, hold, size, softness, speed, grid, glass, fit } = normalize(c);
   return { colors, background, shapes, hold, size, softness, speed, grid, glass, fit };
 }
 
+// Línea de resumen para las cards de la biblioteca.
+export const describe = c => `${c.grid.cols}×${c.grid.rows} · ${c.colors.length} colores`;
+
 // ---------- geometría Blender ----------
-const TILES_URL = new URL('./assets/tiles.json', import.meta.url);
+const TILES_URL = new URL('./tiles.json', import.meta.url);
 let tilesPromise;
 function loadTiles() {
   return (tilesPromise ??= fetch(TILES_URL).then(r => {
@@ -305,101 +334,3 @@ export async function mount(host, config, opts = {}) {
     },
   };
 }
-
-// ---------- exportación ----------
-function offscreenHost(width, height) {
-  const el = document.createElement('div');
-  el.style.cssText = `position:fixed;left:-20000px;top:0;width:${width}px;height:${height}px;pointer-events:none`;
-  document.body.appendChild(el);
-  return el;
-}
-
-// Varias imágenes con un solo contexto WebGL (miniaturas de la biblioteca).
-export async function snapshots(configs, { width = 640, height = 400, type = 'image/webp' } = {}) {
-  const host = offscreenHost(width, height);
-  const g = await mount(host, configs[0] || {}, { size: [width, height], dpr: 1, autoplay: false, preserve: true });
-  const out = [];
-  try {
-    for (const c of configs) {
-      g.set(c);
-      g.renderAt(loopSeconds(g.config) * 0.12);
-      out.push(await new Promise(r => g.canvas.toBlob(r, type, 0.9)));
-    }
-  } finally { g.destroy(); host.remove(); }
-  return out;
-}
-
-export async function renderImage(config, { width, height, type = 'image/png', time } = {}) {
-  const host = offscreenHost(width, height);
-  const g = await mount(host, config, { size: [width, height], dpr: 1, autoplay: false, preserve: true });
-  try {
-    g.renderAt(time ?? loopSeconds(g.config) * 0.12);
-    return await new Promise(r => g.canvas.toBlob(r, type, 0.95));
-  } finally { g.destroy(); host.remove(); }
-}
-
-export function videoMime() {
-  return ['video/mp4;codecs=avc1.640028', 'video/mp4', 'video/webm;codecs=vp9', 'video/webm']
-    .find(m => window.MediaRecorder && MediaRecorder.isTypeSupported(m)) || null;
-}
-
-// Graba un loop en tiempo real. ponytail: tiempo real = si la GPU no llega a 60fps se pierden cuadros;
-// render cuadro a cuadro con WebCodecs si hace falta calidad de estudio.
-export async function recordVideo(config, { width = 1920, height = 1080, seconds, fps = 60, bitrate = 16e6, onProgress } = {}) {
-  const mime = videoMime();
-  if (!mime) throw new Error('Este navegador no puede grabar video.');
-  const host = offscreenHost(width, height);
-  const g = await mount(host, config, { size: [width, height], dpr: 1, autoplay: false });
-  const dur = seconds ?? loopSeconds(g.config);
-  const rec = new MediaRecorder(g.canvas.captureStream(fps), { mimeType: mime, videoBitsPerSecond: bitrate });
-  const chunks = [];
-  rec.ondataavailable = e => e.data.size && chunks.push(e.data);
-  const done = new Promise(r => (rec.onstop = r));
-  g.renderAt(0);
-  rec.start(250);
-  const t0 = performance.now();
-  await new Promise(resolve => {
-    const step = () => {
-      const t = (performance.now() - t0) / 1000;
-      if (t >= dur) return resolve();
-      g.renderAt(t);
-      onProgress?.(t / dur);
-      requestAnimationFrame(step);
-    };
-    requestAnimationFrame(step);
-  });
-  rec.stop();
-  await done;
-  g.destroy(); host.remove();
-  onProgress?.(1);
-  return { blob: new Blob(chunks, { type: mime.split(';')[0] }), ext: mime.startsWith('video/mp4') ? 'mp4' : 'webm' };
-}
-
-// ---------- web component ----------
-class ElaniinGlass extends HTMLElement {
-  static observedAttributes = ['config', 'src'];
-  async connectedCallback() {
-    if (this._g || this._busy) return;
-    this._busy = true;
-    if (getComputedStyle(this).display === 'inline') this.style.display = 'block';
-    if (getComputedStyle(this).position === 'static') this.style.position = 'relative';
-    this.style.overflow = 'hidden';
-    const cfg = await this._read();
-    this._g = await mount(this, cfg, { autoplay: false });
-    this._busy = false;
-    const reduce = matchMedia('(prefers-reduced-motion: reduce)');
-    this._io = new IntersectionObserver(([e]) => {
-      if (e.isIntersecting && !reduce.matches) this._g.play(); else this._g.pause();
-    });
-    this._io.observe(this);
-  }
-  disconnectedCallback() { this._io?.disconnect(); this._g?.destroy(); this._g = null; }
-  async attributeChangedCallback() { if (this._g) this._g.set(await this._read()); }
-  async _read() {
-    try {
-      if (this.getAttribute('src')) return await (await fetch(this.getAttribute('src'))).json();
-      return JSON.parse(this.getAttribute('config') || '{}');
-    } catch (err) { console.warn('[elaniin-glass] config inválida', err); return {}; }
-  }
-}
-if (!customElements.get('elaniin-glass')) customElements.define('elaniin-glass', ElaniinGlass);

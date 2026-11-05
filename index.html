@@ -951,6 +951,7 @@
     <nav class="min-h-0 flex-1 space-y-1 overflow-y-auto p-3" aria-label="Principal">
       <p class="mono-label px-3 pb-2 pt-3 text-caption text-text-disabled">Crear</p>
       <a href="#/biblioteca" data-nav="biblioteca" class="side-link focus-ring">Biblioteca</a>
+      <a href="#/generadores" data-nav="generadores" class="side-link focus-ring">Generadores</a>
       <a href="#/editor" data-nav="editor" class="side-link focus-ring">Editor</a>
       <a href="#/paletas" data-nav="paletas" class="side-link focus-ring">Paletas</a>
       <p class="mono-label px-3 pb-2 pt-6 text-caption text-text-disabled">Recursos</p>
@@ -985,7 +986,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
           <span class="hidden md:inline">Exportar biblioteca</span>
         </button>
-        <a href="#/editor?new=1" class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Nuevo asset">
+        <a href="#/generadores" class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Nuevo asset">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" class="md:hidden"><path d="M12 5v14M5 12h14"/></svg>
           <span class="hidden md:inline">Nuevo asset</span>
         </a>
@@ -1029,8 +1030,8 @@
             </div>
           </div>
           <div class="col-span-12 min-w-0 sm:col-span-4 xl:col-span-3">
-            <label for="lib-shape" class="sr-only">Filtrar por forma</label>
-            <select id="lib-shape" data-lib-shape class="field focus-ring"><option value="">Todas las formas</option></select>
+            <label for="lib-type" class="sr-only">Filtrar por generador</label>
+            <select id="lib-type" data-lib-type class="field focus-ring"><option value="">Todos los generadores</option></select>
           </div>
           <div class="col-span-12 min-w-0 sm:col-span-4 xl:col-span-3">
             <label for="lib-tag" class="sr-only">Filtrar por etiqueta</label>
@@ -1054,6 +1055,15 @@
         </div>
       </div>
 
+      <!-- ============ GENERADORES ============ -->
+      <div data-view="generadores" hidden>
+        <div class="rise">
+          <h2 class="max-w-[20ch] font-display text-h2 font-medium">Elige qué tipo de asset crear</h2>
+          <p class="mt-2 max-w-[56ch] text-body text-text-secondary">Cada generador tiene su propio editor y exporta embed, imagen, video y JSON. Iremos sumando más.</p>
+        </div>
+        <ul data-gen-grid class="mt-6 grid-auto" style="--card-min: 18rem"></ul>
+      </div>
+
       <!-- ============ EDITOR ============ -->
       <div data-view="editor" hidden>
         <div class="grid-page">
@@ -1066,7 +1076,7 @@
                   <button type="button" data-play class="icon-btn border border-border-default focus-ring" aria-label="Pausar"></button>
                 </div>
               </div>
-              <div data-stage-wrap class="mt-4 flex h-[56vh] items-center justify-center md:h-[min(68vh,640px)]">
+              <div data-stage-wrap class="mt-4 flex items-center justify-center md:h-[min(68vh,640px)]">
                 <div data-stage class="relative overflow-hidden rounded-card border border-border-default bg-surface-subtle"></div>
               </div>
             </div>
@@ -1091,7 +1101,7 @@
       <div data-view="guia" hidden>
         <article class="max-w-[68ch]">
           <h2 class="font-display text-h2 font-medium">Cómo poner un asset en un sitio</h2>
-          <p class="mt-3 text-lead text-text-secondary">Cada asset es un componente web. Pegas dos líneas, el navegador hace el resto.</p>
+          <p class="mt-3 text-lead text-text-secondary">Cada asset es un componente web servido desde GitHub Pages. Pegas dos líneas, el navegador hace el resto.</p>
 
           <h3 class="mt-10 font-display text-h4 font-medium">1. Copia el embed</h3>
           <p class="mt-2 text-body text-text-secondary">Desde la biblioteca (icono de código) o desde el editor en Exportar → Embed. El código trae la configuración completa: no depende de esta biblioteca.</p>
@@ -1105,6 +1115,7 @@
             <table class="w-full min-w-[32rem] text-left text-body-sm">
               <thead><tr class="border-b border-border-strong"><th class="mono-label px-4 py-3 text-caption text-text-muted">Atributo</th><th class="mono-label px-4 py-3 text-caption text-text-muted">Qué hace</th></tr></thead>
               <tbody>
+                <tr class="border-b border-border-default"><td class="px-4 py-3 font-mono text-code">type</td><td class="px-4 py-3 text-text-secondary">Generador a usar, por ejemplo <code class="font-mono text-code">glass-grid</code>. Solo se descarga el código de ese generador.</td></tr>
                 <tr class="border-b border-border-default"><td class="px-4 py-3 font-mono text-code">config</td><td class="px-4 py-3 text-text-secondary">JSON del asset (colores, formas, cuadrícula, vidrio). Cambiarlo actualiza en vivo.</td></tr>
                 <tr><td class="px-4 py-3 font-mono text-code">src</td><td class="px-4 py-3 text-text-secondary">URL a un .json exportado. Útil para cambiar el asset sin tocar el HTML.</td></tr>
               </tbody>
@@ -1115,16 +1126,20 @@
           <ul class="mt-2 list-disc space-y-2 pl-5 text-body text-text-secondary">
             <li>Se pausa solo cuando sale de pantalla y queda quieto con “reducir movimiento”.</li>
             <li>Cada asset usa un contexto WebGL. Máximo 6 por página; para más, exporta video o imagen.</li>
+            <li>El embed apunta a la versión publicada en <code class="font-mono text-code">main</code>: los cambios a un generador llegan a todos los sitios.</li>
             <li>El video exportado es un loop perfecto: el último cuadro empalma con el primero.</li>
           </ul>
 
           <h3 class="mt-10 font-display text-h4 font-medium">5. Compartir con el equipo</h3>
           <p class="mt-2 text-body text-text-secondary">Lo que guardas vive en tu navegador. En Biblioteca → Exportar biblioteca descargas un <code class="font-mono text-code">library.json</code>: reemplázalo en el repo <code class="font-mono text-code">assets-web-elaniin</code> y haz commit.</p>
 
-          <h3 class="mt-10 font-display text-h4 font-medium">6. Geometría en Blender</h3>
-          <p class="mt-2 text-body text-text-secondary">El cubo de vidrio sale de <code class="font-mono text-code">blender/make_tile.py</code> (3 perfiles: Suave, Redondo, Píldora). Para cambiar biseles o radios, edita el script y regénéralo:</p>
-          <pre class="code-block mt-4">/Applications/Blender.app/Contents/MacOS/Blender -b -P blender/make_tile.py</pre>
-          <p class="mt-2 text-body text-text-secondary">También deja <code class="font-mono text-code">assets/tile-*.glb</code> para Figma, Spline o Cinema 4D.</p>
+          <h3 class="mt-10 font-display text-h4 font-medium">6. Agregar un generador</h3>
+          <p class="mt-2 text-body text-text-secondary">Crea <code class="font-mono text-code">generators/&lt;id&gt;/index.js</code> con <code class="font-mono text-code">DEFAULTS</code>, <code class="font-mono text-code">controls</code>, <code class="font-mono text-code">normalize</code>, <code class="font-mono text-code">loopSeconds</code>, <code class="font-mono text-code">embedConfig</code>, <code class="font-mono text-code">describe</code> y <code class="font-mono text-code">mount</code>, y regístralo en <code class="font-mono text-code">elaniin-assets.js</code>. El editor, la biblioteca y la exportación lo toman solos. Detalle en el README del repo.</p>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">7. Geometría en Blender (Glass Grid)</h3>
+          <p class="mt-2 text-body text-text-secondary">El cubo de vidrio sale de <code class="font-mono text-code">generators/glass-grid/make_tile.py</code> (3 perfiles: Suave, Redondo, Píldora). Para cambiar biseles o radios, edita el script y regénéralo:</p>
+          <pre class="code-block mt-4">/Applications/Blender.app/Contents/MacOS/Blender -b -P generators/glass-grid/make_tile.py</pre>
+          <p class="mt-2 text-body text-text-secondary">También deja <code class="font-mono text-code">tile-*.glb</code> en esa carpeta para Figma, Spline o Cinema 4D.</p>
         </article>
       </div>
 
@@ -1241,7 +1256,11 @@
 <div data-toast role="status" aria-live="polite" hidden class="rise fixed bottom-4 left-1/2 z-50 max-w-[calc(100%-2rem)] -translate-x-1/2 rounded-button bg-excellence-blue px-4 py-3 text-body-sm text-white shadow-menu"></div>
 
 <script type="module">
-import { mount, snapshots, renderImage, recordVideo, videoMime, normalize, embedConfig, loopSeconds, SHAPES, PROFILES, DEFAULTS } from './elaniin-glass.js';
+import { GENERATORS, DEFAULT_TYPE, loadGenerator, mount, snapshots, renderImage, recordVideo, videoMime } from './elaniin-assets.js';
+
+// URL pública (GitHub Pages): los embeds siempre apuntan aquí, aunque la app corra en local.
+const PUBLIC_BASE = 'https://aidesign-elaniin.github.io/assets-web-elaniin/';
+const LOADER_URL = PUBLIC_BASE + 'elaniin-assets.js';
 
 const $ = (s, r = document) => r.querySelector(s);
 const $$ = (s, r = document) => [...r.querySelectorAll(s)];
@@ -1250,7 +1269,8 @@ const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const uid = () => 'a' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
 const HEX = /^#[0-9a-f]{6}$/i;
 const ASPECTS = ['16:9', '21:9', '4:5', '1:1', '9:16'];
-const ENGINE_URL = new URL('elaniin-glass.js', location.href).href;
+const getP = (o, k) => k.split('.').reduce((x, p) => x?.[p], o);
+const setP = (o, k, v) => { const ps = k.split('.'), last = ps.pop(); ps.reduce((x, p) => (x[p] ??= {}), o)[last] = v; };
 
 /* ---------- toast + utilidades ---------- */
 const toastEl = $('[data-toast]'); let toastT;
@@ -1273,19 +1293,25 @@ function confirmAsk(title, body) {
   confirmDlg.returnValue = ''; confirmDlg.showModal();
   return new Promise(r => confirmDlg.addEventListener('close', () => r(confirmDlg.returnValue === 'ok'), { once: true }));
 }
-const SHAPE_ICON = {
-  circle: '<circle cx="12" cy="12" r="7"/>',
-  square: '<rect x="5" y="5" width="14" height="14" rx="2"/>',
-  triangle: '<path d="M12 5l7.5 13h-15z"/>',
-  ring: '<circle cx="12" cy="12" r="7.5"/><circle cx="12" cy="12" r="3.5"/>',
-  diamond: '<path d="M12 3.5l8.5 8.5-8.5 8.5L3.5 12z"/>',
-  cross: '<path d="M9.5 4h5v5.5H20v5h-5.5V20h-5v-5.5H4v-5h5.5z"/>',
-  blob: '<path d="M12 4.5c3 0 7 1.5 7 6s-2.5 9-7 9-7.5-3-7-7.5 4-7.5 7-7.5z"/>',
-};
-const shapeSvg = id => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">${SHAPE_ICON[id]}</svg>`;
+const icon = inner => `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" aria-hidden="true">${inner}</svg>`;
+const I_X = icon('<path d="M6 6l12 12M18 6L6 18"/>'), I_TRASH = icon('<path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/>');
+const I_ARROW = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 12h14m-5-5l5 5-5 5"/></svg>';
+
+/* ---------- generadores ---------- */
+// ponytail: carga todos al inicio; con muchos generadores, cargar solo los tipos presentes en la vista.
+const GEN = {};
+await Promise.all(Object.keys(GENERATORS).map(async t => { try { GEN[t] = await loadGenerator(t); } catch (e) { console.error(e); } }));
+const typeOf = a => (GEN[a?.type] ? a.type : DEFAULT_TYPE);
+function norm(a = {}) {
+  const type = typeOf(a);
+  return { ...GEN[type].normalize(a), type, name: String(a.name ?? 'Sin título'), tags: Array.isArray(a.tags) ? a.tags.map(String) : [], aspect: ASPECTS.includes(a.aspect) ? a.aspect : '16:9' };
+}
+const genOf = a => GEN[typeOf(a)];
+const loopOf = a => genOf(a).loopSeconds(norm(a));
+const fresh = type => norm({ ...structuredClone(GEN[type].DEFAULTS), type, name: 'Nuevo ' + GENERATORS[type].name });
 
 /* ---------- datos: library.json (equipo) + navegador (tuyo) ---------- */
-const LS_A = 'elaniin-glass:assets:v1', LS_P = 'elaniin-glass:palettes:v1';
+const LS_A = 'elaniin-assets:assets:v1', LS_P = 'elaniin-assets:palettes:v1';
 const load = k => { try { return JSON.parse(localStorage.getItem(k)) || []; } catch { return []; } };
 const store = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); return true; } catch { toast('Este navegador no permite guardar. Exporta el JSON para no perder cambios.'); return false; } };
 const mine = { assets: load(LS_A), palettes: load(LS_P) };
@@ -1300,23 +1326,25 @@ const palettes = () => [...mine.palettes.map(p => ({ ...p, local: true })), ...s
 const findAsset = id => assets().find(a => a.id === id);
 const clean = a => { const { local, ...rest } = a; return rest; };
 
-const ratio = a => a.replace(':', '/');
 function embedCode(a) {
-  const c = JSON.stringify(embedConfig(a)).replace(/'/g, '&#39;');
-  return `<script type="module" src="${ENGINE_URL}"><\/script>\n<elaniin-glass style="display:block;width:100%;aspect-ratio:${ratio(normalize(a).aspect)}" config='${c}'></elaniin-glass>`;
+  const n = norm(a), c = JSON.stringify(genOf(n).embedConfig(n)).replace(/'/g, '&#39;');
+  return `<script type="module" src="${LOADER_URL}"><\/script>\n<elaniin-asset type="${n.type}" style="display:block;width:100%;aspect-ratio:${n.aspect.replace(':', '/')}" config='${c}'></elaniin-asset>`;
 }
 
 /* ---------- vista previa en vivo de la biblioteca (un solo contexto WebGL) ---------- */
 const live = {
-  host: null, p: null, card: null,
+  host: null, p: null, type: null, card: null,
   async attach(card) {
     if (reduce || view !== 'biblioteca' || this.card === card) return;
-    const a = findAsset(card.dataset.card); if (!a) return;
+    const raw = findAsset(card.dataset.card); if (!raw) return;
+    const a = norm(raw);
     if (!this.host) { this.host = document.createElement('div'); this.host.className = 'absolute inset-0'; }
     if (this.card) $('[data-live-badge]', this.card).hidden = true;
     this.card = card;
     $('[data-media]', card).appendChild(this.host);
     $('[data-live-badge]', card).hidden = false;
+    if (this.type !== a.type && this.p) { const old = this.p; this.p = null; (await old).destroy(); }
+    this.type = a.type;
     this.p ??= mount(this.host, a, { autoplay: false });
     const g = await this.p;
     if (this.card !== card) return;
@@ -1331,67 +1359,66 @@ const live = {
 
 /* ---------- miniaturas ---------- */
 const thumbs = new Map(); let thumbGen = 0;
-async function fillThumbs(list) {
+const thumbKey = a => { const n = norm(a); return n.type + JSON.stringify(genOf(n).embedConfig(n)); };
+async function fillThumbs(list, attr) {
   const gen = ++thumbGen;
-  const key = a => JSON.stringify(embedConfig(a));
-  const missing = list.filter(a => !thumbs.has(key(a)));
+  const missing = list.filter(a => !thumbs.has(thumbKey(a)));
   const paint = () => list.forEach(a => {
-    const card = $(`[data-card="${CSS.escape(a.id)}"]`); const url = thumbs.get(key(a));
-    if (!card || !url) return;
-    const img = $('[data-thumb]', card); img.src = url; img.hidden = false; $('[data-skeleton]', card).hidden = true;
+    const el = $(`[${attr}="${CSS.escape(a.id)}"]`); const url = thumbs.get(thumbKey(a));
+    if (!el || !url) return;
+    const img = $('[data-thumb]', el); img.src = url; img.hidden = false; $('[data-skeleton]', el).hidden = true;
   });
   paint();
-  for (let i = 0; i < missing.length; i += 4) {           // ponytail: lotes de 4, un contexto por lote
-    const batch = missing.slice(i, i + 4);
+  for (let i = 0; i < missing.length; i += 4) {           // ponytail: lotes de 4 para pintar rápido las primeras
+    const batch = missing.slice(i, i + 4).map(norm);
     try {
       const blobs = await snapshots(batch, { width: 640, height: 480 });
-      batch.forEach((a, j) => blobs[j] && thumbs.set(key(a), URL.createObjectURL(blobs[j])));
+      batch.forEach((a, j) => blobs[j] && thumbs.set(thumbKey(a), URL.createObjectURL(blobs[j])));
     } catch (err) { console.error(err); }
     if (gen !== thumbGen) return;
     paint();
   }
 }
+const mediaHTML = (badge, live) => `
+      <img data-thumb alt="" class="absolute inset-0 h-full w-full object-cover" hidden />
+      <span data-skeleton class="absolute inset-0 flex items-center justify-center"><span class="spinner" aria-hidden="true"></span></span>
+      <span class="absolute left-3 top-3 z-10 rounded-tag bg-white/90 px-2 py-1 font-mono text-caption uppercase text-text-secondary">${esc(badge)}</span>
+      ${live ? '<span data-live-badge hidden class="absolute right-3 top-3 z-10 inline-flex items-center gap-2 rounded-tag bg-white/90 px-2 py-1 text-caption text-text-primary"><span class="live-dot" aria-hidden="true"></span>En vivo</span>' : ''}`;
 
 /* ---------- biblioteca ---------- */
-const lib = { q: '', shape: '', tag: '', sort: 'recent' };
+const lib = { q: '', type: '', tag: '', sort: 'recent' };
 const libGrid = $('[data-lib-grid]');
-Object.entries(SHAPES).forEach(([id, label]) => $('[data-lib-shape]').insertAdjacentHTML('beforeend', `<option value="${id}">${label}</option>`));
+Object.entries(GENERATORS).forEach(([id, g]) => $('[data-lib-type]').insertAdjacentHTML('beforeend', `<option value="${id}">${esc(g.name)}</option>`));
 
 function filtered() {
   let list = assets();
   const q = lib.q.trim().toLowerCase();
-  if (q) list = list.filter(a => (a.name + ' ' + (a.tags || []).join(' ')).toLowerCase().includes(q));
-  if (lib.shape) list = list.filter(a => (a.shapes || []).includes(lib.shape));
+  if (q) list = list.filter(a => (a.name + ' ' + (a.tags || []).join(' ') + ' ' + (GENERATORS[typeOf(a)]?.name || '')).toLowerCase().includes(q));
+  if (lib.type) list = list.filter(a => typeOf(a) === lib.type);
   if (lib.tag) list = list.filter(a => (a.tags || []).includes(lib.tag));
   if (lib.sort === 'name') list.sort((a, b) => a.name.localeCompare(b.name, 'es'));
   else list.sort((a, b) => (b.updated || '').localeCompare(a.updated || ''));
   return list;
 }
 
-function cardHTML(a) {
-  const c = normalize(a);
-  const tags = c.tags.map(t => `<span class="rounded-tag bg-surface-subtle px-2 py-1 text-caption text-text-secondary">${esc(t)}</span>`).join('');
-  const del = a.local ? `<button type="button" class="icon-btn focus-ring" data-act="delete" aria-label="Eliminar ${esc(a.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>` : '';
+function cardHTML(raw) {
+  const a = norm(raw);
+  const tags = (raw.local ? ['<span class="rounded-tag bg-blue-tint-50 px-2 py-1 text-caption text-info-text">Tuyo</span>'] : [])
+    .concat(a.tags.map(t => `<span class="rounded-tag bg-surface-subtle px-2 py-1 text-caption text-text-secondary">${esc(t)}</span>`)).join('');
   return `<li class="min-w-0">
-  <article data-card="${esc(a.id)}" class="card-glow lift flex h-full flex-col gap-4 rounded-card border border-border-default bg-surface-card p-6">
-    <a href="#/editor?id=${encodeURIComponent(a.id)}" data-media class="relative block overflow-hidden rounded-card bg-surface-subtle focus-ring" style="aspect-ratio:4/3" aria-label="Abrir ${esc(a.name)} en el editor">
-      <img data-thumb alt="" class="absolute inset-0 h-full w-full object-cover" hidden />
-      <span data-skeleton class="absolute inset-0 flex items-center justify-center"><span class="spinner" aria-hidden="true"></span></span>
-      <span class="absolute left-3 top-3 z-10 rounded-tag bg-white/90 px-2 py-1 font-mono text-caption uppercase text-text-secondary">${a.local ? 'Tuyo' : 'Elaniin'}</span>
-      <span data-live-badge hidden class="absolute right-3 top-3 z-10 inline-flex items-center gap-2 rounded-tag bg-white/90 px-2 py-1 text-caption text-text-primary"><span class="live-dot" aria-hidden="true"></span>En vivo</span>
-    </a>
+  <article data-card="${esc(raw.id)}" class="card-glow lift flex h-full flex-col gap-4 rounded-card border border-border-default bg-surface-card p-6">
+    <a href="#/editor?id=${encodeURIComponent(raw.id)}" data-media class="relative block overflow-hidden rounded-card bg-surface-subtle focus-ring" style="aspect-ratio:4/3" aria-label="Abrir ${esc(a.name)} en el editor">${mediaHTML(GENERATORS[a.type].name, true)}</a>
     <div class="min-w-0">
-      <h3 class="truncate font-display text-body-lg font-medium">${esc(c.name)}</h3>
-      <p class="mono-label mt-1 text-caption text-text-muted">${c.grid.cols}×${c.grid.rows} · ${c.colors.length} colores · ${c.aspect}</p>
+      <h3 class="truncate font-display text-body-lg font-medium">${esc(a.name)}</h3>
+      <p class="mono-label mt-1 truncate text-caption text-text-muted">${esc(genOf(a).describe(a))} · ${a.aspect}</p>
     </div>
     ${tags ? `<div class="flex flex-wrap gap-2">${tags}</div>` : ''}
     <div class="mt-auto flex items-center gap-1 border-t border-border-default pt-3">
-      <a href="#/editor?id=${encodeURIComponent(a.id)}" class="btn btn-secondary btn-arrow focus-ring">Editar
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 12h14m-5-5l5 5-5 5"/></svg></a>
+      <a href="#/editor?id=${encodeURIComponent(raw.id)}" class="btn btn-secondary btn-arrow focus-ring">Editar ${I_ARROW}</a>
       <span class="flex-1"></span>
-      <button type="button" class="icon-btn focus-ring" data-act="embed" aria-label="Copiar embed de ${esc(a.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/></svg></button>
-      <button type="button" class="icon-btn focus-ring" data-act="duplicate" aria-label="Duplicar ${esc(a.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/></svg></button>
-      ${del}
+      <button type="button" class="icon-btn focus-ring" data-act="embed" aria-label="Copiar embed de ${esc(a.name)}">${icon('<path d="M8 7l-5 5 5 5M16 7l5 5-5 5"/>')}</button>
+      <button type="button" class="icon-btn focus-ring" data-act="duplicate" aria-label="Duplicar ${esc(a.name)}">${icon('<rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V5a1 1 0 0 0-1-1H5a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h3"/>')}</button>
+      ${raw.local ? `<button type="button" class="icon-btn focus-ring" data-act="delete" aria-label="Eliminar ${esc(a.name)}">${I_TRASH}</button>` : ''}
     </div>
   </article>
 </li>`;
@@ -1403,34 +1430,36 @@ function renderLibrary() {
   const tagSel = $('[data-lib-tag]');
   tagSel.innerHTML = '<option value="">Todas las etiquetas</option>' + tags.map(t => `<option value="${esc(t)}">${esc(t)}</option>`).join('');
   tagSel.value = lib.tag;
+  $('[data-lib-type]').value = lib.type;
   $('[data-lib-count]').textContent = `${list.length} de ${all.length} assets`;
 
   const chips = [];
   if (lib.q) chips.push(['q', `“${lib.q}”`]);
-  if (lib.shape) chips.push(['shape', SHAPES[lib.shape]]);
+  if (lib.type) chips.push(['type', GENERATORS[lib.type]?.name || lib.type]);
   if (lib.tag) chips.push(['tag', lib.tag]);
   const chipsEl = $('[data-lib-chips]');
   chipsEl.hidden = !chips.length;
-  chipsEl.innerHTML = chips.map(([k, l]) => `<button type="button" class="chip focus-ring" data-clear="${k}" aria-label="Quitar filtro ${esc(l)}">${esc(l)}<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>`).join('')
+  chipsEl.innerHTML = chips.map(([k, l]) => `<button type="button" class="chip focus-ring" data-clear="${k}" aria-label="Quitar filtro ${esc(l)}">${esc(l)}${I_X}</button>`).join('')
     + (chips.length ? '<button type="button" class="btn px-3 text-text-link hover:text-text-link-hover focus-ring" data-clear="all">Limpiar todo</button>' : '');
 
   live.detach();
   libGrid.innerHTML = list.map(cardHTML).join('');
   $('[data-lib-empty]').hidden = list.length > 0;
-  fillThumbs(list);
+  fillThumbs(list, 'data-card');
   const first = $('[data-card]', libGrid);
   if (first) live.attach(first);                            // living loop: la primera card siempre en vivo
 }
 
 let qT;
 $('[data-lib-q]').addEventListener('input', e => { clearTimeout(qT); qT = setTimeout(() => { lib.q = e.target.value; renderLibrary(); }, 180); });
-$('[data-lib-shape]').addEventListener('change', e => { lib.shape = e.target.value; renderLibrary(); });
+$('[data-lib-type]').addEventListener('change', e => { lib.type = e.target.value; renderLibrary(); });
 $('[data-lib-tag]').addEventListener('change', e => { lib.tag = e.target.value; renderLibrary(); });
 $('[data-lib-sort]').addEventListener('change', e => { lib.sort = e.target.value; renderLibrary(); });
 function clearFilter(k) {
   if (k === 'q' || k === 'all') { lib.q = ''; $('[data-lib-q]').value = ''; }
-  if (k === 'shape' || k === 'all') { lib.shape = ''; $('[data-lib-shape]').value = ''; }
+  if (k === 'type' || k === 'all') lib.type = '';
   if (k === 'tag' || k === 'all') lib.tag = '';
+  if (location.hash.includes('type=')) history.replaceState(null, '', '#/biblioteca');
   renderLibrary();
 }
 $('[data-lib-chips]').addEventListener('click', e => { const b = e.target.closest('[data-clear]'); if (b) clearFilter(b.dataset.clear); });
@@ -1443,9 +1472,9 @@ libGrid.addEventListener('click', async e => {
   const a = findAsset(b.closest('[data-card]').dataset.card); if (!a) return;
   if (b.dataset.act === 'embed') copy(embedCode(a), `Embed de “${a.name}” copiado`);
   if (b.dataset.act === 'duplicate') {
-    const copyRec = { ...clean(a), id: uid(), name: a.name + ' (copia)', updated: new Date().toISOString() };
-    mine.assets.unshift(copyRec);
-    if (store(LS_A, mine.assets)) { renderLibrary(); toast(`“${copyRec.name}” creado`); }
+    const rec = { ...clean(a), id: uid(), name: a.name + ' (copia)', updated: new Date().toISOString() };
+    mine.assets.unshift(rec);
+    if (store(LS_A, mine.assets)) { renderLibrary(); toast(`“${rec.name}” creado`); }
   }
   if (b.dataset.act === 'delete') {
     if (!(await confirmAsk(`¿Eliminar “${a.name}”?`, 'Se borra de tu navegador. Si ya está en library.json del repo, seguirá ahí.'))) return;
@@ -1466,11 +1495,11 @@ $('[data-import]').addEventListener('change', async e => {
   try {
     const data = JSON.parse(await file.text());
     const list = Array.isArray(data) ? data : data.assets ? data.assets : [data];
-    const valid = list.filter(x => x && typeof x === 'object' && (x.colors || x.grid));
+    const valid = list.filter(x => x && typeof x === 'object' && !Array.isArray(x));
     if (!valid.length) throw new Error('vacío');
     const now = new Date().toISOString();
     valid.forEach(x => {
-      const rec = { ...normalize(x), id: x.id || uid(), updated: now };
+      const rec = { ...norm(x), id: x.id || uid(), updated: now };
       const i = mine.assets.findIndex(m => m.id === rec.id);
       if (i >= 0) mine.assets[i] = rec; else mine.assets.unshift(rec);
     });
@@ -1480,87 +1509,104 @@ $('[data-import]').addEventListener('change', async e => {
   } catch { toast('El archivo no es un JSON de assets válido.'); }
 });
 
-/* ---------- editor ---------- */
-const ed = { cfg: normalize(seed.assets[0] || DEFAULTS), id: seed.assets[0]?.id ?? null, local: false, dirty: false };
-let eng = null, engP = null;
-const stage = $('[data-stage]'), stageWrap = $('[data-stage-wrap]'), panel = $('[data-panel]');
-const getP = (o, k) => k.split('.').reduce((x, p) => x?.[p], o);
-const setP = (o, k, v) => { const ps = k.split('.'), last = ps.pop(); ps.reduce((x, p) => (x[p] ??= {}), o)[last] = v; };
-const f2 = v => (+v).toFixed(2), int = v => String(Math.round(v));
-const RANGES = {
-  forma: [['hold', 'Tiempo por forma', 1, 12, 0.5, v => (+v).toFixed(1) + ' s'], ['size', 'Tamaño', 0.2, 2, 0.05, f2], ['softness', 'Difuminado', 0.01, 1, 0.01, f2], ['speed', 'Velocidad', 0.1, 4, 0.1, v => (+v).toFixed(1) + '×']],
-  grid: [['grid.cols', 'Columnas', 1, 24, 1, int], ['grid.rows', 'Filas', 1, 24, 1, int], ['grid.gap', 'Separación', 0, 0.5, 0.01, f2], ['grid.depth', 'Grosor', 0.05, 0.9, 0.01, f2]],
-  glass: [['glass.frost', 'Esmerilado', 0, 1, 0.01, f2], ['glass.refraction', 'Refracción', 0, 3, 0.05, f2], ['glass.ior', 'IOR', 1, 2.2, 0.01, f2]],
-};
-const FMT = Object.fromEntries(Object.values(RANGES).flat().map(r => [r[0], r[5]]));
-
-function rangeRow([k, label, min, max, step, fmt]) {
-  const id = 'r-' + k.replace('.', '-'), v = getP(ed.cfg, k);
-  return `<div class="min-w-0">
-    <div class="flex items-center justify-between gap-3"><label for="${id}" class="text-body-sm text-text-secondary">${label}</label>
-    <output for="${id}" data-out="${k}" class="font-mono text-caption tabular-nums text-text-primary">${fmt(v)}</output></div>
-    <input id="${id}" type="range" class="range focus-ring" data-k="${k}" min="${min}" max="${max}" step="${step}" value="${v}" /></div>`;
+/* ---------- generadores (catálogo) ---------- */
+function renderGenerators() {
+  const all = assets();
+  const reps = Object.keys(GEN).map(t => ({ ...(all.find(a => typeOf(a) === t) || fresh(t)), id: 'gen-' + t, type: t }));
+  $('[data-gen-grid]').innerHTML = reps.map(r => {
+    const g = GENERATORS[r.type], n = all.filter(a => typeOf(a) === r.type).length;
+    return `<li class="min-w-0">
+    <article data-gen="${esc(r.id)}" class="card-glow lift flex h-full flex-col gap-4 rounded-card border border-border-default bg-surface-card p-6">
+      <div data-media class="relative overflow-hidden rounded-card bg-surface-subtle" style="aspect-ratio:4/3">${mediaHTML(n + ' assets', false)}</div>
+      <div class="min-w-0">
+        <h3 class="font-display text-h4 font-medium">${esc(g.name)}</h3>
+        <p class="mt-2 text-body-sm text-text-secondary">${esc(g.description)}</p>
+      </div>
+      <div class="mt-auto flex flex-wrap items-center gap-2 border-t border-border-default pt-3">
+        <a href="#/editor?new=${encodeURIComponent(r.type)}" class="btn btn-secondary btn-arrow focus-ring">Crear asset ${I_ARROW}</a>
+        <a href="#/biblioteca?type=${encodeURIComponent(r.type)}" class="btn px-3 text-text-link hover:text-text-link-hover focus-ring">Ver en biblioteca</a>
+      </div>
+    </article></li>`;
+  }).join('');
+  fillThumbs(reps, 'data-gen');
 }
-const seg = (k, opts, label) => `<div class="seg" role="group" aria-label="${label}">${Object.entries(opts).map(([v, l]) => `<button type="button" class="seg-btn focus-ring" data-seg="${k}" data-val="${v}" aria-pressed="${getP(ed.cfg, k) === v}">${l}</button>`).join('')}</div>`;
-const section = (title, body) => `<section class="space-y-4 pad-card"><h2 class="font-display text-body-lg font-medium">${title}</h2>${body}</section>`;
-const stopRow = (c, i, n, scope) => `<li class="flex items-center gap-2">
-  <input type="color" class="swatch focus-ring" value="${c}" data-${scope}-color="${i}" aria-label="Color ${i + 1}" />
-  <input class="field min-w-0 font-mono uppercase focus-ring" value="${c}" data-${scope}-hex="${i}" aria-label="Hex del color ${i + 1}" maxlength="7" spellcheck="false" autocomplete="off" />
-  <button type="button" class="icon-btn focus-ring" data-${scope}-rm="${i}" aria-label="Quitar color ${i + 1}" ${n <= 2 ? 'disabled' : ''}><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
-</li>`;
 
-function shapesHTML() {
-  return Object.entries(SHAPES).map(([id, label]) => {
-    const i = ed.cfg.shapes.indexOf(id);
-    return `<button type="button" class="chip focus-ring" data-shape="${id}" aria-pressed="${i >= 0}">${shapeSvg(id)}${label}${i >= 0 ? `<span class="font-mono text-caption opacity-70">${i + 1}</span>` : ''}</button>`;
+/* ---------- editor ---------- */
+const ed = { cfg: norm(seed.assets[0] || fresh(DEFAULT_TYPE)), id: seed.assets[0]?.id ?? null, local: false, dirty: false };
+let eng = null, engP = null, engType = null;
+const stage = $('[data-stage]'), stageWrap = $('[data-stage-wrap]'), panel = $('[data-panel]');
+let SPEC = {};
+const fmtOf = it => v => (+v).toFixed(it.digits ?? 2) + (it.unit || '');
+
+function rangeRow(it) {
+  const id = 'r-' + it.key.replace(/\./g, '-'), v = getP(ed.cfg, it.key);
+  return `<div class="min-w-0">
+    <div class="flex items-center justify-between gap-3"><label for="${id}" class="text-body-sm text-text-secondary">${esc(it.label)}</label>
+    <output for="${id}" data-out="${it.key}" class="font-mono text-caption tabular-nums text-text-primary">${fmtOf(it)(v)}</output></div>
+    <input id="${id}" type="range" class="range focus-ring" data-k="${it.key}" min="${it.min}" max="${it.max}" step="${it.step}" value="${v}" /></div>`;
+}
+const segHTML = it => `<div><p class="mb-2 text-body-sm text-text-secondary">${esc(it.label)}</p><div class="seg" role="group" aria-label="${esc(it.label)}">${Object.entries(it.options).map(([v, l]) => `<button type="button" class="seg-btn focus-ring" data-seg="${it.key}" data-val="${v}" aria-pressed="${getP(ed.cfg, it.key) === v}">${esc(l)}</button>`).join('')}</div></div>`;
+const stopRow = (c, i, n, scope, key = '') => `<li class="flex items-center gap-2">
+  <input type="color" class="swatch focus-ring" value="${c}" data-${scope}-color="${i}" data-key="${key}" aria-label="Color ${i + 1}" />
+  <input class="field min-w-0 font-mono uppercase focus-ring" value="${c}" data-${scope}-hex="${i}" data-key="${key}" aria-label="Hex del color ${i + 1}" maxlength="7" spellcheck="false" autocomplete="off" />
+  <button type="button" class="icon-btn focus-ring" data-${scope}-rm="${i}" data-key="${key}" aria-label="Quitar color ${i + 1}" ${n <= 2 ? 'disabled' : ''}>${I_X}</button>
+</li>`;
+function colorsHTML(it) {
+  const list = getP(ed.cfg, it.key);
+  return `<div><label for="ed-pal-${it.key}" class="sr-only">Aplicar paleta</label>
+    <select id="ed-pal-${it.key}" class="field focus-ring" data-apply-palette data-key="${it.key}"><option value="">Aplicar una paleta…</option>${palettes().map(p => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select></div>
+    <ul class="space-y-2">${list.map((x, i) => stopRow(x, i, list.length, 'stop', it.key)).join('')}</ul>
+    <div class="flex flex-wrap gap-2">
+      <button type="button" class="btn btn-secondary focus-ring" data-stop-add data-key="${it.key}" ${list.length >= (it.max ?? 6) ? 'disabled' : ''}>Agregar color</button>
+      <button type="button" class="btn btn-secondary focus-ring" data-stop-reverse data-key="${it.key}">Invertir</button>
+      <button type="button" class="btn btn-secondary focus-ring" data-save-palette data-key="${it.key}">Guardar como paleta</button>
+    </div>`;
+}
+const colorHTML = it => { const v = getP(ed.cfg, it.key); return `<div class="flex items-center gap-2 border-t border-border-default pt-4">
+    <input type="color" class="swatch focus-ring" value="${v}" data-color-key="${it.key}" aria-label="${esc(it.label)}" />
+    <input class="field min-w-0 font-mono uppercase focus-ring" value="${v}" data-hex-key="${it.key}" aria-label="Hex de ${esc(it.label)}" maxlength="7" spellcheck="false" autocomplete="off" />
+    <span class="shrink-0 text-body-sm text-text-secondary">${esc(it.label)}</span></div>`; };
+function multiInner(it) {
+  const sel = getP(ed.cfg, it.key);
+  return Object.entries(it.options).map(([id, label]) => {
+    const i = sel.indexOf(id);
+    return `<button type="button" class="chip focus-ring" data-multi-opt="${id}" data-key="${it.key}" aria-pressed="${i >= 0}">${it.icons?.[id] ? icon(it.icons[id]) : ''}${esc(label)}${i >= 0 ? `<span class="font-mono text-caption opacity-70">${i + 1}</span>` : ''}</button>`;
   }).join('');
 }
+const CTL = {
+  range: rangeRow, seg: segHTML, colors: colorsHTML, color: colorHTML,
+  multi: it => `<div class="flex flex-wrap gap-2" data-multi="${it.key}">${multiInner(it)}</div>`,
+};
+const HEX_ERR = '<p data-hex-err role="alert" hidden class="text-caption text-error-text">Usa un hex de 6 dígitos, por ejemplo #1054FF.</p>';
+const section = (title, body, hint) => `<section class="space-y-4 pad-card"><h2 class="font-display text-body-lg font-medium">${esc(title)}</h2>${hint ? `<p class="text-body-sm text-text-secondary">${esc(hint)}</p>` : ''}${body}</section>`;
 
 function renderPanel() {
-  const c = ed.cfg;
+  const c = ed.cfg; SPEC = {};
   panel.innerHTML =
     section('Asset', `
+      <p class="mono-label text-caption text-text-muted">${esc(GENERATORS[c.type].name)}</p>
       <div><label for="ed-name" class="text-body-sm text-text-secondary">Nombre</label>
       <input id="ed-name" class="field mt-2 focus-ring" data-text="name" value="${esc(c.name)}" maxlength="60" /></div>
       <div><label for="ed-tags" class="text-body-sm text-text-secondary">Etiquetas</label>
       <input id="ed-tags" class="field mt-2 focus-ring" data-text="tags" value="${esc(c.tags.join(', '))}" placeholder="hero, frío, card" aria-describedby="ed-tags-hint" />
       <p id="ed-tags-hint" class="mt-2 text-caption text-text-muted">Separadas por coma.</p></div>`)
-    + section('Gradiente', `
-      <div><label for="ed-pal" class="sr-only">Aplicar paleta</label>
-      <select id="ed-pal" class="field focus-ring" data-apply-palette><option value="">Aplicar una paleta…</option>${palettes().map(p => `<option value="${esc(p.id)}">${esc(p.name)}</option>`).join('')}</select></div>
-      <ul class="space-y-2" data-stops>${c.colors.map((x, i) => stopRow(x, i, c.colors.length, 'stop')).join('')}</ul>
-      <p data-hex-err role="alert" hidden class="text-caption text-error-text">Usa un hex de 6 dígitos, por ejemplo #1054FF.</p>
-      <div class="flex flex-wrap gap-2">
-        <button type="button" class="btn btn-secondary focus-ring" data-stop-add ${c.colors.length >= 6 ? 'disabled' : ''}>Agregar color</button>
-        <button type="button" class="btn btn-secondary focus-ring" data-stop-reverse>Invertir</button>
-        <button type="button" class="btn btn-secondary focus-ring" data-save-palette>Guardar como paleta</button>
-      </div>
-      <div class="flex items-center gap-2 border-t border-border-default pt-4">
-        <input type="color" class="swatch focus-ring" value="${c.background}" data-bg-color aria-label="Color de fondo" />
-        <input class="field min-w-0 font-mono uppercase focus-ring" value="${c.background}" data-bg-hex aria-label="Hex del fondo" maxlength="7" spellcheck="false" autocomplete="off" />
-        <span class="shrink-0 text-body-sm text-text-secondary">Fondo</span>
-      </div>`)
-    + section('Formas', `
-      <p class="text-body-sm text-text-secondary">El orden en que las eliges es la secuencia de la animación.</p>
-      <div class="flex flex-wrap gap-2" data-shapes>${shapesHTML()}</div>
-      ${RANGES.forma.map(rangeRow).join('')}`)
-    + section('Cuadrícula', `
-      ${RANGES.grid.slice(0, 3).map(rangeRow).join('')}
-      <div><p class="mb-2 text-body-sm text-text-secondary">Perfil del cubo (Blender)</p>${seg('grid.profile', PROFILES, 'Perfil del cubo')}</div>
-      ${rangeRow(RANGES.grid[3])}
-      <div><p class="mb-2 text-body-sm text-text-secondary">Encuadre</p>${seg('fit', { contain: 'Contener', cover: 'Llenar' }, 'Encuadre')}</div>`)
-    + section('Vidrio', RANGES.glass.map(rangeRow).join(''));
+    + genOf(c).controls.map(sec => {
+      sec.items.forEach(it => (SPEC[it.key] = it));
+      const hasHex = sec.items.some(it => it.type === 'color' || it.type === 'colors');
+      return section(sec.title, sec.items.map(it => CTL[it.type]?.(it) ?? '').join('') + (hasHex ? HEX_ERR : ''), sec.hint);
+    }).join('');
 }
+const firstColorsKey = () => genOf(ed.cfg).controls.flatMap(s => s.items).find(it => it.type === 'colors')?.key;
 
 function renderAspects() {
   $('[data-aspects]').innerHTML = ASPECTS.map(a => `<button type="button" class="seg-btn px-3 font-mono focus-ring" data-aspect="${a}" aria-pressed="${ed.cfg.aspect === a}">${a}</button>`).join('');
 }
-
 function sizeStage() {
   const [aw, ah] = ed.cfg.aspect.split(':').map(Number);
   const r = stageWrap.getBoundingClientRect();
+  const maxH = matchMedia('(min-width: 48rem)').matches ? r.height : innerHeight * 0.56;  // móvil: el alto sigue a la proporción
   let w = r.width, h = (w * ah) / aw;
-  if (h > r.height) { h = r.height; w = (h * aw) / ah; }
+  if (h > maxH) { h = maxH; w = (h * aw) / ah; }
   stage.style.width = Math.floor(w) + 'px'; stage.style.height = Math.floor(h) + 'px';
 }
 new ResizeObserver(sizeStage).observe(stageWrap);
@@ -1570,93 +1616,88 @@ function setDirty(v) {
   $('[data-dirty]').hidden = !(v && view === 'editor');
   $('[data-save]').disabled = ed.local && !v;
 }
-function refreshLoop() { $('[data-loop-label]').textContent = `Loop ${loopSeconds(ed.cfg).toFixed(1)} s`; }
+function refreshLoop() { $('[data-loop-label]').textContent = `Loop ${loopOf(ed.cfg).toFixed(1)} s`; }
 function syncPlay() {
-  const on = eng?.playing;
-  const b = $('[data-play]');
+  const on = eng?.playing, b = $('[data-play]');
   b.setAttribute('aria-label', on ? 'Pausar' : 'Reproducir');
   b.innerHTML = on
     ? '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"/><rect x="14" y="5" width="4" height="14" rx="1"/></svg>'
     : '<svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5l12 7-12 7z"/></svg>';
 }
 function apply(rerenderPanel) {
-  ed.cfg = normalize(ed.cfg);
+  ed.cfg = norm(ed.cfg);
   eng?.set(ed.cfg);
   if (rerenderPanel) renderPanel();
   refreshLoop(); setDirty(true);
+  $('[data-page-title]').textContent = 'Editor · ' + ed.cfg.name;
 }
 async function ensureEngine() {
+  if (engType !== ed.cfg.type) {
+    if (engP) (await engP).destroy();
+    engP = null; eng = null; engType = ed.cfg.type;
+  }
   engP ??= mount(stage, ed.cfg, { autoplay: !reduce }).then(g => (eng = g));
-  await engP; syncPlay();
+  await engP; eng.set(ed.cfg); syncPlay();
 }
 function loadIntoEditor(a, local) {
-  ed.cfg = normalize(a); ed.id = a.id ?? null; ed.local = !!local;
+  ed.cfg = norm(a); ed.id = a.id ?? null; ed.local = !!local;
   renderPanel(); renderAspects(); sizeStage(); refreshLoop(); setDirty(false);
-  eng?.set(ed.cfg);
 }
 async function openEditor(q) {
-  const id = q.get('id');
-  if (q.get('new')) {
-    loadIntoEditor({ ...DEFAULTS, name: 'Nuevo asset' }, false); setDirty(true);
+  const id = q.get('id'), nu = q.get('new');
+  if (nu) {
+    loadIntoEditor(fresh(GEN[nu] ? nu : DEFAULT_TYPE), false); setDirty(true);
     history.replaceState(null, '', '#/editor');
   } else if (id && id !== ed.id) {
     const a = findAsset(id);
     if (a) loadIntoEditor(a, a.local); else { toast('Ese asset ya no existe.'); history.replaceState(null, '', '#/editor'); }
-  } else if (!panel.innerHTML) { loadIntoEditor(ed.cfg, ed.local); }
+  } else if (!panel.innerHTML) loadIntoEditor(ed.cfg, ed.local);
   setDirty(ed.dirty);
+  $('[data-page-title]').textContent = 'Editor · ' + ed.cfg.name;
   requestAnimationFrame(sizeStage);
   await ensureEngine();
   if (!reduce && !eng.playing) { eng.play(); syncPlay(); }
 }
 
+function readHex(t) {
+  let v = t.value.trim(); if (!v.startsWith('#')) v = '#' + v;
+  const ok = HEX.test(v), err = t.closest('section, form')?.querySelector('[data-hex-err], [data-pal-hex-err]');
+  if (ok) { t.removeAttribute('aria-invalid'); t.value = v.toLowerCase(); } else t.setAttribute('aria-invalid', 'true');
+  if (err) err.hidden = ok;
+  return ok ? v.toLowerCase() : null;
+}
 panel.addEventListener('input', e => {
-  const t = e.target;
-  if (t.dataset.k) {
-    setP(ed.cfg, t.dataset.k, +t.value);
-    $(`[data-out="${t.dataset.k}"]`).textContent = FMT[t.dataset.k](t.value);
-    apply(false);
-  } else if (t.dataset.text === 'name') { ed.cfg.name = t.value; setDirty(true); }
-  else if (t.dataset.text === 'tags') { ed.cfg.tags = t.value.split(',').map(s => s.trim()).filter(Boolean); setDirty(true); }
-  else if (t.dataset.stopColor !== undefined) {
-    ed.cfg.colors[+t.dataset.stopColor] = t.value; $(`[data-stop-hex="${t.dataset.stopColor}"]`).value = t.value; apply(false);
-  } else if (t.dataset.bgColor !== undefined) { ed.cfg.background = t.value; $('[data-bg-hex]').value = t.value; apply(false); }
+  const t = e.target, d = t.dataset;
+  if (d.k) { setP(ed.cfg, d.k, +t.value); $(`[data-out="${d.k}"]`).textContent = fmtOf(SPEC[d.k])(t.value); apply(false); }
+  else if (d.text === 'name') { ed.cfg.name = t.value; setDirty(true); $('[data-page-title]').textContent = 'Editor · ' + t.value; }
+  else if (d.text === 'tags') { ed.cfg.tags = t.value.split(',').map(s => s.trim()).filter(Boolean); setDirty(true); }
+  else if (d.stopColor !== undefined) { getP(ed.cfg, d.key)[+d.stopColor] = t.value; $(`[data-stop-hex="${d.stopColor}"][data-key="${d.key}"]`).value = t.value; apply(false); }
+  else if (d.colorKey) { setP(ed.cfg, d.colorKey, t.value); $(`[data-hex-key="${d.colorKey}"]`).value = t.value; apply(false); }
 });
 panel.addEventListener('change', e => {
-  const t = e.target, err = $('[data-hex-err]');
-  const hexIn = t.dataset.stopHex ?? (t.dataset.bgHex !== undefined ? 'bg' : null);
-  if (hexIn !== null) {
-    let v = t.value.trim(); if (!v.startsWith('#')) v = '#' + v;
-    const ok = HEX.test(v);
-    t.setAttribute('aria-invalid', String(!ok)); err.hidden = ok;
-    if (ok) {
-      t.removeAttribute('aria-invalid');
-      if (hexIn === 'bg') { ed.cfg.background = v.toLowerCase(); $('[data-bg-color]').value = v; }
-      else { ed.cfg.colors[+hexIn] = v.toLowerCase(); $(`[data-stop-color="${hexIn}"]`).value = v; }
-      t.value = v.toLowerCase(); apply(false);
-    }
-  }
-  if (t.dataset.applyPalette !== undefined && t.value) {
+  const t = e.target, d = t.dataset;
+  if (d.stopHex !== undefined) { const v = readHex(t); if (v) { getP(ed.cfg, d.key)[+d.stopHex] = v; $(`[data-stop-color="${d.stopHex}"][data-key="${d.key}"]`).value = v; apply(false); } }
+  if (d.hexKey) { const v = readHex(t); if (v) { setP(ed.cfg, d.hexKey, v); $(`[data-color-key="${d.hexKey}"]`).value = v; apply(false); } }
+  if (d.applyPalette !== undefined && t.value) {
     const p = palettes().find(x => x.id === t.value);
-    if (p) { ed.cfg.colors = p.colors.slice(); apply(true); toast(`Paleta “${p.name}” aplicada`); }
+    if (p) { setP(ed.cfg, d.key, p.colors.slice(0, SPEC[d.key]?.max ?? 6)); apply(true); toast(`Paleta “${p.name}” aplicada`); }
   }
 });
 panel.addEventListener('click', e => {
   const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.shape) {
-    const s = ed.cfg.shapes, i = s.indexOf(b.dataset.shape);
-    if (i >= 0 && s.length === 1) { toast('Deja al menos una forma.'); return; }
-    if (i >= 0) s.splice(i, 1); else s.push(b.dataset.shape);
-    $('[data-shapes]').innerHTML = shapesHTML(); apply(false);
-    $(`[data-shape="${b.dataset.shape}"]`).focus();
+  const d = b.dataset;
+  if (d.multiOpt) {
+    const it = SPEC[d.key], s = getP(ed.cfg, d.key), i = s.indexOf(d.multiOpt);
+    if (i >= 0 && s.length <= (it.min ?? 0)) { toast(`Deja al menos ${it.min} opción.`); return; }
+    if (i >= 0) s.splice(i, 1); else s.push(d.multiOpt);
+    $(`[data-multi="${d.key}"]`).innerHTML = multiInner(it); apply(false);
+    $(`[data-multi-opt="${d.multiOpt}"][data-key="${d.key}"]`).focus();
   }
-  if (b.dataset.seg) {
-    setP(ed.cfg, b.dataset.seg, b.dataset.val);
-    $$(`[data-seg="${b.dataset.seg}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); apply(false);
-  }
-  if (b.dataset.stopRm !== undefined) { ed.cfg.colors.splice(+b.dataset.stopRm, 1); apply(true); }
-  if (b.dataset.stopAdd !== undefined) { const last = ed.cfg.colors.at(-1); ed.cfg.colors.push(last); apply(true); }
-  if (b.dataset.stopReverse !== undefined) { ed.cfg.colors.reverse(); apply(true); }
-  if (b.dataset.savePalette !== undefined) openPaletteDialog(ed.cfg.colors, ed.cfg.name);
+  if (d.seg) { setP(ed.cfg, d.seg, d.val); $$(`[data-seg="${d.seg}"]`).forEach(x => x.setAttribute('aria-pressed', String(x === b))); apply(false); }
+  if (d.stopRm !== undefined) { getP(ed.cfg, d.key).splice(+d.stopRm, 1); apply(true); }
+  if (d.stopAdd !== undefined) { const l = getP(ed.cfg, d.key); l.push(l.at(-1)); apply(true); }
+  if (d.stopReverse !== undefined) { getP(ed.cfg, d.key).reverse(); apply(true); }
+  if (d.savePalette !== undefined) openPaletteDialog(getP(ed.cfg, d.key), ed.cfg.name);
 });
 $('[data-aspects]').addEventListener('click', e => {
   const b = e.target.closest('[data-aspect]'); if (!b) return;
@@ -1665,16 +1706,16 @@ $('[data-aspects]').addEventListener('click', e => {
 $('[data-play]').addEventListener('click', () => { if (!eng) return; eng.playing ? eng.pause() : eng.play(); syncPlay(); });
 
 function saveAsset() {
-  const now = new Date().toISOString();
   const fromSeed = !ed.local;
   const id = fromSeed ? uid() : ed.id;
   if (fromSeed && ed.id && findAsset(ed.id)?.name === ed.cfg.name) ed.cfg.name += ' (copia)';
-  const rec = { ...normalize(ed.cfg), id, updated: now };
+  const rec = { ...norm(ed.cfg), id, updated: new Date().toISOString() };
   const i = mine.assets.findIndex(a => a.id === id);
   if (i >= 0) mine.assets[i] = rec; else mine.assets.unshift(rec);
   if (!store(LS_A, mine.assets)) return;
-  ed.id = id; ed.local = true; ed.cfg = normalize(rec);
+  ed.id = id; ed.local = true; ed.cfg = norm(rec);
   $('[data-text="name"]').value = ed.cfg.name;
+  $('[data-page-title]').textContent = 'Editor · ' + ed.cfg.name;
   setDirty(false);
   history.replaceState(null, '', '#/editor?id=' + encodeURIComponent(id));
   toast(fromSeed ? `Guardado en tu biblioteca como “${ed.cfg.name}”` : `“${ed.cfg.name}” guardado`);
@@ -1687,17 +1728,18 @@ addEventListener('beforeunload', e => { if (ed.dirty) e.preventDefault(); });
 const exDlg = $('[data-export-dialog]');
 const SIZES = { '16:9': [[1920, 1080], [2560, 1440], [3840, 2160]], '21:9': [[2560, 1080], [3440, 1440]], '4:5': [[1080, 1350], [2160, 2700]], '1:1': [[1080, 1080], [2048, 2048]], '9:16': [[1080, 1920], [2160, 3840]] };
 const VSIZES = { '16:9': [[1280, 720], [1920, 1080]], '21:9': [[1920, 822], [2560, 1080]], '4:5': [[864, 1080], [1080, 1350]], '1:1': [[720, 720], [1080, 1080]], '9:16': [[720, 1280], [1080, 1920]] };
-const opt = ([w, h], i) => `<option value="${w}x${h}" ${i === 0 ? 'selected' : ''}>${w} × ${h}</option>`;
+const opt = ([w, h]) => `<option value="${w}x${h}">${w} × ${h}</option>`;
+const jsonOf = a => JSON.stringify({ type: a.type, ...genOf(a).embedConfig(a) }, null, 2);
 function selectTab(name) {
   $$('[role="tab"]', exDlg).forEach(t => { const on = t.dataset.tab === name; t.setAttribute('aria-selected', String(on)); t.tabIndex = on ? 0 : -1; });
   $$('[data-panel-tab]', exDlg).forEach(p => (p.hidden = p.dataset.panelTab !== name));
 }
 function openExport() {
-  const c = ed.cfg, L = loopSeconds(c);
+  const c = ed.cfg, L = loopOf(c);
   $('[data-embed-code]').textContent = embedCode(c);
-  $('[data-json-code]').textContent = JSON.stringify(embedConfig(c), null, 2);
+  $('[data-json-code]').textContent = jsonOf(c);
   $('[data-img-size]').innerHTML = SIZES[c.aspect].map(opt).join('');
-  $('[data-vid-size]').innerHTML = VSIZES[c.aspect].map((s, i) => opt(s, i === VSIZES[c.aspect].length - 1 ? 0 : 1)).join('');
+  $('[data-vid-size]').innerHTML = VSIZES[c.aspect].map(opt).join('');
   $('[data-vid-size]').selectedIndex = VSIZES[c.aspect].length - 1;
   $('[data-vid-len]').innerHTML = [1, 2, 3].map(n => `<option value="${n}">${n} loop${n > 1 ? 's' : ''} · ${(L * n).toFixed(1)} s</option>`).join('');
   const mime = videoMime();
@@ -1718,10 +1760,10 @@ $('[role="tablist"]', exDlg).addEventListener('keydown', e => {
 });
 $$('[data-copy]', exDlg).forEach(b => b.addEventListener('click', () => {
   const embed = b.dataset.copy === 'embed';
-  copy(embed ? embedCode(ed.cfg) : JSON.stringify(embedConfig(ed.cfg), null, 2), embed ? 'Embed copiado' : 'JSON copiado');
+  copy(embed ? embedCode(ed.cfg) : jsonOf(ed.cfg), embed ? 'Embed copiado' : 'JSON copiado');
 }));
 $('[data-json-go]').addEventListener('click', () => {
-  download(new Blob([JSON.stringify({ ...normalize(ed.cfg), id: undefined }, null, 2)], { type: 'application/json' }), slug(ed.cfg.name) + '.json');
+  download(new Blob([jsonOf(ed.cfg)], { type: 'application/json' }), slug(ed.cfg.name) + '.json');
   toast('Exportado · JSON');
 });
 $('[data-img-go]').addEventListener('click', async e => {
@@ -1737,7 +1779,7 @@ $('[data-img-go]').addEventListener('click', async e => {
 });
 $('[data-vid-go]').addEventListener('click', async e => {
   const btn = e.currentTarget, [w, h] = $('[data-vid-size]').value.split('x').map(Number);
-  const seconds = loopSeconds(ed.cfg) * +$('[data-vid-len]').value;
+  const seconds = loopOf(ed.cfg) * +$('[data-vid-len]').value;
   const wrap = $('[data-vid-progress-wrap]'), bar = $('[data-vid-progress]');
   busy(btn, true, 'Grabando…'); wrap.hidden = false; bar.value = 0;
   const wasPlaying = eng?.playing; eng?.pause(); syncPlay();     // libera GPU para la grabación
@@ -1758,11 +1800,11 @@ function renderPalStops() {
   $('[data-pal-add]').disabled = palDraft.length >= 6;
 }
 function openPaletteDialog(colors, name = '') {
-  palDraft = colors.slice(0, 6); if (palDraft.length < 2) palDraft = ['#1054ff', '#b9cefb'];
+  palDraft = (colors || []).slice(0, 6); if (palDraft.length < 2) palDraft = ['#1054ff', '#b9cefb'];
   $('[data-pal-name]').value = name; $('[data-pal-err]').hidden = true; $('[data-pal-name]').removeAttribute('aria-invalid');
   renderPalStops(); palDlg.showModal();
 }
-$('[data-new-palette]').addEventListener('click', () => openPaletteDialog(ed.cfg.colors));
+$('[data-new-palette]').addEventListener('click', () => openPaletteDialog(getP(ed.cfg, firstColorsKey() || 'colors')));
 $('[data-pal-add]').addEventListener('click', () => { palDraft.push(palDraft.at(-1)); renderPalStops(); });
 $('[data-pal-stops]').addEventListener('input', e => {
   const i = e.target.dataset.palColor; if (i === undefined) return;
@@ -1770,9 +1812,7 @@ $('[data-pal-stops]').addEventListener('input', e => {
 });
 $('[data-pal-stops]').addEventListener('change', e => {
   const i = e.target.dataset.palHex; if (i === undefined) return;
-  let v = e.target.value.trim(); if (!v.startsWith('#')) v = '#' + v;
-  if (HEX.test(v)) { palDraft[+i] = v.toLowerCase(); $(`[data-pal-color="${i}"]`).value = v; e.target.value = v.toLowerCase(); e.target.removeAttribute('aria-invalid'); }
-  else e.target.setAttribute('aria-invalid', 'true');
+  const v = readHex(e.target); if (v) { palDraft[+i] = v; $(`[data-pal-color="${i}"]`).value = v; }
 });
 $('[data-pal-stops]').addEventListener('click', e => { const b = e.target.closest('[data-pal-rm]'); if (b) { palDraft.splice(+b.dataset.palRm, 1); renderPalStops(); } });
 $('[data-close]', palDlg).addEventListener('click', () => palDlg.close());
@@ -1795,10 +1835,9 @@ function renderPalettes() {
         <p class="mono-label mt-1 truncate text-caption text-text-muted">${p.colors.length} colores · ${p.colors.join(' ')}</p>
       </div>
       <div class="mt-auto flex items-center gap-1 border-t border-border-default pt-3">
-        <button type="button" class="btn btn-secondary btn-arrow focus-ring" data-pal-use>Usar en editor
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true"><path d="M5 12h14m-5-5l5 5-5 5"/></svg></button>
+        <button type="button" class="btn btn-secondary btn-arrow focus-ring" data-pal-use>Usar en editor ${I_ARROW}</button>
         <span class="flex-1"></span>
-        ${p.local ? `<button type="button" class="icon-btn focus-ring" data-pal-del aria-label="Eliminar paleta ${esc(p.name)}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>` : ''}
+        ${p.local ? `<button type="button" class="icon-btn focus-ring" data-pal-del aria-label="Eliminar paleta ${esc(p.name)}">${I_TRASH}</button>` : ''}
       </div>
     </article></li>`).join('');
 }
@@ -1806,7 +1845,9 @@ $('[data-pal-grid]').addEventListener('click', async e => {
   const card = e.target.closest('[data-pal]'); if (!card) return;
   const p = palettes().find(x => x.id === card.dataset.pal); if (!p) return;
   if (e.target.closest('[data-pal-use]')) {
-    ed.cfg.colors = p.colors.slice(); ed.cfg = normalize(ed.cfg); renderPanel(); setDirty(true);
+    const key = firstColorsKey();
+    if (!key) { toast(`${GENERATORS[ed.cfg.type].name} no usa paletas.`); return; }
+    setP(ed.cfg, key, p.colors.slice()); ed.cfg = norm(ed.cfg); renderPanel(); setDirty(true);
     location.hash = '#/editor'; toast(`Paleta “${p.name}” aplicada a “${ed.cfg.name}”`);
   }
   if (e.target.closest('[data-pal-del]')) {
@@ -1816,20 +1857,21 @@ $('[data-pal-grid]').addEventListener('click', async e => {
 });
 
 /* ---------- guía ---------- */
-$('[data-guide-snippet]').textContent = embedCode(seed.assets[0] || DEFAULTS);
+$('[data-guide-snippet]').textContent = embedCode(seed.assets[0] || fresh(DEFAULT_TYPE));
 
 /* ---------- router ---------- */
-const TITLES = { biblioteca: 'Biblioteca', editor: 'Editor', paletas: 'Paletas', guia: 'Guía de uso', privacidad: 'Privacidad', terminos: 'Términos de uso' };
+const TITLES = { biblioteca: 'Biblioteca', generadores: 'Generadores', editor: 'Editor', paletas: 'Paletas', guia: 'Guía de uso', privacidad: 'Privacidad', terminos: 'Términos de uso' };
 let view = null;
 function show(name, q, initial) {
   view = name;
   $$('[data-view]').forEach(v => (v.hidden = v.dataset.view !== name));
   $$('[data-actions]').forEach(v => (v.hidden = v.dataset.actions !== name));
   $$('[data-nav]').forEach(a => (a.dataset.nav === name ? a.setAttribute('aria-current', 'page') : a.removeAttribute('aria-current')));
-  $('[data-page-title]').textContent = name === 'editor' ? ed.cfg.name || 'Editor' : TITLES[name];
+  $('[data-page-title]').textContent = TITLES[name];
   document.title = TITLES[name] + ' — Elaniin Assets';
-  if (name === 'biblioteca') renderLibrary(); else live.detach();
-  if (name === 'editor') openEditor(q).then(() => ($('[data-page-title]').textContent = 'Editor · ' + ed.cfg.name));
+  if (name === 'biblioteca') { if (q.has('type')) lib.type = GEN[q.get('type')] ? q.get('type') : ''; renderLibrary(); } else live.detach();
+  if (name === 'generadores') renderGenerators();
+  if (name === 'editor') openEditor(q);
   else if (eng) { eng.pause(); syncPlay(); }
   if (name === 'paletas') renderPalettes();
   setDirty(ed.dirty);

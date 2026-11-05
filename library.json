@@ -1,79 +1,619 @@
 {
   "version": 1,
   "palettes": [
-    { "id": "aqua", "name": "Aqua", "colors": ["#1aa7ff", "#22d3ee", "#16c24a", "#5b8cff"] },
-    { "id": "lima", "name": "Lima", "colors": ["#2e9e2a", "#55d81c", "#d8f000", "#8fd96a"] },
-    { "id": "sunset", "name": "Sunset", "colors": ["#ff3d3d", "#ff7a33", "#ffc93c", "#fff1e0"] },
-    { "id": "azul", "name": "Azul", "colors": ["#2f6ff5", "#5b95ff", "#a8c8ff", "#3b82f6"] },
-    { "id": "elaniin", "name": "Elaniin", "colors": ["#1054ff", "#4d75fd", "#6a9aff", "#b9cefb"] },
-    { "id": "coral", "name": "Coral", "colors": ["#ff5c8a", "#ff8f70", "#ffc1a6", "#c86bfa"] },
-    { "id": "menta", "name": "Menta", "colors": ["#00c2a8", "#5eead4", "#a7f3d0", "#38bdf8"] },
-    { "id": "violeta", "name": "Violeta", "colors": ["#6d28d9", "#8b5cf6", "#c4b5fd", "#ec4899"] },
-    { "id": "noche", "name": "Noche", "colors": ["#1054ff", "#22d3ee", "#7b9bff"] }
+    {
+      "id": "navy-glow",
+      "name": "Navy Glow",
+      "colors": [
+        "#1054ff",
+        "#0848cc",
+        "#023ca0"
+      ]
+    },
+    {
+      "id": "rampa-elaniin",
+      "name": "Rampa Elaniin",
+      "colors": [
+        "#d7e2f8",
+        "#b9cefb",
+        "#6a9aff",
+        "#1054ff",
+        "#023ca0",
+        "#01172e"
+      ]
+    },
+    {
+      "id": "aqua",
+      "name": "Aqua",
+      "colors": [
+        "#1aa7ff",
+        "#22d3ee",
+        "#16c24a",
+        "#5b8cff"
+      ]
+    },
+    {
+      "id": "lima",
+      "name": "Lima",
+      "colors": [
+        "#2e9e2a",
+        "#55d81c",
+        "#d8f000",
+        "#8fd96a"
+      ]
+    },
+    {
+      "id": "sunset",
+      "name": "Sunset",
+      "colors": [
+        "#ff3d3d",
+        "#ff7a33",
+        "#ffc93c",
+        "#fff1e0"
+      ]
+    },
+    {
+      "id": "azul",
+      "name": "Azul",
+      "colors": [
+        "#2f6ff5",
+        "#5b95ff",
+        "#a8c8ff",
+        "#3b82f6"
+      ]
+    },
+    {
+      "id": "elaniin",
+      "name": "Elaniin",
+      "colors": [
+        "#1054ff",
+        "#4d75fd",
+        "#6a9aff",
+        "#b9cefb"
+      ]
+    },
+    {
+      "id": "coral",
+      "name": "Coral",
+      "colors": [
+        "#ff5c8a",
+        "#ff8f70",
+        "#ffc1a6",
+        "#c86bfa"
+      ]
+    },
+    {
+      "id": "menta",
+      "name": "Menta",
+      "colors": [
+        "#00c2a8",
+        "#5eead4",
+        "#a7f3d0",
+        "#38bdf8"
+      ]
+    },
+    {
+      "id": "violeta",
+      "name": "Violeta",
+      "colors": [
+        "#6d28d9",
+        "#8b5cf6",
+        "#c4b5fd",
+        "#ec4899"
+      ]
+    },
+    {
+      "id": "noche",
+      "name": "Noche",
+      "colors": [
+        "#1054ff",
+        "#22d3ee",
+        "#7b9bff"
+      ]
+    }
   ],
   "assets": [
     {
-      "id": "aqua-orb", "name": "Aqua Orb", "tags": ["hero", "frío"],
-      "colors": ["#1aa7ff", "#22d3ee", "#16c24a", "#5b8cff"], "background": "#f1f2f4",
-      "shapes": ["circle", "square", "triangle", "ring", "diamond"], "hold": 3.5, "size": 1.05, "softness": 0.28, "speed": 1,
-      "grid": { "cols": 8, "rows": 7, "gap": 0.08, "profile": "redondo", "depth": 0.3 },
-      "glass": { "frost": 0.55, "refraction": 1, "ior": 1.4 }, "fit": "contain", "aspect": "16:9"
+      "id": "cta-navy",
+      "type": "sweeps",
+      "name": "CTA Navy",
+      "tags": [
+        "cta",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "21:9",
+      "colors": [
+        "#1054ff",
+        "#0848cc"
+      ],
+      "background": "#01172e",
+      "angle": 115,
+      "period": 0.8,
+      "width": 0.16,
+      "length": 1.6,
+      "intensity": 0.55,
+      "speed": 1,
+      "glow": 0.6,
+      "glow1": "#023ca0",
+      "glow2": "#022b63",
+      "texture": "dots",
+      "pitch": 16,
+      "textureColor": "#ffffff",
+      "textureOpacity": 0.06
     },
     {
-      "id": "lima-pulse", "name": "Lima Pulse", "tags": ["card", "vibrante"],
-      "colors": ["#2e9e2a", "#55d81c", "#d8f000", "#8fd96a"], "background": "#f3f4f1",
-      "shapes": ["circle", "blob"], "hold": 4, "size": 1.15, "softness": 0.3, "speed": 1,
-      "grid": { "cols": 5, "rows": 5, "gap": 0.06, "profile": "redondo", "depth": 0.35 },
-      "glass": { "frost": 0.5, "refraction": 1.2, "ior": 1.4 }, "fit": "contain", "aspect": "1:1"
+      "id": "ai-delivery",
+      "type": "sweeps",
+      "name": "AI Delivery",
+      "tags": [
+        "card",
+        "oscuro",
+        "marca"
+      ],
+      "aspect": "4:5",
+      "colors": [
+        "#1054ff",
+        "#023ca0"
+      ],
+      "background": "#01172e",
+      "angle": 150,
+      "period": 0.9,
+      "width": 0.18,
+      "length": 1.6,
+      "intensity": 0.35,
+      "speed": 0.8,
+      "glow": 1,
+      "glow1": "#023ca0",
+      "glow2": "#022b63",
+      "texture": "grid",
+      "pitch": 32,
+      "textureColor": "#ffffff",
+      "textureOpacity": 0.07
     },
     {
-      "id": "sunset-field", "name": "Sunset Field", "tags": ["fondo", "cálido"],
-      "colors": ["#ff3d3d", "#ff7a33", "#ffc93c", "#fff1e0"], "background": "#eef3fb",
-      "shapes": ["blob", "cross", "circle"], "hold": 4, "size": 1.4, "softness": 0.45, "speed": 0.8,
-      "grid": { "cols": 13, "rows": 8, "gap": 0.07, "profile": "suave", "depth": 0.25 },
-      "glass": { "frost": 0.6, "refraction": 1, "ior": 1.4 }, "fit": "cover", "aspect": "16:9"
+      "id": "software-dots",
+      "type": "sweeps",
+      "name": "Software Dots",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5",
+      "colors": [
+        "#b9cefb",
+        "#6a9aff"
+      ],
+      "background": "#e7eeff",
+      "angle": 65,
+      "period": 0.75,
+      "width": 0.14,
+      "length": 1.4,
+      "intensity": 0.75,
+      "speed": 0.8,
+      "glow": 0.45,
+      "glow1": "#ffffff",
+      "glow2": "#b9cefb",
+      "texture": "dots",
+      "pitch": 16,
+      "textureColor": "#6a9aff",
+      "textureOpacity": 0.5
     },
     {
-      "id": "azul-wave", "name": "Azul Wave", "tags": ["fondo", "frío"],
-      "colors": ["#2f6ff5", "#5b95ff", "#a8c8ff", "#3b82f6"], "background": "#f4f5f7",
-      "shapes": ["square", "diamond"], "hold": 4.5, "size": 1.5, "softness": 0.5, "speed": 0.8,
-      "grid": { "cols": 7, "rows": 6, "gap": 0.02, "profile": "suave", "depth": 0.2 },
-      "glass": { "frost": 0.7, "refraction": 0.8, "ior": 1.35 }, "fit": "cover", "aspect": "4:5"
+      "id": "cloud-stripes",
+      "type": "sweeps",
+      "name": "Cloud Stripes",
+      "tags": [
+        "card",
+        "claro",
+        "marca"
+      ],
+      "aspect": "4:5",
+      "colors": [
+        "#ffffff",
+        "#d7e2f8"
+      ],
+      "background": "#f0f0f3",
+      "angle": 115,
+      "period": 0.75,
+      "width": 0.14,
+      "length": 1.4,
+      "intensity": 0.8,
+      "speed": 0.8,
+      "glow": 0.5,
+      "glow1": "#ffffff",
+      "glow2": "#e4e4ea",
+      "texture": "stripes",
+      "pitch": 12,
+      "textureColor": "#d3d4dc",
+      "textureOpacity": 0.7
     },
     {
-      "id": "elaniin-core", "name": "Elaniin Core", "tags": ["hero", "marca"],
-      "colors": ["#1054ff", "#4d75fd", "#6a9aff", "#b9cefb"], "background": "#f0f0f3",
-      "shapes": ["ring", "circle", "diamond"], "hold": 3.5, "size": 1, "softness": 0.25, "speed": 1,
-      "grid": { "cols": 9, "rows": 5, "gap": 0.08, "profile": "redondo", "depth": 0.3 },
-      "glass": { "frost": 0.5, "refraction": 1, "ior": 1.45 }, "fit": "contain", "aspect": "21:9"
+      "id": "glass-rampa",
+      "type": "glass-grid",
+      "name": "Glass Rampa",
+      "tags": [
+        "hero",
+        "marca"
+      ],
+      "aspect": "16:9",
+      "colors": [
+        "#d7e2f8",
+        "#6a9aff",
+        "#1054ff",
+        "#022b63"
+      ],
+      "background": "#f0f0f3",
+      "shapes": [
+        "square",
+        "ring",
+        "circle"
+      ],
+      "hold": 3.5,
+      "size": 1.1,
+      "softness": 0.3,
+      "speed": 1,
+      "grid": {
+        "cols": 10,
+        "rows": 6,
+        "gap": 0.08,
+        "profile": "redondo",
+        "depth": 0.3
+      },
+      "glass": {
+        "frost": 0.55,
+        "refraction": 1,
+        "ior": 1.4
+      },
+      "fit": "contain"
     },
     {
-      "id": "noche-azul", "name": "Noche Azul", "tags": ["oscuro", "marca"],
-      "colors": ["#1054ff", "#22d3ee", "#7b9bff"], "background": "#01172e",
-      "shapes": ["circle", "triangle", "square"], "hold": 3.5, "size": 1.1, "softness": 0.3, "speed": 1,
-      "grid": { "cols": 8, "rows": 5, "gap": 0.08, "profile": "redondo", "depth": 0.3 },
-      "glass": { "frost": 0.55, "refraction": 1, "ior": 1.4 }, "fit": "contain", "aspect": "16:9"
+      "id": "aqua-orb",
+      "type": "glass-grid",
+      "name": "Aqua Orb",
+      "tags": [
+        "hero",
+        "frío"
+      ],
+      "colors": [
+        "#1aa7ff",
+        "#22d3ee",
+        "#16c24a",
+        "#5b8cff"
+      ],
+      "background": "#f1f2f4",
+      "shapes": [
+        "circle",
+        "square",
+        "triangle",
+        "ring",
+        "diamond"
+      ],
+      "hold": 3.5,
+      "size": 1.05,
+      "softness": 0.28,
+      "speed": 1,
+      "grid": {
+        "cols": 8,
+        "rows": 7,
+        "gap": 0.08,
+        "profile": "redondo",
+        "depth": 0.3
+      },
+      "glass": {
+        "frost": 0.55,
+        "refraction": 1,
+        "ior": 1.4
+      },
+      "fit": "contain",
+      "aspect": "16:9"
     },
     {
-      "id": "coral-ring", "name": "Coral Ring", "tags": ["card", "cálido"],
-      "colors": ["#ff5c8a", "#ff8f70", "#ffc1a6", "#c86bfa"], "background": "#f7f3f3",
-      "shapes": ["ring"], "hold": 4, "size": 1.1, "softness": 0.22, "speed": 1,
-      "grid": { "cols": 6, "rows": 6, "gap": 0.07, "profile": "pildora", "depth": 0.4 },
-      "glass": { "frost": 0.5, "refraction": 1.3, "ior": 1.45 }, "fit": "contain", "aspect": "1:1"
+      "id": "lima-pulse",
+      "type": "glass-grid",
+      "name": "Lima Pulse",
+      "tags": [
+        "card",
+        "vibrante"
+      ],
+      "colors": [
+        "#2e9e2a",
+        "#55d81c",
+        "#d8f000",
+        "#8fd96a"
+      ],
+      "background": "#f3f4f1",
+      "shapes": [
+        "circle",
+        "blob"
+      ],
+      "hold": 4,
+      "size": 1.15,
+      "softness": 0.3,
+      "speed": 1,
+      "grid": {
+        "cols": 5,
+        "rows": 5,
+        "gap": 0.06,
+        "profile": "redondo",
+        "depth": 0.35
+      },
+      "glass": {
+        "frost": 0.5,
+        "refraction": 1.2,
+        "ior": 1.4
+      },
+      "fit": "contain",
+      "aspect": "1:1"
     },
     {
-      "id": "menta-prisma", "name": "Menta Prisma", "tags": ["hero", "frío"],
-      "colors": ["#00c2a8", "#5eead4", "#a7f3d0", "#38bdf8"], "background": "#f2f5f4",
-      "shapes": ["triangle", "diamond", "circle"], "hold": 3, "size": 1.05, "softness": 0.26, "speed": 1.1,
-      "grid": { "cols": 10, "rows": 6, "gap": 0.08, "profile": "redondo", "depth": 0.3 },
-      "glass": { "frost": 0.55, "refraction": 1, "ior": 1.4 }, "fit": "contain", "aspect": "16:9"
+      "id": "sunset-field",
+      "type": "glass-grid",
+      "name": "Sunset Field",
+      "tags": [
+        "fondo",
+        "cálido"
+      ],
+      "colors": [
+        "#ff3d3d",
+        "#ff7a33",
+        "#ffc93c",
+        "#fff1e0"
+      ],
+      "background": "#eef3fb",
+      "shapes": [
+        "blob",
+        "cross",
+        "circle"
+      ],
+      "hold": 4,
+      "size": 1.4,
+      "softness": 0.45,
+      "speed": 0.8,
+      "grid": {
+        "cols": 13,
+        "rows": 8,
+        "gap": 0.07,
+        "profile": "suave",
+        "depth": 0.25
+      },
+      "glass": {
+        "frost": 0.6,
+        "refraction": 1,
+        "ior": 1.4
+      },
+      "fit": "cover",
+      "aspect": "16:9"
     },
     {
-      "id": "violeta-cruz", "name": "Violeta Cruz", "tags": ["story", "vibrante"],
-      "colors": ["#6d28d9", "#8b5cf6", "#c4b5fd", "#ec4899"], "background": "#f4f2f7",
-      "shapes": ["cross", "blob"], "hold": 4, "size": 1.2, "softness": 0.32, "speed": 0.9,
-      "grid": { "cols": 5, "rows": 9, "gap": 0.07, "profile": "redondo", "depth": 0.3 },
-      "glass": { "frost": 0.55, "refraction": 1, "ior": 1.4 }, "fit": "cover", "aspect": "9:16"
+      "id": "azul-wave",
+      "type": "glass-grid",
+      "name": "Azul Wave",
+      "tags": [
+        "fondo",
+        "frío"
+      ],
+      "colors": [
+        "#2f6ff5",
+        "#5b95ff",
+        "#a8c8ff",
+        "#3b82f6"
+      ],
+      "background": "#f4f5f7",
+      "shapes": [
+        "square",
+        "diamond"
+      ],
+      "hold": 4.5,
+      "size": 1.5,
+      "softness": 0.5,
+      "speed": 0.8,
+      "grid": {
+        "cols": 7,
+        "rows": 6,
+        "gap": 0.02,
+        "profile": "suave",
+        "depth": 0.2
+      },
+      "glass": {
+        "frost": 0.7,
+        "refraction": 0.8,
+        "ior": 1.35
+      },
+      "fit": "cover",
+      "aspect": "4:5"
+    },
+    {
+      "id": "elaniin-core",
+      "type": "glass-grid",
+      "name": "Elaniin Core",
+      "tags": [
+        "hero",
+        "marca"
+      ],
+      "colors": [
+        "#1054ff",
+        "#4d75fd",
+        "#6a9aff",
+        "#b9cefb"
+      ],
+      "background": "#f0f0f3",
+      "shapes": [
+        "ring",
+        "circle",
+        "diamond"
+      ],
+      "hold": 3.5,
+      "size": 1,
+      "softness": 0.25,
+      "speed": 1,
+      "grid": {
+        "cols": 9,
+        "rows": 5,
+        "gap": 0.08,
+        "profile": "redondo",
+        "depth": 0.3
+      },
+      "glass": {
+        "frost": 0.5,
+        "refraction": 1,
+        "ior": 1.45
+      },
+      "fit": "contain",
+      "aspect": "21:9"
+    },
+    {
+      "id": "noche-azul",
+      "type": "glass-grid",
+      "name": "Noche Azul",
+      "tags": [
+        "oscuro",
+        "marca"
+      ],
+      "colors": [
+        "#1054ff",
+        "#22d3ee",
+        "#7b9bff"
+      ],
+      "background": "#01172e",
+      "shapes": [
+        "circle",
+        "triangle",
+        "square"
+      ],
+      "hold": 3.5,
+      "size": 1.1,
+      "softness": 0.3,
+      "speed": 1,
+      "grid": {
+        "cols": 8,
+        "rows": 5,
+        "gap": 0.08,
+        "profile": "redondo",
+        "depth": 0.3
+      },
+      "glass": {
+        "frost": 0.55,
+        "refraction": 1,
+        "ior": 1.4
+      },
+      "fit": "contain",
+      "aspect": "16:9"
+    },
+    {
+      "id": "coral-ring",
+      "type": "glass-grid",
+      "name": "Coral Ring",
+      "tags": [
+        "card",
+        "cálido"
+      ],
+      "colors": [
+        "#ff5c8a",
+        "#ff8f70",
+        "#ffc1a6",
+        "#c86bfa"
+      ],
+      "background": "#f7f3f3",
+      "shapes": [
+        "ring"
+      ],
+      "hold": 4,
+      "size": 1.1,
+      "softness": 0.22,
+      "speed": 1,
+      "grid": {
+        "cols": 6,
+        "rows": 6,
+        "gap": 0.07,
+        "profile": "pildora",
+        "depth": 0.4
+      },
+      "glass": {
+        "frost": 0.5,
+        "refraction": 1.3,
+        "ior": 1.45
+      },
+      "fit": "contain",
+      "aspect": "1:1"
+    },
+    {
+      "id": "menta-prisma",
+      "type": "glass-grid",
+      "name": "Menta Prisma",
+      "tags": [
+        "hero",
+        "frío"
+      ],
+      "colors": [
+        "#00c2a8",
+        "#5eead4",
+        "#a7f3d0",
+        "#38bdf8"
+      ],
+      "background": "#f2f5f4",
+      "shapes": [
+        "triangle",
+        "diamond",
+        "circle"
+      ],
+      "hold": 3,
+      "size": 1.05,
+      "softness": 0.26,
+      "speed": 1.1,
+      "grid": {
+        "cols": 10,
+        "rows": 6,
+        "gap": 0.08,
+        "profile": "redondo",
+        "depth": 0.3
+      },
+      "glass": {
+        "frost": 0.55,
+        "refraction": 1,
+        "ior": 1.4
+      },
+      "fit": "contain",
+      "aspect": "16:9"
+    },
+    {
+      "id": "violeta-cruz",
+      "type": "glass-grid",
+      "name": "Violeta Cruz",
+      "tags": [
+        "story",
+        "vibrante"
+      ],
+      "colors": [
+        "#6d28d9",
+        "#8b5cf6",
+        "#c4b5fd",
+        "#ec4899"
+      ],
+      "background": "#f4f2f7",
+      "shapes": [
+        "cross",
+        "blob"
+      ],
+      "hold": 4,
+      "size": 1.2,
+      "softness": 0.32,
+      "speed": 0.9,
+      "grid": {
+        "cols": 5,
+        "rows": 9,
+        "gap": 0.07,
+        "profile": "redondo",
+        "depth": 0.3
+      },
+      "glass": {
+        "frost": 0.55,
+        "refraction": 1,
+        "ior": 1.4
+      },
+      "fit": "cover",
+      "aspect": "9:16"
     }
   ]
 }
