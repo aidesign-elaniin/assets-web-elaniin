@@ -963,6 +963,7 @@
       <a href="#/editor" data-nav="editor" class="side-link focus-ring">Editor</a>
       <a href="#/paletas" data-nav="paletas" class="side-link focus-ring">Paletas</a>
       <p class="mono-label px-3 pb-2 pt-6 text-caption text-text-disabled">Recursos</p>
+      <a href="#/componentes" data-nav="componentes" class="side-link focus-ring">Componentes</a>
       <a href="#/guia" data-nav="guia" class="side-link focus-ring">Guía de uso</a>
     </nav>
     <div class="flex shrink-0 items-center justify-between gap-3 border-t border-border-default px-4">
@@ -1013,6 +1014,16 @@
         <button type="button" data-new-palette class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Nueva paleta">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" aria-hidden="true" class="md:hidden"><path d="M12 5v14M5 12h14"/></svg>
           <span class="hidden md:inline">Nueva paleta</span>
+        </button>
+      </div>
+      <div data-actions="componentes" hidden class="flex shrink-0 items-center gap-2 md:gap-3">
+        <a href="componentes/elaniin.css" download class="btn btn-secondary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Descargar elaniin.css">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="hidden md:inline">elaniin.css</span>
+        </a>
+        <button type="button" data-comp-md-all class="btn btn-primary w-11 px-0 md:w-auto md:px-4 focus-ring" aria-label="Descargar componentes.md">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M12 3v12m0 0l-4-4m4 4l4-4M4 21h16"/></svg>
+          <span class="hidden md:inline">componentes.md</span>
         </button>
       </div>
     </header>
@@ -1159,7 +1170,53 @@
           <h3 class="mt-10 font-display text-h4 font-medium">7. Geometría en Blender (Glass Grid)</h3>
           <p class="mt-2 text-body text-text-secondary">El cubo sale de <code class="font-mono text-code">generators/glass-grid/make_tile.py</code>. Para regenerarlo:</p>
           <pre class="code-block mt-4">/Applications/Blender.app/Contents/MacOS/Blender -b -P generators/glass-grid/make_tile.py</pre>
+
+          <h3 class="mt-10 font-display text-h4 font-medium">8. Componentes de interfaz</h3>
+          <p class="mt-2 text-body text-text-secondary">En <a href="#/componentes" class="text-text-link underline underline-offset-4 hover:text-text-link-hover">Componentes</a> están los 68 de daisyUI con estilo Elaniin. Instala <code class="font-mono text-code">componentes/elaniin.css</code> en tu proyecto con Tailwind v4 y copia el HTML o el JSX. Para la IA: <strong>Copiar .md</strong> en cada componente, o <code class="font-mono text-code">componentes/componentes.md</code> con todos.</p>
+          <p class="mt-2 text-body text-text-secondary">Para editar uno: su HTML vive en <code class="font-mono text-code">componentes/data.js</code>; el JSX y el .md salen solos.</p>
         </article>
+      </div>
+
+      <!-- ============ COMPONENTES ============ -->
+      <div data-view="componentes" hidden>
+        <div data-comp-index>
+          <div class="rise flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div class="min-w-0">
+              <h2 class="max-w-[24ch] font-display text-h2 font-medium">Componentes de interfaz con el estilo Elaniin</h2>
+              <p class="mt-2 max-w-[60ch] text-body text-text-secondary">Los componentes de daisyUI, rehechos solo con tokens Elaniin. Cada uno trae HTML, JSX y un .md listo para pasárselo a Claude Code.</p>
+            </div>
+            <p class="mono-label shrink-0 text-caption text-text-muted" data-comp-count aria-live="polite"></p>
+          </div>
+
+          <section class="mt-6 rounded-card border border-border-default bg-white p-5 md:p-6" aria-labelledby="comp-install-title">
+            <div class="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+              <div class="min-w-0">
+                <h3 id="comp-install-title" class="font-display text-h4 font-medium">Instálalo en tu proyecto</h3>
+                <p class="mt-1 max-w-[64ch] text-body-sm text-text-secondary">Tailwind CSS v4 más <code class="font-mono text-code">elaniin.css</code>: los tokens y las clases de los componentes. Impórtalo justo después de tailwindcss y carga Instrument Sans, DM Sans y Geist Mono.</p>
+              </div>
+              <button type="button" data-comp-copy-install class="btn btn-secondary shrink-0 focus-ring">Copiar</button>
+            </div>
+            <pre class="code-block mt-4 whitespace-pre break-normal" data-comp-install></pre>
+          </section>
+
+          <div class="mt-6 grid-page">
+            <div class="col-span-12 min-w-0 md:col-span-5 xl:col-span-4">
+              <label for="comp-q" class="sr-only">Buscar componentes</label>
+              <div class="relative">
+                <svg class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-text-muted" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+                <input id="comp-q" type="search" data-comp-q class="field pl-10 focus-ring" placeholder="Buscar: botón, modal, tabla…" autocomplete="off" />
+              </div>
+            </div>
+            <div data-comp-cats role="group" aria-label="Categorías" class="col-span-12 flex min-w-0 flex-wrap items-center gap-2 md:col-span-7 xl:col-span-8"></div>
+          </div>
+
+          <div data-comp-sections class="mt-8 space-y-12"></div>
+          <div data-comp-empty hidden class="mt-6 rounded-card border border-border-default bg-white pad-card text-center">
+            <h3 class="font-display text-h4 font-medium">Ningún componente coincide</h3>
+            <p class="mx-auto mt-2 max-w-[56ch] text-body-sm text-text-secondary">Prueba con otra palabra o elige otra categoría.</p>
+          </div>
+        </div>
+        <article data-comp-detail hidden></article>
       </div>
 
       <!-- ============ LEGAL ============ -->
@@ -2028,8 +2085,143 @@ $('[data-pal-grid]').addEventListener('click', async e => {
 /* ---------- guía ---------- */
 $('[data-guide-snippet]').textContent = embedCode(seed.assets[0] || fresh(DEFAULT_TYPE)).replace('<elaniin-asset ', '<elaniin-asset poster="/assets/elaniin/slug/poster.webp" ');
 
+/* ---------- componentes ---------- */
+// kit.js (+ data.js) solo se descarga al abrir la sección. La vista previa es un iframe con el elaniin.css real.
+let K = null, compUtils = new Set(), compCur = null, compRO = null;
+const comp = { q: '', cat: '', tab: 'vista' };
+const COMP_INSTALL = 'curl -o src/styles/elaniin.css https://aidesign-elaniin.github.io/assets-web-elaniin/componentes/elaniin.css\n\n/* CSS global */\n@import "tailwindcss";\n@import "./elaniin.css";';
+$('[data-comp-install]').textContent = COMP_INSTALL;
+async function compKit() {
+  if (!K) {
+    const k = await import('./componentes/kit.js?t=' + Date.now());
+    compUtils = new Set([...(await k.css()).matchAll(/@utility ([\w-]+)/g)].map(m => m[1]));
+    K = k;
+  }
+  return K;
+}
+const mdInline = s => esc(s).replace(/`([^`]+)`/g, '<code class="font-mono text-code text-text-primary">$1</code>');
+const fold = s => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase();
+
+async function renderComponents(q) {
+  try { await compKit(); } catch (err) { console.error(err); toast('No se pudieron cargar los componentes'); return; }
+  if (view !== 'componentes') return;
+  if (q.has('cat')) comp.cat = q.get('cat');
+  const c = K.COMPONENTS.find(x => x.id === q.get('c'));
+  $('[data-comp-index]').hidden = !!c;
+  $('[data-comp-detail]').hidden = !c;
+  if (c) renderCompDetail(c); else renderCompIndex();
+}
+
+function renderCompIndex() {
+  const nq = fold(comp.q.trim());
+  const hits = K.COMPONENTS.filter(c => (!comp.cat || c.cat === comp.cat) && (!nq || fold(`${c.name} ${c.id} ${c.desc}`).includes(nq)));
+  $('[data-comp-count]').textContent = `${hits.length} de ${K.COMPONENTS.length} componentes`;
+  $('[data-comp-cats]').innerHTML = [['', 'Todos'], ...K.CATS].map(([key, n]) =>
+    `<button type="button" class="chip focus-ring" data-comp-cat="${key}" aria-pressed="${comp.cat === key}">${esc(n)}</button>`).join('');
+  $('[data-comp-sections]').innerHTML = K.CATS.map(([key, n]) => {
+    const items = hits.filter(c => c.cat === key);
+    if (!items.length) return '';
+    return `<section aria-labelledby="comp-cat-${key}">
+      <div class="flex items-baseline justify-between gap-4 border-b border-border-default pb-3"><h3 id="comp-cat-${key}" class="font-display text-h3 font-medium">${esc(n)}</h3><span class="mono-label text-caption text-text-muted">${items.length}</span></div>
+      <ul class="mt-6 grid-auto" style="--card-min: 15rem">${items.map(c => `<li class="min-w-0"><a href="#/componentes?c=${c.id}" class="card-glow lift flex h-full flex-col rounded-card border border-border-default bg-surface-card p-5 focus-ring">
+        <span class="mono-label text-caption text-text-muted">${c.id}</span>
+        <span class="mt-2 font-display text-h4 font-medium">${esc(c.name)}</span>
+        <span class="mt-2 text-body-sm text-text-secondary">${esc(c.desc)}</span>
+        <span class="mt-auto inline-flex items-center gap-2 pt-4 text-body-sm font-medium text-text-link">Ver código ${I_ARROW}</span>
+      </a></li>`).join('')}</ul>
+    </section>`;
+  }).join('');
+  $('[data-comp-empty]').hidden = hits.length > 0;
+}
+
+function renderCompDetail(c) {
+  compCur = c;
+  $('[data-page-title]').textContent = c.name;
+  document.title = c.name + ' — Componentes — Elaniin Assets';
+  const list = K.COMPONENTS, i = list.indexOf(c), prev = list[i - 1], next = list[i + 1];
+  const used = [...new Set([...c.html.matchAll(/class="([^"]*)"/g)].flatMap(m => m[1].split(/\s+/).map(s => s.split(':').pop())))].filter(s => compUtils.has(s));
+  const crumb = 'rounded-button underline-offset-4 transition-colors duration-base hover:text-text-primary hover:underline focus-ring';
+  $('[data-comp-detail]').innerHTML = `
+    <nav aria-label="Ruta" class="flex flex-wrap gap-2 text-body-sm text-text-muted"><a href="#/componentes" class="${crumb}">Componentes</a><span aria-hidden="true">/</span><a href="#/componentes?cat=${c.cat}" class="${crumb}">${esc(K.catName(c.cat))}</a></nav>
+    <div class="mt-3 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+      <div class="min-w-0">
+        <h2 class="font-display text-h2 font-medium">${esc(c.name)} <span class="ml-2 align-middle font-mono text-code font-normal text-text-muted">${c.id}</span></h2>
+        <p class="mt-2 max-w-[60ch] text-body text-text-secondary">${esc(c.desc)}</p>
+      </div>
+      <div class="flex shrink-0 flex-wrap gap-2">
+        <button type="button" data-comp-copy class="btn btn-secondary focus-ring">Copiar código</button>
+        <button type="button" data-comp-md class="btn btn-primary focus-ring">Copiar .md</button>
+      </div>
+    </div>
+    <div class="mt-6 flex gap-6 border-b border-border-default" role="tablist" aria-label="Formato">
+      ${[['vista', 'Vista'], ['html', 'HTML'], ['jsx', 'JSX']].map(([k, n]) => `<button type="button" role="tab" id="comp-tab-${k}" aria-controls="comp-panel" data-comp-tab="${k}" class="tab -mb-px focus-ring">${n}</button>`).join('')}
+    </div>
+    <div id="comp-panel" role="tabpanel" data-comp-panel class="mt-4"></div>
+    <div class="mt-10 grid gap-8 md:grid-cols-2">
+      <section>
+        <h3 class="font-display text-h4 font-medium">Reglas de uso</h3>
+        <ul class="mt-3 list-disc space-y-2 pl-5 text-body-sm text-text-secondary">${c.rules.map(r => `<li>${mdInline(r)}</li>`).join('')}</ul>
+      </section>
+      <section>
+        <h3 class="font-display text-h4 font-medium">Requisitos</h3>
+        <p class="mt-3 text-body-sm text-text-secondary">Tailwind CSS v4, <code class="font-mono text-code text-text-primary">elaniin.css</code> y las fuentes Elaniin. El .md lo explica paso a paso.</p>
+        ${used.length ? `<p class="mt-4 mono-label text-caption text-text-muted">Clases de elaniin.css</p><p class="mt-2 flex flex-wrap gap-1.5">${used.map(u => `<code class="rounded-tag bg-surface-subtle px-1.5 py-0.5 font-mono text-code">${u}</code>`).join('')}</p>` : ''}
+      </section>
+    </div>
+    <nav aria-label="Otros componentes" class="mt-12 flex flex-wrap justify-between gap-3 border-t border-border-default pt-6">
+      ${prev ? `<a href="#/componentes?c=${prev.id}" class="btn btn-secondary focus-ring">← ${esc(prev.name)}</a>` : '<span></span>'}
+      ${next ? `<a href="#/componentes?c=${next.id}" class="btn btn-secondary btn-arrow focus-ring">${esc(next.name)} ${I_ARROW}</a>` : ''}
+    </nav>`;
+  compTab(comp.tab);
+}
+
+function compTab(tab) {
+  const c = compCur;
+  comp.tab = tab;
+  $$('[data-comp-tab]').forEach(b => { const on = b.dataset.compTab === tab; b.setAttribute('aria-selected', on); b.tabIndex = on ? 0 : -1; });
+  $('[data-comp-panel]').setAttribute('aria-labelledby', 'comp-tab-' + tab);
+  compRO?.disconnect();
+  const panel = $('[data-comp-panel]');
+  if (tab !== 'vista') {
+    panel.innerHTML = `<pre class="code-block max-h-[70vh] whitespace-pre break-normal" tabindex="0"><code>${esc(tab === 'html' ? K.html(c) : K.jsx(c))}</code></pre>`;
+    return;
+  }
+  panel.innerHTML = `<div class="overflow-hidden rounded-card border border-border-default bg-white"><iframe title="Vista previa: ${esc(c.name)}" class="block w-full" style="height:${c.h || 280}px"></iframe></div>`;
+  const f = panel.querySelector('iframe');
+  f.addEventListener('load', () => {   // el iframe crece con su contenido (el body tiene alto mínimo fijo: no hay bucle)
+    const doc = f.contentDocument;
+    if (!doc?.body) return;
+    compRO = new ResizeObserver(() => (f.style.height = doc.documentElement.scrollHeight + 'px'));
+    compRO.observe(doc.body);
+  }, { once: true });
+  K.css().then(s => (f.srcdoc = K.srcdoc(c, s)));
+}
+
+document.addEventListener('click', async e => {
+  const t = e.target;
+  const cat = t.closest('[data-comp-cat]');
+  if (cat) { comp.cat = cat.dataset.compCat; renderCompIndex(); $(`[data-comp-cat="${comp.cat}"]`)?.focus(); return; }
+  const tab = t.closest('[data-comp-tab]');
+  if (tab) { compTab(tab.dataset.compTab); return; }
+  if (t.closest('[data-comp-copy]')) copy(comp.tab === 'jsx' ? K.jsx(compCur) : K.html(compCur), comp.tab === 'jsx' ? 'JSX copiado' : 'HTML copiado');
+  if (t.closest('[data-comp-md]')) copy(K.markdown(compCur), `.md de “${compCur.name}” copiado: pégaselo a Claude Code`);
+  if (t.closest('[data-comp-copy-install]')) copy(COMP_INSTALL, 'Instalación copiada');
+  if (t.closest('[data-comp-md-all]')) {
+    const k = await compKit();
+    download(new Blob([k.markdownAll()], { type: 'text/markdown' }), 'componentes.md');
+    toast(`componentes.md descargado (${k.COMPONENTS.length} componentes)`);
+  }
+});
+document.addEventListener('keydown', e => {   // flechas entre pestañas (patrón ARIA tabs)
+  const tab = e.target.closest?.('[data-comp-tab]');
+  if (!tab || !/^Arrow(Left|Right)$/.test(e.key)) return;
+  const tabs = $$('[data-comp-tab]'), n = tabs[(tabs.indexOf(tab) + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+  n.focus(); compTab(n.dataset.compTab);
+});
+$('[data-comp-q]').addEventListener('input', e => { comp.q = e.target.value; if (K) renderCompIndex(); });
+
 /* ---------- router ---------- */
-const TITLES = { biblioteca: 'Biblioteca', generadores: 'Generadores', editor: 'Editor', paletas: 'Paletas', guia: 'Guía de uso', privacidad: 'Privacidad', terminos: 'Términos de uso' };
+const TITLES = { biblioteca: 'Biblioteca', generadores: 'Generadores', editor: 'Editor', paletas: 'Paletas', componentes: 'Componentes', guia: 'Guía de uso', privacidad: 'Privacidad', terminos: 'Términos de uso' };
 let view = null;
 function show(name, q, initial) {
   view = name;
@@ -2043,6 +2235,7 @@ function show(name, q, initial) {
   if (name === 'editor') openEditor(q);
   else if (eng) { eng.pause(); syncPlay(); }
   if (name === 'paletas') renderPalettes();
+  if (name === 'componentes') renderComponents(q);
   setDirty(ed.dirty);
   if (!initial) { scrollTo(0, 0); $('#main').focus({ preventScroll: true }); }
 }

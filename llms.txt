@@ -19,6 +19,14 @@ Si construyes un sitio de Elaniin con IA, usa estos assets así:
 
 Atributos: `type`, `config` (JSON) o `src` (URL a JSON), `poster`, `fps` (30), `dpr` (1.5). Monta al acercarse a la pantalla, se pausa fuera de ella y con "reducir movimiento" muestra solo el póster.
 
+## Componentes de interfaz (HTML + React)
+
+68 componentes (los de daisyUI: botón, modal, tabla, navbar, hero, formularios…) rehechos solo con tokens Elaniin.
+
+1. Instala `elaniin.css` (tokens + clases de componentes) en el proyecto con Tailwind CSS v4 y cárgalo justo después de tailwindcss. Reemplaza a `tokens.css` si ya estaba.
+2. Copia el HTML o el JSX del componente tal cual: no cambies clases ni colores; la paleta por defecto de Tailwind no existe.
+3. Todo el catálogo en un archivo: `componentes/componentes.md`. Uno por uno: en la biblioteca, Componentes → componente → Copiar .md.
+
 ## Reglas
 
 - Decorativo: `aria-hidden`; el significado va en el texto.
@@ -31,4 +39,7 @@ Atributos: `type`, `config` (JSON) o `src` (URL a JSON), `poster`, `fps` (30), `
 - [Biblioteca y editor](https://aidesign-elaniin.github.io/assets-web-elaniin/)
 - [Catálogo JSON](https://aidesign-elaniin.github.io/assets-web-elaniin/library.json)
 - [Guía de uso](https://aidesign-elaniin.github.io/assets-web-elaniin/#/guia)
+- [Componentes (vista en vivo)](https://aidesign-elaniin.github.io/assets-web-elaniin/#/componentes)
+- [componentes.md: los 68 componentes en HTML y JSX](https://aidesign-elaniin.github.io/assets-web-elaniin/componentes/componentes.md)
+- [elaniin.css: tokens + clases de componentes (Tailwind v4)](https://aidesign-elaniin.github.io/assets-web-elaniin/componentes/elaniin.css)
 - [Código y README](https://github.com/aidesign-elaniin/assets-web-elaniin)

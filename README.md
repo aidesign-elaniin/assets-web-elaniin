@@ -74,9 +74,15 @@ Monta al acercarse a la pantalla, se pausa fuera de ella y corre a 30 fps. Los e
 ## Estructura
 
 ```
-index.html              app: Biblioteca, Generadores, Editor, Paletas, Guía (estilo Elaniin 2027)
+index.html              app: Biblioteca, Generadores, Editor, Paletas, Componentes, Guía (estilo Elaniin 2027)
 elaniin-assets.js       loader: registro de generadores, exportación, web component <elaniin-asset>
 library.json            assets y paletas del equipo
+componentes/            68 componentes de interfaz (los de daisyUI) con estilo Elaniin
+  elaniin.css           tokens + clases de componentes (@utility) para Tailwind v4: lo que se instala en un sitio
+  data.js               fuente única: el HTML de cada componente, su categoría y sus reglas
+  kit.js                HTML → JSX, .md para IA y vista previa (iframe con el elaniin.css real)
+  componentes.md        los 68 en un archivo (generado: Componentes → componentes.md, no editar a mano)
+  img/                  imágenes de ejemplo renderizadas con los assets de la biblioteca
 generators/<id>/        un generador por carpeta, autocontenido
   _shared/lite.js       mini motor WebGL2 (~3 KB, sin Three.js) para los generadores de shader
   _shared/glsl.js       GLSL común (ruido 4D en loop, rampa, px CSS)
@@ -129,6 +135,23 @@ La biblioteca, el editor, las miniaturas y la exportación (PNG, MP4, embed, JSO
 `key` acepta rutas con punto (`grid.cols`).
 
 **Estilo de los assets:** partir del ADN del diseñador de planta (`/rogenizar`): un acento `#1054FF`, rampa azul `#D7E2F8 → #01172E`, barridos 115°/65°/150°, tramas de puntos, grilla y rayas, materiales por concepto.
+
+## Componentes de interfaz
+
+Sección **Componentes** (`#/componentes`): los 68 componentes de [daisyUI](https://daisyui.com/components/) rehechos solo con tokens Elaniin. Cada uno muestra Vista, HTML y JSX, y copia un `.md` con requisitos, código y reglas para Claude Code.
+
+En un sitio con Tailwind CSS v4:
+
+```bash
+curl -o src/styles/elaniin.css https://aidesign-elaniin.github.io/assets-web-elaniin/componentes/elaniin.css
+```
+
+```css
+@import "tailwindcss";
+@import "./elaniin.css";
+```
+
+**Editar o agregar un componente:** cambia su HTML en `componentes/data.js` (el JSX se genera solo; `jsx:` solo si necesita estado de React). Las clases nuevas van como `@utility` en `componentes/elaniin.css`, sin chocar con utilities de Tailwind (por eso es `collapsible` y no `collapse`). Luego Componentes → **componentes.md** y reemplaza `componentes/componentes.md`.
 
 ## Compartir assets
 
