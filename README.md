@@ -108,7 +108,7 @@ generators/<id>/        un generador por carpeta, autocontenido
    | `describe(c)` | Resumen corto para la card ("8×7 · 4 colores"). |
    | `mount(host, config, opts)` | Dibuja en `host`. `opts`: `size:[w,h]`, `dpr`, `autoplay`, `preserve`. Devuelve `{ canvas, set, play, pause, renderAt(t), resize, playing, time, config, destroy }`. |
 
-2. Regístralo en `GENERATORS` de `elaniin-assets.js` (nombre + descripción).
+2. Regístralo en `GENERATORS` de `elaniin-assets.js` (nombre + descripción). Si creas un módulo nuevo en `generators/_shared/`, súmalo al import map del inicio de `index.html` (evita mezclar versiones en caché tras un release).
 3. Agrega 2–3 presets en `library.json` con `"type": "<id>"`.
 
 La biblioteca, el editor, las miniaturas y la exportación (PNG, MP4, embed, JSON) lo toman solos.
